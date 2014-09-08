@@ -1,0 +1,7 @@
+---
+name: AntiMattr Example Migrations
+migrations_namespace: Example\Migrations\TestAntiMattr\MongoDB
+database: test_antimattr_migrations
+collection_name: migration_versions
+migrations_directory: Example/Migrations/TestAntiMattr/MongoDB
+migrations_script_directory: ./scripts # optional

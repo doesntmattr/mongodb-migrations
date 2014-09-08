@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+require '../../vendor/autoload.php';
+
+error_reporting(E_ALL & ~E_NOTICE);
+
+use AntiMattr\MongoDB\Migrations\Tools\Console\Command as AntiMattr;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->addCommands(array(
+    new AntiMattr\ExecuteCommand(),
+    new AntiMattr\GenerateCommand(),
+    new AntiMattr\MigrateCommand(),
+    new AntiMattr\StatusCommand(),
+    new AntiMattr\VersionCommand()
+));
+$application->run();

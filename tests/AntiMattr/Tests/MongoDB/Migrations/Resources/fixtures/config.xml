@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<antimattr-migrations xmlns="http://doctrine-project.org/schemas/migrations/configuration"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/migrations/configuration
+                    http://doctrine-project.org/schemas/migrations/configuration.xsd">
+
+    <name>AntiMattr Sandbox Migrations</name>
+    <migrations-namespace>AntiMattrMigrationsTest</migrations-namespace>
+    <database name="test_antimattr_migrations" />
+    <collection name="antimattr_migration_versions_test" />
+    <migrations-directory>/path/to/migrations/classes/AntiMattrMigrations</migrations-directory>
+    <migrations-script-directory>/path/to/migrations/script_directory</migrations-script-directory>
+
+</antimattr-migrations>

@@ -1,0 +1,7 @@
+---
+name: AntiMattr Sandbox Migrations
+migrations_namespace: AntiMattrMigrationsTest
+database: test_antimattr_migrations
+collection_name: antimattr_migration_versions_test
+migrations_directory: /path/to/migrations/classes/AntiMattrMigrations
+migrations_script_directory: /path/to/migrations/script_directory
