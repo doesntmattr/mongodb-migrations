@@ -1,7 +1,11 @@
 antimattr-mongodb-migrations
 ============================
 
-The AntiMattr MongoDB Migration library that provides managed migration support for MongoDB
+The AntiMattr MongoDB Migration library provides managed migration support for MongoDB.
+
+Are you familiar with [Doctrine Migrations](https://github.com/doctrine/migrations)?
+
+This library intentionally parallels the structure and features provided.
 
 Installation
 ============
@@ -12,7 +16,13 @@ Use composer to install
 composer install
 ```
 
-Please use the pre-commit hook to run fix code to PSR standard
+Pull Requests
+=============
+
+Pull Requests - PSR Standards
+-----------------------------
+
+Please use the pre-commit hook to run/fix code to PSR standard
 
 Install once with
 
@@ -21,25 +31,32 @@ Install once with
 Copying /antimattr-mongodb-migrations/bin/pre-commit.sh -> /antimattr-mongodb-migrations/bin/../.git/hooks/pre-commit
 ```
 
-Testing
-=======
+Pull Requests - Testing
+-----------------------
+
+Please make sure tests pass
 
 ```bash
 $ vendor/bin/phpunit 
 ```
 
-Code Sniffer and Fixer
-======================
+Pull Requests - Code Sniffer and Fixer
+--------------------------------------
+
+Don't have the pre-commit hook running, please make sure to run the fixer/sniffer manually
 
 ```bash
 $ vendor/bin/php-cs-fixer fix src/
 $ vendor/bin/php-cs-fixer fix tests/
 ```
 
-Configuration
-=============
+Features
+========
 
-Similar to Doctrine SQL Database migrations, configurations are separated into 2 files
+Features - Configuration
+------------------------
+
+Similar to[Doctrine Migrations](https://github.com/doctrine/migrations), configurations are separated into 2 files
 
  * Connection configuration (php)
  * Migration configuration (xml or yaml)
@@ -96,8 +113,8 @@ migrations_directory: /path/to/migrations/classes/AntiMattrMigrations
 migrations_script_directory: /path/to/migrations/script_directory # optional
 ```
 
-Console
-=======
+Features - Console Command Support
+----------------------------------
 
 There is an example Console Application in the demo directory
 
@@ -152,16 +169,16 @@ mongodb
   mongodb:migrations:version    Manually add and delete migration versions from the version table.
 ```
 
-Generate a New Migration
-========================
+Features - Generate a New Migration
+-----------------------------------
 
 ```bash
 > ./console mongodb:migrations:generate --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml
 Generated new migration class to "Example/Migrations/TestAntiMattr/MongoDB/Version20140822185742.php"
 ```
 
-Status of Migrations
-====================
+Features - Status of Migrations
+-------------------------------
 
 ```bash
 > ./console mongodb:migrations:status --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml
@@ -183,8 +200,8 @@ Status of Migrations
     >> New Migrations:                      3
 ```
 
-Run All Outstanding Migrations
-==============================
+Features - Migrate all Migrations
+---------------------------------
 
 This is what you will execute during your deployment process.
 
@@ -232,8 +249,8 @@ Migrating up to 20140822185744 from 0
   ++ 3 migrations executed
 ```
 
-Execute a Single Migration
-==========================
+Features - Execute a Single Migration
+-------------------------------------
 
 ```bash
 ./console mongodb:migrations:execute --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml 20140822185742
@@ -259,23 +276,27 @@ WARNING! You are about to execute a database migration that could result in data
   ++ migrated (0.02s)
 ```
 
-Manually mark a Version Migrated or Not
+Features - Manually mark a Version Migrated or Not
 =======================================
 
 Is your migration history out of sync for some reason?
 
-You can push or pull a migration record
+You can delete
 
 ```bash
 ./console mongodb:migrations:version --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml --delete 20140822185744
+```
 
+You can add
+
+```bash
 ./console mongodb:migrations:version --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml --add 20140822185744
 ```
 
-Analyze Migrations
-==================
+Features - Analyze Migrations
+-----------------------------
 
-Identify the collections you want to analyze. Statistics will be capture before and after the migration is run.
+Identify the collections you want to analyze. Statistics will be captured before and after the migration is run.
 
 ```php
 class Version20140822185742 extends AbstractMigration
@@ -289,9 +310,8 @@ class Version20140822185742 extends AbstractMigration
     }
 ```
 
-
-Run Migrations via MongoDB Console Scripts
-==========================================
+Features - Execute JS Scripts
+-----------------------------
 
 First identify the directory for scripts in your Migration configuration
 
