@@ -16,47 +16,13 @@ Use composer to install
 composer install
 ```
 
-Pull Requests
-=============
-
-Pull Requests - PSR Standards
------------------------------
-
-Please use the pre-commit hook to run/fix code to PSR standard
-
-Install once with
-
-```bash
-./bin/install.sh 
-Copying /antimattr-mongodb-migrations/bin/pre-commit.sh -> /antimattr-mongodb-migrations/bin/../.git/hooks/pre-commit
-```
-
-Pull Requests - Testing
------------------------
-
-Please make sure tests pass
-
-```bash
-$ vendor/bin/phpunit 
-```
-
-Pull Requests - Code Sniffer and Fixer
---------------------------------------
-
-Don't have the pre-commit hook running, please make sure to run the fixer/sniffer manually
-
-```bash
-$ vendor/bin/php-cs-fixer fix src/
-$ vendor/bin/php-cs-fixer fix tests/
-```
-
 Features
 ========
 
 Features - Configuration
 ------------------------
 
-Similar to[Doctrine Migrations](https://github.com/doctrine/migrations), configurations are separated into 2 files
+Similar to [Doctrine Migrations](https://github.com/doctrine/migrations), configurations are separated into 2 files
 
  * Connection configuration (php)
  * Migration configuration (xml or yaml)
@@ -334,4 +300,38 @@ class Version20140822185743 extends AbstractMigration
     {
         $result = $this->executeScript($db, 'test_script.js');
     }
+```
+
+Pull Requests
+=============
+
+Pull Requests - PSR Standards
+-----------------------------
+
+Please use the pre-commit hook to run/fix code to PSR standard
+
+Install once with
+
+```bash
+./bin/install.sh 
+Copying /antimattr-mongodb-migrations/bin/pre-commit.sh -> /antimattr-mongodb-migrations/bin/../.git/hooks/pre-commit
+```
+
+Pull Requests - Testing
+-----------------------
+
+Please make sure tests pass
+
+```bash
+$ vendor/bin/phpunit 
+```
+
+Pull Requests - Code Sniffer and Fixer
+--------------------------------------
+
+Don't have the pre-commit hook running, please make sure to run the fixer/sniffer manually
+
+```bash
+$ vendor/bin/php-cs-fixer fix src/
+$ vendor/bin/php-cs-fixer fix tests/
 ```
