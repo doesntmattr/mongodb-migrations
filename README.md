@@ -242,10 +242,10 @@ WARNING! You are about to execute a database migration that could result in data
   ++ migrated (0.02s)
 ```
 
-Features - Manually mark a Version Migrated or Not
-=======================================
+Features - Version Up or Down
+-----------------------------
 
-Is your migration history out of sync for some reason?
+Is your migration history out of sync for some reason? You can manually add or remove a record from the history without running the underlying migration.
 
 You can delete
 
@@ -308,7 +308,7 @@ Pull Requests
 Pull Requests - PSR Standards
 -----------------------------
 
-Please use the pre-commit hook to run/fix code to PSR standard
+Please use the pre-commit hook to run the fix all code to PSR standards
 
 Install once with
 
@@ -323,7 +323,7 @@ Pull Requests - Testing
 Please make sure tests pass
 
 ```bash
-$ vendor/bin/phpunit 
+$ vendor/bin/phpunit tests
 ```
 
 Pull Requests - Code Sniffer and Fixer
