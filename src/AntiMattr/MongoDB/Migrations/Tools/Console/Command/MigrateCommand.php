@@ -22,10 +22,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class MigrateCommand extends AbstractCommand
 {
+    const NAME = 'mongodb:migrations:migrate';
+
     protected function configure()
     {
         $this
-            ->setName('mongodb:migrations:migrate')
+            ->setName($this->getName())
             ->setDescription('Execute a migration to a specified version or the latest available version.')
             ->addArgument('version', InputArgument::OPTIONAL, 'The version to migrate to.', null)
             ->setHelp(<<<EOT
@@ -56,20 +58,26 @@ EOT
         $version = $input->getArgument('version');
 
         $configuration = $this->getMigrationConfiguration($input, $output);
-        $migration = new Migration($configuration);
+        $migration = $this->createMigration($configuration);
 
         $this->outputHeader($configuration, $output);
 
         $noInteraction = !$input->isInteractive();
 
-        $executedMigrations = $configuration->getMigratedVersions();
-        $availableMigrations = $configuration->getAvailableVersions();
-        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+        $executedVersions = $configuration->getMigratedVersions();
+        $availableVersions = $configuration->getAvailableVersions();
+        $executedUnavailableVersions = array_diff($executedVersions, $availableVersions);
 
-        if ($executedUnavailableMigrations) {
-            $output->writeln(sprintf('<error>WARNING! You have %s previously executed migrations in the database that are not registered migrations.</error>', count($executedUnavailableMigrations)));
-            foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
-                $output->writeln('    <comment>>></comment> '.$configuration->formatVersion($executedUnavailableMigration).' (<comment>'.$executedUnavailableMigration.'</comment>)');
+        if ($executedUnavailableVersions) {
+            $output->writeln(sprintf('<error>WARNING! You have %s previously executed migrations in the database that are not registered migrations.</error>', count($executedUnavailableVersions)));
+            foreach ($executedUnavailableVersions as $executedUnavailableVersion) {
+                $output->writeln(
+                    sprintf(
+                        '    <comment>>></comment> %s (<comment>%s</comment>)',
+                        Configuration::formatVersion($executedUnavailableVersion),
+                        $executedUnavailableVersion
+                    )
+                );
             }
 
             if (! $noInteraction) {
@@ -93,6 +101,15 @@ EOT
         }
 
         $migration->migrate($version);
+    }
 
+    protected function createMigration(Configuration $configuration)
+    {
+        return new Migration($configuration);
+    }
+
+    public function getName()
+    {
+        return self::NAME;
     }
 }
