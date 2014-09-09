@@ -11,10 +11,9 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "doctrine/mongodb": ">=1.1",
-        "symfony/console": "2.6.*@dev",
-        "symfony/yaml": "2.*",        
-        "symfony/dependency-injection": "2.6.*@dev"
+        "doctrine/mongodb": "1.*",
+        "symfony/console": "2.*",
+        "symfony/yaml": "2.*"
     },
     "require-dev": {
         "antimattr/test-case": "dev-master#54ba5c764cb340942b4dd279f3866c0317e13158",
