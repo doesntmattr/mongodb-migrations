@@ -6,7 +6,8 @@
     "homepage": "http://github.com/antimattr/mongodb-migrations",
     "license": "MIT",
     "authors": [
-        {"name": "Matthew Fitzgerald", "email": "matthewfitz@gmail.com"}
+        {"name": "Matthew Fitzgerald", "email": "matthewfitz@gmail.com"},
+        {"name": "Ryan Catlin", "email": "ryan.catlin@gmail.com"}
     ],
     "require": {
         "php": ">=5.3.2",
