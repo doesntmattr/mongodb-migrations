@@ -46,7 +46,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
         // Set properties on objects
         $this->command->setApplication($application);
         $this->command->setMigrationConfiguration($this->config);
-        $input->setInteractive(false);
+        $input->setInteractive($interactive);
 
         // Expectations
         $this->config->expects($this->once())
