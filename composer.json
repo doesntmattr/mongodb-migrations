@@ -13,7 +13,8 @@
         "doctrine/mongodb": "1.2.*@dev",
         "symfony/console": "2.6.*@dev",
         "symfony/yaml": "2.*",        
-        "symfony/dependency-injection": "2.6.*@dev"
+        "symfony/dependency-injection": "2.6.*@dev",
+        "symfony/event-dispatcher": "2.6.*@dev"
     },
     "require-dev": {
         "antimattr/test-case": "dev-master#54ba5c764cb340942b4dd279f3866c0317e13158",
