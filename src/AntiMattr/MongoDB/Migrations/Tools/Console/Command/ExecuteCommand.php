@@ -23,10 +23,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExecuteCommand extends AbstractCommand
 {
+    const NAME = 'mongodb:migrations:execute';
+
     protected function configure()
     {
         $this
-            ->setName('mongodb:migrations:execute')
+            ->setName($this->getName())
             ->setDescription('Execute a single migration version up or down manually.')
             ->addArgument('version', InputArgument::REQUIRED, 'The version to execute.', null)
             ->addOption('up', null, InputOption::VALUE_NONE, 'Execute the migration up.')
@@ -61,8 +63,7 @@ EOT
         $configuration = $this->getMigrationConfiguration($input, $output);
         $version = $configuration->getVersion($version);
 
-        $noInteraction = $input->getOption('no-interaction') ? true : false;
-        if ($noInteraction === true) {
+        if (!$input->isInteractive()) {
             $version->execute($direction);
         } else {
             $confirmation = $this->getHelper('dialog')->askConfirmation($output, '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question>', false);
@@ -72,5 +73,10 @@ EOT
                 $output->writeln('<error>Migration cancelled!</error>');
             }
         }
+    }
+
+    public function getName()
+    {
+        return self::NAME;
     }
 }
