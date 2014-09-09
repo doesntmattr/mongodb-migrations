@@ -73,7 +73,7 @@ abstract class AbstractCommand extends Command
 
             if ($this->getApplication()->getHelperSet()->has('dm')) {
                 // Doctrine\MongoDB\Connection
-                $conn = $this->getHelper('dm')->getConnection();
+                $conn = $this->getHelper('dm')->getDocumentManager()->getConnection();
             } elseif ($input->getOption('db-configuration')) {
                 if (!file_exists($input->getOption('db-configuration'))) {
                     throw new \InvalidArgumentException("The specified connection file is not a valid file.");
