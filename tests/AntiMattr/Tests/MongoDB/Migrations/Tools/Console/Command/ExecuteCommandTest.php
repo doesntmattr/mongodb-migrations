@@ -27,6 +27,49 @@ class ExecuteCommandTest extends AntiMattrTestCase
         $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
     }
 
+    public function testExecuteDownWithoutInteraction()
+    {
+        // Variables and Objects
+        $application = new Application();
+        $numVersion = '11235713';
+        $interactive = false;
+
+        // Arguments and Options
+        $input = new ArgvInput(
+            array(
+                'application-name',
+                ExecuteCommand::NAME,
+                $numVersion,
+                '--down'
+            )
+        );
+
+        // Set properties on objects
+        $this->command->setApplication($application);
+        $this->command->setMigrationConfiguration($this->config);
+        $input->setInteractive(false);
+
+        // Expectations
+        $this->config->expects($this->once())
+            ->method('getVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue($this->version)
+            )
+        ;
+
+        $this->version->expects($this->once())
+            ->method('execute')
+            ->with('down')
+        ;
+
+        // Run command, run.
+        $this->command->run(
+            $input,
+            $this->output
+        );
+    }
+
     public function testExecuteUpWithInteraction()
     {
         // Mocks
@@ -40,6 +83,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
             )
         );
         $numVersion = '1234567890';
+        $interactive = true;
 
         // Arguments and Options
         $input = new ArgvInput(
@@ -54,6 +98,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
         $application->setHelperSet($helperSet);
         $this->command->setApplication($application);
         $this->command->setMigrationConfiguration($this->config);
+        $input->setInteractive($interactive);
 
         // Expectations
         $this->config->expects($this->once())
