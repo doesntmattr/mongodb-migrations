@@ -3,7 +3,6 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\ExecuteCommand;
-use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
