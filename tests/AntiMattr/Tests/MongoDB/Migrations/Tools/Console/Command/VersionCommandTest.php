@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 class VersionCommandTest extends AntiMattrTestCase
 {
     private $command;
-
     private $output;
     private $config;
     private $migration;
