@@ -24,10 +24,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class VersionCommand extends AbstractCommand
 {
+    const NAME = 'mongodb:migrations:version';
+
     protected function configure()
     {
         $this
-            ->setName('mongodb:migrations:version')
+            ->setName($this->getName())
             ->setDescription('Manually add and delete migration versions from the version table.')
             ->addArgument('version', InputArgument::REQUIRED, 'The version to add or delete.', null)
             ->addOption('add', null, InputOption::VALUE_NONE, 'Add the specified version.')
@@ -56,7 +58,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $configuration = $this->getMigrationConfiguration($input, $output);
-        $migration = new Migration($configuration);
+        $migration = $this->createMigration($configuration);
 
         if ($input->getOption('add') === false && $input->getOption('delete') === false) {
             throw new \InvalidArgumentException('You must specify whether you want to --add or --delete the specified version.');
@@ -83,5 +85,15 @@ EOT
         } else {
             $version->markNotMigrated();
         }
+    }
+
+    protected function createMigration(Configuration $configuration)
+    {
+        return new Migration($configuration);
+    }
+
+    public function getName()
+    {
+        return self::NAME;
     }
 }
