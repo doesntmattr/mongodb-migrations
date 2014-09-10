@@ -14,12 +14,22 @@ use Symfony\Component\Console\Input\ArgvInput;
 class VersionCommandTest extends AntiMattrTestCase
 {
     private $command;
+
     private $output;
+    private $config;
+    private $migration;
+    private $version;
 
     protected function setUp()
     {
         $this->command = new VersionCommandStub();
         $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
+        $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+
+        $this->command->setMigrationConfiguration($this->config);
+        $this->command->setMigration($this->migration);
     }
 
     /**
@@ -27,11 +37,6 @@ class VersionCommandTest extends AntiMattrTestCase
      */
     public function testInvalidArgumentException()
     {
-        // Mocks
-        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
@@ -40,10 +45,6 @@ class VersionCommandTest extends AntiMattrTestCase
                 $numVersion
             )
         );
-
-        // Set properties on objects
-        $this->command->setMigrationConfiguration($config);
-        $this->command->setMigration($migration);
 
         // Run command, run.
         $this->command->run(
@@ -57,11 +58,6 @@ class VersionCommandTest extends AntiMattrTestCase
      */
     public function testUnknownVersionException()
     {
-        // Mocks
-        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
@@ -72,12 +68,8 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         );
 
-        // Set properties on objects
-        $this->command->setMigrationConfiguration($config);
-        $this->command->setMigration($migration);
-
          // Expectations
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersion')
             ->with($numVersion)
             ->will(
@@ -94,11 +86,6 @@ class VersionCommandTest extends AntiMattrTestCase
 
     public function testAddVersion()
     {
-        // Mocks
-        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
@@ -109,12 +96,8 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         );
 
-        // Set properties on objects
-        $this->command->setMigrationConfiguration($config);
-        $this->command->setMigration($migration);
-
         // Expectations
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersion')
             ->with($numVersion)
             ->will(
@@ -122,23 +105,23 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getVersion')
             ->with($numVersion)
             ->will(
-                $this->returnValue($version)
+                $this->returnValue($this->version)
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersionMigrated')
-            ->with($version)
+            ->with($this->version)
             ->will(
                 $this->returnValue(false)
             )
         ;
 
-        $version->expects($this->once())
+        $this->version->expects($this->once())
             ->method('markMigrated')
         ;
 
@@ -151,11 +134,6 @@ class VersionCommandTest extends AntiMattrTestCase
 
     public function testDownVersion()
     {
-        // Mocks
-        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
@@ -166,12 +144,8 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         );
 
-        // Set properties on objects
-        $this->command->setMigrationConfiguration($config);
-        $this->command->setMigration($migration);
-
         // Expectations
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersion')
             ->with($numVersion)
             ->will(
@@ -179,23 +153,23 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getVersion')
             ->with($numVersion)
             ->will(
-                $this->returnValue($version)
+                $this->returnValue($this->version)
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersionMigrated')
-            ->with($version)
+            ->with($this->version)
             ->will(
                 $this->returnValue(true)
             )
         ;
 
-        $version->expects($this->once())
+        $this->version->expects($this->once())
             ->method('markNotMigrated')
         ;
 
@@ -211,11 +185,6 @@ class VersionCommandTest extends AntiMattrTestCase
      */
     public function testDownOnNonMigratedVersionThrowsInvalidArgumentException()
     {
-        // Mocks
-        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
@@ -226,12 +195,8 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         );
 
-        // Set properties on objects
-        $this->command->setMigrationConfiguration($config);
-        $this->command->setMigration($migration);
-
         // Expectations
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersion')
             ->with($numVersion)
             ->will(
@@ -239,19 +204,66 @@ class VersionCommandTest extends AntiMattrTestCase
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getVersion')
             ->with($numVersion)
             ->will(
-                $this->returnValue($version)
+                $this->returnValue($this->version)
             )
         ;
 
-        $config->expects($this->once())
+        $this->config->expects($this->once())
             ->method('hasVersionMigrated')
-            ->with($version)
+            ->with($this->version)
             ->will(
                 $this->returnValue(false)
+            )
+        ;
+
+        // Run command, run.
+        $this->command->run(
+            $input,
+            $this->output
+        );
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUpOnMigratedVersionThrowsInvalidArgumentException()
+    {
+        // Variables and objects
+        $numVersion = '123456789012';
+        $input = new ArgvInput(
+            array(
+                VersionCommand::NAME,
+                $numVersion,
+                '--add'
+            )
+        );
+
+        // Expectations
+        $this->config->expects($this->once())
+            ->method('hasVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue(true)
+            )
+        ;
+
+        $this->config->expects($this->once())
+            ->method('getVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue($this->version)
+            )
+        ;
+
+        $this->config->expects($this->once())
+            ->method('hasVersionMigrated')
+            ->with($this->version)
+            ->will(
+                $this->returnValue(true)
             )
         ;
 
