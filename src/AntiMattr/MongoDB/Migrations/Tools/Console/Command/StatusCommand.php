@@ -112,10 +112,10 @@ EOT
                 }
             }
         }
-
-        public function getName()
-        {
-            return self::NAME;
-        }
     }
+
+    public function getName()
+    {
+        return self::NAME;
+    }    
 }
