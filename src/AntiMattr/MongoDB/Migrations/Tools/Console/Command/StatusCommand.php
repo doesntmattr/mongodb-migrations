@@ -23,10 +23,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class StatusCommand extends AbstractCommand
 {
+    const NAME = 'mongodb:migrations:status';
+
     protected function configure()
     {
         $this
-            ->setName('mongodb:migrations:status')
+            ->setName($this->getName())
             ->setDescription('View the status of a set of migrations.')
             ->addOption('show-versions', null, InputOption::VALUE_NONE, 'This will display a list of all available migrations and their status')
             ->setHelp(<<<EOT
@@ -109,6 +111,11 @@ EOT
                     $output->writeln('    <comment>>></comment> '.$configuration->formatVersion($executedUnavailableMigration).' (<comment>'.$executedUnavailableMigration.'</comment>)');
                 }
             }
+        }
+
+        public function getName()
+        {
+            return self::NAME;
         }
     }
 }
