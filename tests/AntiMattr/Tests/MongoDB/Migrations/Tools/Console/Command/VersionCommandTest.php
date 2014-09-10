@@ -205,6 +205,62 @@ class VersionCommandTest extends AntiMattrTestCase
             $this->output
         );
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testDownOnNonMigratedVersionThrowsInvalidArgumentException()
+    {
+        // Mocks
+        $config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
+        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+
+        // Variables and objects
+        $numVersion = '123456789012';
+        $input = new ArgvInput(
+            array(
+                VersionCommand::NAME,
+                $numVersion,
+                '--delete'
+            )
+        );
+
+        // Set properties on objects
+        $this->command->setMigrationConfiguration($config);
+        $this->command->setMigration($migration);
+
+        // Expectations
+        $config->expects($this->once())
+            ->method('hasVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue(true)
+            )
+        ;
+
+        $config->expects($this->once())
+            ->method('getVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue($version)
+            )
+        ;
+
+        $config->expects($this->once())
+            ->method('hasVersionMigrated')
+            ->with($version)
+            ->will(
+                $this->returnValue(false)
+            )
+        ;
+
+        // Run command, run.
+        $this->command->run(
+            $input,
+            $this->output
+        );
+    }
 }
 
 class VersionCommandStub extends VersionCommand
