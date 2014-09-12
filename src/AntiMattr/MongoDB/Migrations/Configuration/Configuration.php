@@ -308,7 +308,7 @@ class Configuration
      */
     public function getName()
     {
-        return $this->name;
+        return ($this->name) ?: 'Doctrine Database Migrations';
     }
 
     /**
@@ -605,5 +605,36 @@ class Configuration
             $message = 'Migrations directory must be configured in order to use AntiMattr migrations.';
             throw new ConfigurationValidationException($message);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getDetailsMap()
+    {
+        $executedMigrations = $this->getMigratedVersions();
+        $availableMigrations = $this->getAvailableVersions();
+        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+
+        $numExecutedMigrations = count($executedMigrations);
+        $numAvailableMigrations = count($availableMigrations);
+        $numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
+        $numNewMigrations = count($availableMigrations) - count($executedMigrations);
+
+        return array(
+            'name' => $this->getName() ? $this->getName() : 'Doctrine Database Migrations',
+            'database_driver' => 'MongoDB',
+            'migrations_database_name' => $this->getMigrationsDatabaseName(),
+            'migrations_collection_name' => $this->getMigrationsCollectionName(),
+            'migrations_namespace' => $this->getMigrationsNamespace(),
+            'migrations_directory' => $this->getMigrationsDirectory(),
+            'current_version' => $this->getCurrentVersion(),
+            'latest_version' => $this->getLatestVersion(),
+            'num_executed_migrations' => $numExecutedMigrations,
+            'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
+            'num_available_migrations' => $numAvailableMigrations,
+            'num_new_migrations' => $numNewMigrations,
+        );
+
     }
 }

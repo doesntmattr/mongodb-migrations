@@ -90,7 +90,7 @@ EOT
             'New Migrations'                    => $newMigrations > 0 ? '<question>'.$newMigrations.'</question>' : 0
         );
         foreach ($info as $name => $value) {
-            $output->writeln('    <comment>>></comment> '.$name.': '.str_repeat(' ', 35 - strlen($name)).$value);
+            $this->writeInfoLine($output, $name, $value);
         }
 
         $showVersions = $input->getOption('show-versions') ? true : false;
@@ -112,10 +112,27 @@ EOT
                 }
             }
         }
+    }
 
-        public function getName()
-        {
-            return self::NAME;
-        }
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    protected function writeInfoLine(OutputInterface $output, $name, $value)
+    {
+        $whitespace = str_repeat(' ', 35 - strlen($name));
+        $output->writeln(
+            sprintf(
+                '    <comment>>></comment> %s: %s%s',
+                $name,
+                $whitespace,
+                $value
+            )
+        );
+    }
+
+    public function getName()
+    {
+        return self::NAME;
     }
 }
