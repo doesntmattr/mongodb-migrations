@@ -7,6 +7,7 @@ use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\StatusCommand;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
@@ -28,7 +29,6 @@ class StatusCommandTest extends AntiMattrTestCase
         $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
 
         $this->command->setMigrationConfiguration($this->config);
-        $this->command->setMigration($this->migration);
     }
 
     public function testExecuteWithoutShowingVersions()
@@ -56,49 +56,49 @@ class StatusCommandTest extends AntiMattrTestCase
         $numNewMigrations = 0;
 
         // Expectations
-        $configuration->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getMigratedVersions')
             ->will(
                 $this->returnValue($executedMigrations)
             )
         ;
 
-        $configuration->expects($this->once())
-            ->method('getAvailableMigrations')
+        $this->config->expects($this->once())
+            ->method('getAvailableVersions')
             ->will(
                 $this->returnValue($availableMigrations)
             )
         ;
 
-        $configuration->expects($this->once())
+        $this->config->expects($this->exactly(2))
             ->method('getName')
             ->will(
                 $this->returnValue($configName)
             )
         ;
 
-        $configuration->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getMigrationsDatabaseName')
             ->will(
                 $this->returnValue($migrationsDatabaseName)
             )
         ;
 
-        $configuration->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getMigrationsCollectionName')
             ->will(
                 $this->returnValue($migrationsCollectionName)
             )
         ;
 
-        $configuration->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getMigrationsNamespace')
             ->will(
                 $this->returnValue($migrationsNamespace)
             )
         ;
 
-        $configuration->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getMigrationsDirectory')
             ->will(
                 $this->returnValue($migrationsDirectory)
@@ -108,6 +108,12 @@ class StatusCommandTest extends AntiMattrTestCase
         $this->output->expects($this->at(0))
             ->method('writeln')
             ->with(
+                "\n <info>==</info> Configuration\n"
+            )
+        ;
+        $this->output->expects($this->at(1))
+            ->method('writeln')
+            ->with(
                 sprintf(
                     '%s::%s',
                     'Name',
@@ -115,7 +121,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(1))
+        $this->output->expects($this->at(2))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -125,16 +131,17 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(2))
+        $this->output->expects($this->at(3))
             ->method('writeln')
             ->with(
                 sprintf(
                     '%s::%s',
-                    'Database Name'
+                    'Database Name',
+                    $migrationsDatabaseName
                 )
             )
         ;
-        $this->output->expects($this->at(3))
+        $this->output->expects($this->at(4))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -144,7 +151,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(4))
+        $this->output->expects($this->at(5))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -154,7 +161,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(5))
+        $this->output->expects($this->at(6))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -164,7 +171,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(6))
+        $this->output->expects($this->at(7))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -174,13 +181,13 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(7)) // current version formatted
+        $this->output->expects($this->at(8)) // current version formatted
             ->method('writeln')
         ;
-        $this->output->expects($this->at(8)) // latest version formatted
+        $this->output->expects($this->at(9)) // latest version formatted
             ->method('writeln')
         ;
-        $this->output->expects($this->at(9))
+        $this->output->expects($this->at(10))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -190,7 +197,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(10))
+        $this->output->expects($this->at(11))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -200,7 +207,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(11))
+        $this->output->expects($this->at(12))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -210,11 +217,11 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->output->expects($this->at(12))
+        $this->output->expects($this->at(13))
             ->method('writeln')
             ->with(
                 sprintf(
-                    '%s::<question>%s</question>',
+                    '%s::%s',
                     'New Migrations',
                     $numNewMigrations
                 )
@@ -231,23 +238,23 @@ class StatusCommandTest extends AntiMattrTestCase
 
 class StatusCommandStub extends StatusCommand
 {
-    private $migration;
+    private $configuration;
 
-    public function setMigrationConfiguration(Migration $migration)
+    public function setMigrationConfiguration(Configuration $configuration)
     {
-        $this->migration = $migration;
+        $this->configuration = $configuration;
     }
 
     public function getMigrationConfiguration()
     {
-        return $this->migration;
+        return $this->configuration;
     }
 
     /**
      * Overwite complex string passed to OutputInterface::writeln
      * so we can set simple expectations on the value passed to this function.
      */
-    protected function writeInfoLine($name, $value)
+    protected function writeInfoLine(OutputInterface $output, $name, $value)
     {
         $output->writeln($name . "::" . $value);
     }
