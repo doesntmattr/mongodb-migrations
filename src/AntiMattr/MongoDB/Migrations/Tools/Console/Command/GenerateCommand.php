@@ -182,6 +182,9 @@ EOT
         return date('YmdHis');
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
