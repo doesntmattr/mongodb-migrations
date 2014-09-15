@@ -622,7 +622,7 @@ class Configuration
         $numNewMigrations = count($availableMigrations) - count($executedMigrations);
 
         return array(
-            'name' => $this->getName() ? $this->getName() : 'Doctrine Database Migrations',
+            'name' => $this->getName(),
             'database_driver' => 'MongoDB',
             'migrations_database_name' => $this->getMigrationsDatabaseName(),
             'migrations_collection_name' => $this->getMigrationsCollectionName(),
