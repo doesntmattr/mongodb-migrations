@@ -308,7 +308,7 @@ class Configuration
      */
     public function getName()
     {
-        return ($this->name) ?: 'Doctrine Database Migrations';
+        return ($this->name) ?: 'Database Migrations';
     }
 
     /**
