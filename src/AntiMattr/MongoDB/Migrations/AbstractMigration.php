@@ -17,7 +17,6 @@ use AntiMattr\MongoDB\Migrations\Exception\IrreversibleException;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use Doctrine\MongoDB\Collection;
 use Doctrine\MongoDB\Database;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -40,11 +39,6 @@ abstract class AbstractMigration
     protected $connection;
 
     /**
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var Doctrine\MongoDB\Database
      */
     protected $db;
@@ -54,7 +48,7 @@ abstract class AbstractMigration
      */
     protected $version;
 
-    public function __construct(Version $version, ContainerInterface $container = null)
+    public function __construct(Version $version)
     {
         $this->configuration = $version->getConfiguration();
         $this->outputWriter = $this->configuration->getOutputWriter();
@@ -63,7 +57,6 @@ abstract class AbstractMigration
             $this->configuration->getMigrationsDatabaseName()
         );
         $this->version = $version;
-        $this->container = $container;
     }
 
     /**
