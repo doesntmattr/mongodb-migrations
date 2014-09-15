@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "antimattr/test-case": "dev-master#54ba5c764cb340942b4dd279f3866c0317e13158",
-        "phpunit/phpunit": "4.2.*",
+        "phpunit/phpunit": "~4.0",
         "fabpot/php-cs-fixer": "0.5.*@dev",
         "mikey179/vfsStream": "1.*"
     },
