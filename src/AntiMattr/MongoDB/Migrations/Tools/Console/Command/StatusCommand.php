@@ -52,42 +52,51 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $configuration = $this->getMigrationConfiguration($input, $output);
+        $configMap = $configuration->getDetailsMap();
 
-        $currentVersion = $configuration->getCurrentVersion();
+        // Format current version string
+        $currentVersion = $configMap['current_version'];
         if ($currentVersion) {
-            $currentVersionFormatted = $configuration->formatVersion($currentVersion).' (<comment>'.$currentVersion.'</comment>)';
+            $currentVersionFormatted = sprintf(
+                '%s (<comment>%s</comment>)',
+                Configuration::formatVersion($currentVersion),
+                $currentVersion
+            );
         } else {
             $currentVersionFormatted = 0;
         }
-        $latestVersion = $configuration->getLatestVersion();
+
+        // Format latest version string
+        $latestVersion = $configMap['latest_version'];
         if ($latestVersion) {
-            $latestVersionFormatted = $configuration->formatVersion($latestVersion).' (<comment>'.$latestVersion.'</comment>)';
+            $latestVersionFormatted = sprintf(
+                '%s (<comment>%s</comment>)',
+                Configuration::formatVersion($latestVersion),
+                $latestVersion
+            );
         } else {
             $latestVersionFormatted = 0;
         }
 
-        $executedMigrations = $configuration->getMigratedVersions();
-        $availableMigrations = $configuration->getAvailableVersions();
-        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
-        $numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
-        $newMigrations = count($availableMigrations) - count($executedMigrations);
-
         $output->writeln("\n <info>==</info> Configuration\n");
 
+        $numExecutedUnavailableMigrations = $configMap['num_executed_unavailable_migrations'];
+        $numNewMigrations = $configMap['num_new_migrations'];
+
         $info = array(
-            'Name'                              => $configuration->getName() ? $configuration->getName() : 'Doctrine Database Migrations',
-            'Database Driver'                   => 'MongoDB',
-            'Database Name'                     => $configuration->getMigrationsDatabaseName(),
+            'Name'                              => $configMap['name'],
+            'Database Driver'                   => $configMap['database_driver'],
+            'Database Name'                     => $configMap['migrations_database_name'],
             'Configuration Source'              => $configuration instanceof AbstractFileConfiguration ? $configuration->getFile() : 'manually configured',
-            'Version Collection Name'           => $configuration->getMigrationsCollectionName(),
-            'Migrations Namespace'              => $configuration->getMigrationsNamespace(),
-            'Migrations Directory'              => $configuration->getMigrationsDirectory(),
+            'Version Collection Name'           => $configMap['migrations_collection_name'],
+            'Migrations Namespace'              => $configMap['migrations_namespace'],
+            'Migrations Directory'              => $configMap['migrations_directory'],
             'Current Version'                   => $currentVersionFormatted,
             'Latest Version'                    => $latestVersionFormatted,
-            'Executed Migrations'               => count($executedMigrations),
+            'Executed Migrations'               => $configMap['num_executed_migrations'],
             'Executed Unavailable Migrations'   => $numExecutedUnavailableMigrations > 0 ? '<error>'.$numExecutedUnavailableMigrations.'</error>' : 0,
-            'Available Migrations'              => count($availableMigrations),
-            'New Migrations'                    => $newMigrations > 0 ? '<question>'.$newMigrations.'</question>' : 0
+            'Available Migrations'              => $configMap['num_available_migrations'],
+            'New Migrations'                    => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0
         );
         foreach ($info as $name => $value) {
             $this->writeInfoLine($output, $name, $value);

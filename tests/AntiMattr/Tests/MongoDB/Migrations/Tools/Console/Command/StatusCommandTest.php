@@ -45,66 +45,44 @@ class StatusCommandTest extends AntiMattrTestCase
             'migrationsCollectionName' => 'collection-name'
         );
         $configName = 'config-name';
+        $databaseDriver = 'MongoDB';
         $migrationsDatabaseName = ' migrations-database-name';
         $migrationsCollectionName = 'migrations-collection-name';
         $migrationsNamespace = 'migrations-namespace';
         $migrationsDirectory = 'migrations-directory';
+        $currentVersion = 'abcdefghijk';
+        $currentVersionFormatted = 'abcdefghijk (<comment>abcdefghijk</comment>)';
+        $latestVersion = '1234567890';
+        $latestVersionFormatted = '1234567890 (<comment>1234567890</comment>)';
         $executedMigrations = array();
         $availableMigrations = array();
         $numExecutedMigrations = 0;
+        $numExecutedUnavailableMigrations = 0;
         $numAvailableMigrations = 0;
         $numNewMigrations = 0;
 
         // Expectations
         $this->config->expects($this->once())
-            ->method('getMigratedVersions')
+            ->method('getDetailsMap')
             ->will(
-                $this->returnValue($executedMigrations)
+                $this->returnValue(
+                    array(
+                        'name' => $configName,
+                        'database_driver' => $databaseDriver,
+                        'migrations_database_name' => $migrationsDatabaseName,
+                        'migrations_collection_name' => $migrationsCollectionName,
+                        'migrations_namespace' => $migrationsNamespace,
+                        'migrations_directory' => $migrationsDirectory,
+                        'current_version' => $currentVersion,
+                        'latest_version' => $latestVersion,
+                        'num_executed_migrations' => $numExecutedMigrations,
+                        'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
+                        'num_available_migrations' => $numAvailableMigrations,
+                        'num_new_migrations' => $numNewMigrations,
+                    )
+                )
             )
         ;
-
-        $this->config->expects($this->once())
-            ->method('getAvailableVersions')
-            ->will(
-                $this->returnValue($availableMigrations)
-            )
-        ;
-
-        $this->config->expects($this->exactly(2))
-            ->method('getName')
-            ->will(
-                $this->returnValue($configName)
-            )
-        ;
-
-        $this->config->expects($this->once())
-            ->method('getMigrationsDatabaseName')
-            ->will(
-                $this->returnValue($migrationsDatabaseName)
-            )
-        ;
-
-        $this->config->expects($this->once())
-            ->method('getMigrationsCollectionName')
-            ->will(
-                $this->returnValue($migrationsCollectionName)
-            )
-        ;
-
-        $this->config->expects($this->once())
-            ->method('getMigrationsNamespace')
-            ->will(
-                $this->returnValue($migrationsNamespace)
-            )
-        ;
-
-        $this->config->expects($this->once())
-            ->method('getMigrationsDirectory')
-            ->will(
-                $this->returnValue($migrationsDirectory)
-            )
-        ;
-
         $this->output->expects($this->at(0))
             ->method('writeln')
             ->with(
@@ -203,7 +181,7 @@ class StatusCommandTest extends AntiMattrTestCase
                 sprintf(
                     '%s::%s',
                     'Executed Unavailable Migrations',
-                    0
+                    $numExecutedUnavailableMigrations
                 )
             )
         ;

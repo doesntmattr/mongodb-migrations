@@ -612,14 +612,20 @@ class Configuration
      */
     public function getDetailsMap()
     {
+        // Executed migration count
         $executedMigrations = $this->getMigratedVersions();
-        $availableMigrations = $this->getAvailableVersions();
-        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
-
         $numExecutedMigrations = count($executedMigrations);
+
+        // Available migration count
+        $availableMigrations = $this->getAvailableVersions();
         $numAvailableMigrations = count($availableMigrations);
-        $numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
+
+        // New migration count
         $numNewMigrations = count($availableMigrations) - count($executedMigrations);
+
+        // Executed Unavailable migration count
+        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+        $numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
 
         return array(
             'name' => $this->getName(),
