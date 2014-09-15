@@ -86,7 +86,7 @@ EOT
     {
         $configuration = $this->getMigrationConfiguration($input, $output);
 
-        $version = date('YmdHis');
+        $version = $this->getVersionString();
         $path = $this->generateMigration($configuration, $input, $version);
 
         $output->writeln(sprintf('Generated new migration class to "<info>%s</info>"', $path));
@@ -114,26 +114,72 @@ EOT
         $replacements = array(
             $configuration->getMigrationsNamespace(),
             $version,
-            $up ? "        ".implode("\n        ", explode("\n", $up)) : null,
-            $down ? "        ".implode("\n        ", explode("\n", $down)) : null
+            $up ? "        " . implode("\n        ", explode("\n", $up)) : null,
+            $down ? "        " . implode("\n        ", explode("\n", $down)) : null
         );
         $code = str_replace($placeHolders, $replacements, self::$_template);
-        $dir = $configuration->getMigrationsDirectory();
-        $dir = $dir ? $dir : getcwd();
-        $dir = rtrim($dir, '/');
-        $path = $dir.'/Version'.$version.'.php';
 
+        $dir = $this->getDirectory($configuration);
+
+        // Verify Migrations directory exists
         if (!file_exists($dir)) {
-            throw new \InvalidArgumentException(sprintf('Migrations directory "%s" does not exist.', $dir));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Migrations directory "%s" does not exist.',
+                    $dir
+                )
+            );
         }
 
+        $path = $this->buildVersionPath($dir, $version);
+
+        // Output Version
         file_put_contents($path, $code);
 
         if ($editorCmd = $input->getOption('editor-cmd')) {
-            shell_exec($editorCmd.' '.escapeshellarg($path));
+            shell_exec(
+                sprintf(
+                    '%s %s',
+                    $editorCmd,
+                    escapeshellarg($path)
+                )
+            );
         }
 
         return $path;
+    }
+
+    /**
+     * @param  Configuration $configuration
+     * @return string
+     */
+    protected function getDirectory(Configuration $configuration)
+    {
+        $dir = $configuration->getMigrationsDirectory() ?: getcwd();
+
+        return rtrim($dir, '/');
+    }
+
+    /**
+     * @param  string $dir
+     * @param  string $version
+     * @return string
+     */
+    protected function buildVersionPath($dir, $version)
+    {
+        return sprintf(
+            '%s/Version%s.php',
+            $dir,
+            $version
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getVersionString()
+    {
+        return date('YmdHis');
     }
 
     public function getName()
