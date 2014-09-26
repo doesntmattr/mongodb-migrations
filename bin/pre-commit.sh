@@ -25,7 +25,7 @@ else
     echo ""
     echo "Please install php-cs-fixer, e.g.:"
     echo ""
-    echo "  composer update --dev"
+    echo "  composer require --dev fabpot/php-cs-fixer:dev-master"
     echo ""
 fi
 
