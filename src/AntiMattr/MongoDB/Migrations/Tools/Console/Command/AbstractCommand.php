@@ -125,7 +125,7 @@ abstract class AbstractCommand extends Command
         }
 
         $server = sprintf(
-            "mongodb://%s%s:%s",
+            "mongodb://%s%s:%s%s",
             $credentials,
             (isset($params['host']) ? $params['host'] : 'localhost'),
             (isset($params['port']) ? $params['port'] : '27017'),
