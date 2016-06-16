@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -66,7 +67,15 @@ EOT
         if (!$input->isInteractive()) {
             $version->execute($direction);
         } else {
-            $confirmation = $this->getHelper('dialog')->askConfirmation($output, '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question>', false);
+            $question = new ConfirmationQuestion(
+                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
+                'n'
+            );
+
+            $confirmation = $this
+                ->getHelper('question')
+                ->ask($input, $output, $question);
+
             if ($confirmation === true) {
                 $version->execute($direction);
             } else {

@@ -72,13 +72,13 @@ class ExecuteCommandTest extends AntiMattrTestCase
     public function testExecuteUpWithInteraction()
     {
         // Mocks
-        $dialog = $this->buildMock('Symfony\Component\Console\Helper\DialogHelper');
+        $question = $this->buildMock('Symfony\Component\Console\Helper\QuestionHelper');
 
         // Variables and Objects
         $application = new Application();
         $helperSet = new HelperSet(
             array(
-                'dialog' => $dialog
+                'question' => $question
             )
         );
         $numVersion = '1234567890';
@@ -108,7 +108,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
             )
         ;
 
-        $dialog->expects($this->once())
+        $question->expects($this->once())
             ->method('askConfirmation')
             ->will(
                 $this->returnValue(true)

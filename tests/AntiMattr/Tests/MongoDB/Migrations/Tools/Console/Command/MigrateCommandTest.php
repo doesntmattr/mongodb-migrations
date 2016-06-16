@@ -28,7 +28,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         $configuration = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
         $executedVersion = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
         $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $dialog = $this->buildMock('Symfony\Component\Console\Helper\DialogHelper');
+        $question = $this->buildMock('Symfony\Component\Console\Helper\QuestionHelper');
 
         // Variables and Objects
         $numVersion = '000123456789';
@@ -45,7 +45,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         $application = new Application();
         $helperSet = new HelperSet(
             array(
-                'dialog' => $dialog
+                'question' => $question
             )
         );
 
@@ -71,7 +71,7 @@ class MigrateCommandTest extends AntiMattrTestCase
             )
         ;
 
-        $dialog->expects($this->exactly(2))
+        $question->expects($this->exactly(2))
             ->method('askConfirmation')
             ->will(
                 $this->returnValue(true)
