@@ -19,11 +19,11 @@ use Symfony\Component\Yaml\Yaml;
 class YamlConfiguration extends AbstractFileConfiguration
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doLoad($file)
     {
-        $array = Yaml::parse($file);
+        $array = Yaml::parse(file_get_contents($file));
 
         if (isset($array['name'])) {
             $this->setName($array['name']);
