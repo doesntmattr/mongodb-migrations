@@ -39,7 +39,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
                 'application-name',
                 ExecuteCommand::NAME,
                 $numVersion,
-                '--down'
+                '--down',
             )
         );
 
@@ -78,7 +78,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
         $application = new Application();
         $helperSet = new HelperSet(
             array(
-                'question' => $question
+                'question' => $question,
             )
         );
         $numVersion = '1234567890';
@@ -89,7 +89,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
             array(
                 'application-name',
                 ExecuteCommand::NAME,
-                $numVersion
+                $numVersion,
             )
         );
 
@@ -109,7 +109,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
         ;
 
         $question->expects($this->once())
-            ->method('askConfirmation')
+            ->method('ask')
             ->will(
                 $this->returnValue(true)
             )

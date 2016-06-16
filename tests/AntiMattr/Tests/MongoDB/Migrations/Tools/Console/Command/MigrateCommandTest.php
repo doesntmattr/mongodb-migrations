@@ -36,7 +36,7 @@ class MigrateCommandTest extends AntiMattrTestCase
             array(
                 'application-name',
                 MigrateCommand::NAME,
-                $numVersion
+                $numVersion,
             )
         );
         $interactive = true;
@@ -45,7 +45,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         $application = new Application();
         $helperSet = new HelperSet(
             array(
-                'question' => $question
+                'question' => $question,
             )
         );
 
@@ -72,7 +72,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         ;
 
         $question->expects($this->exactly(2))
-            ->method('askConfirmation')
+            ->method('ask')
             ->will(
                 $this->returnValue(true)
             )
@@ -102,7 +102,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         $input = new ArgvInput(
             array(
                 MigrateCommand::NAME,
-                $numVersion
+                $numVersion,
             )
         );
         $interactive = false;
