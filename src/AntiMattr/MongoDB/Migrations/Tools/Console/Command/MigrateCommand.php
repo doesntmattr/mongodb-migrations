@@ -16,6 +16,7 @@ use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -81,8 +82,16 @@ EOT
             }
 
             if (! $noInteraction) {
-                $confirmation = $this->getHelper('dialog')->askConfirmation($output, '<question>Are you sure you wish to continue? (y/n)</question>', false);
-                if (! $confirmation) {
+                $question = new ConfirmationQuestion(
+                    '<question>Are you sure you wish to continue? (y/n)</question> ',
+                    'n'
+                );
+
+                $confirmation = $this
+                    ->getHelper('question')
+                    ->ask($input, $output, $question);
+
+                if (!$confirmation) {
                     $output->writeln('<error>Migration cancelled!</error>');
 
                     return 1;
@@ -92,7 +101,15 @@ EOT
 
         // warn the user if no dry run and interaction is on
         if (! $noInteraction) {
-            $confirmation = $this->getHelper('dialog')->askConfirmation($output, '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question>', false);
+            $question = new ConfirmationQuestion(
+                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
+                'n'
+            );
+
+            $confirmation = $this
+                ->getHelper('question')
+                ->ask($input, $output, $question);
+
             if (! $confirmation) {
                 $output->writeln('<error>Migration cancelled!</error>');
 
