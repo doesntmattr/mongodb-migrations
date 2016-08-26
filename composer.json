@@ -1,9 +1,9 @@
 {
-    "name": "antimattr/mongodb-migrations",
+    "name": "doesntmattr/mongodb-migrations",
     "type": "library",
     "description": "Managed Database Migrations for MongoDB",
     "keywords": ["antimattr", "database", "doctrine", "migration", "mongodb"],
-    "homepage": "http://github.com/antimattr/mongodb-migrations",
+    "homepage": "http://github.com/doesntmattr/mongodb-migrations",
     "license": "MIT",
     "authors": [
         {"name": "Matthew Fitzgerald", "email": "matthewfitz@gmail.com"},
