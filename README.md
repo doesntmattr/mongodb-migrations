@@ -1,3 +1,6 @@
+:warning: Forked from [antimattr/mongodb-migrations](https://github.com/antimattr/mongodb-migrations) for contributors as the original project isn't being maintained. See [issue 16](https://github.com/antimattr/mongodb-migrations/issues/16)
+
+
 antimattr-mongodb-migrations
 ============================
 
