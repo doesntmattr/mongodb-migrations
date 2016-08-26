@@ -44,49 +44,49 @@ class Configuration
     private $migrationsDatabase;
 
     /**
-     * The migration database name to track versions in
+     * The migration database name to track versions in.
      *
      * @var string
      */
     private $migrationsDatabaseName;
 
     /**
-     * Flag for whether or not the migration collection has been created
+     * Flag for whether or not the migration collection has been created.
      *
-     * @var boolean
+     * @var bool
      */
     private $migrationCollectionCreated = false;
 
     /**
-     * The migration collection name to track versions in
+     * The migration collection name to track versions in.
      *
      * @var string
      */
     private $migrationsCollectionName = 'antimattr_migration_versions';
 
     /**
-     * The path to a directory where new migration classes will be written
+     * The path to a directory where new migration classes will be written.
      *
      * @var string
      */
     private $migrationsDirectory;
 
     /**
-     * Namespace the migration classes live in
+     * Namespace the migration classes live in.
      *
      * @var string
      */
     private $migrationsNamespace;
 
-     /**
-     * The path to a directory where mongo console scripts are
+    /**
+     * The path to a directory where mongo console scripts are.
      *
      * @var string
      */
     private $migrationsScriptDirectory;
 
     /**
-     * Used by Console Commands and Output Writer
+     * Used by Console Commands and Output Writer.
      *
      * @var string
      */
@@ -116,7 +116,7 @@ class Configuration
     }
 
     /**
-     * Returns a timestamp version as a formatted date
+     * Returns a timestamp version as a formatted date.
      *
      * @param string $version
      *
@@ -244,7 +244,7 @@ class Configuration
     }
 
     /**
-     * Set the migrations namespace
+     * Set the migrations namespace.
      *
      * @param string $migrationsNamespace The migrations namespace
      */
@@ -312,7 +312,7 @@ class Configuration
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getNumberOfAvailableMigrations()
     {
@@ -320,7 +320,7 @@ class Configuration
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getNumberOfExecutedMigrations()
     {
@@ -343,8 +343,8 @@ class Configuration
      * Register a single migration version to be executed by a AbstractMigration
      * class.
      *
-     * @param string $version The version of the migration in the format YYYYMMDDHHMMSS.
-     * @param string $class   The migration class to execute for the version.
+     * @param string $version The version of the migration in the format YYYYMMDDHHMMSS
+     * @param string $class   The migration class to execute for the version
      *
      * @return Version
      *
@@ -393,9 +393,9 @@ class Configuration
      * with the pattern VersionYYYYMMDDHHMMSS.php as the filename and registers
      * them as migrations.
      *
-     * @param string $path The root directory to where some migration classes live.
+     * @param string $path The root directory to where some migration classes live
      *
-     * @return Version[] The array of migrations registered.
+     * @return Version[] The array of migrations registered
      */
     public function registerMigrationsFromDirectory($path)
     {
@@ -419,11 +419,11 @@ class Configuration
     /**
      * Returns the Version instance for a given version in the format YYYYMMDDHHMMSS.
      *
-     * @param string $version The version string in the format YYYYMMDDHHMMSS.
+     * @param string $version The version string in the format YYYYMMDDHHMMSS
      *
      * @return AntiMattr\MongoDB\Migrations\Version
      *
-     * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist.
+     * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      */
     public function getVersion($version)
     {
@@ -439,7 +439,7 @@ class Configuration
      *
      * @param string $version
      *
-     * @return boolean
+     * @return bool
      */
     public function hasVersion($version)
     {
@@ -447,11 +447,11 @@ class Configuration
     }
 
     /**
-     * Check if a version has been migrated or not yet
+     * Check if a version has been migrated or not yet.
      *
      * @param AntiMattr\MongoDB\Migrations\Version $version
      *
-     * @return boolean
+     * @return bool
      */
     public function hasVersionMigrated(Version $version)
     {
@@ -495,7 +495,7 @@ class Configuration
     /**
      * Returns the latest available migration version.
      *
-     * @return string The version string in the format YYYYMMDDHHMMSS.
+     * @return string The version string in the format YYYYMMDDHHMMSS
      */
     public function getLatestVersion()
     {
@@ -508,7 +508,7 @@ class Configuration
     /**
      * Create the migration collection to track migrations with.
      *
-     * @return boolean Whether or not the collection was created.
+     * @return bool Whether or not the collection was created
      */
     public function createMigrationCollection()
     {
@@ -527,10 +527,10 @@ class Configuration
      * Returns the array of migrations to executed based on the given direction
      * and target version number.
      *
-     * @param string $direction The direction we are migrating.
-     * @param string $to        The version to migrate to.
+     * @param string $direction The direction we are migrating
+     * @param string $to        The version to migrate to
      *
-     * @return Version[] $migrations   The array of migrations we can execute.
+     * @return Version[] $migrations   The array of migrations we can execute
      */
     public function getMigrationsToExecute($direction, $to)
     {
@@ -560,17 +560,17 @@ class Configuration
      * Check if we should execute a migration for a given direction and target
      * migration version.
      *
-     * @param string  $direction The direction we are migrating.
-     * @param Version $version   The Version instance to check.
-     * @param string  $to        The version we are migrating to.
-     * @param array   $migrated  Migrated versions array.
+     * @param string  $direction The direction we are migrating
+     * @param Version $version   The Version instance to check
+     * @param string  $to        The version we are migrating to
+     * @param array   $migrated  Migrated versions array
      *
-     * @return boolean
+     * @return bool
      */
     private function shouldExecuteMigration($direction, Version $version, $to, $migrated)
     {
         if ($direction === 'down') {
-            if ( ! in_array($version->getVersion(), $migrated)) {
+            if (!in_array($version->getVersion(), $migrated)) {
                 return false;
             }
 
@@ -587,7 +587,7 @@ class Configuration
     }
 
     /**
-     * Validation that this instance has all the required properties configured
+     * Validation that this instance has all the required properties configured.
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\ConfigurationValidationException
      */
@@ -641,6 +641,5 @@ class Configuration
             'num_available_migrations' => $numAvailableMigrations,
             'num_new_migrations' => $numNewMigrations,
         );
-
     }
 }

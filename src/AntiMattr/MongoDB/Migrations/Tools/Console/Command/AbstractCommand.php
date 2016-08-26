@@ -76,7 +76,7 @@ abstract class AbstractCommand extends Command
                 $conn = $this->getHelper('dm')->getDocumentManager()->getConnection();
             } elseif ($input->getOption('db-configuration')) {
                 if (!file_exists($input->getOption('db-configuration'))) {
-                    throw new \InvalidArgumentException("The specified connection file is not a valid file.");
+                    throw new \InvalidArgumentException('The specified connection file is not a valid file.');
                 }
 
                 $params = include $input->getOption('db-configuration');
@@ -125,7 +125,7 @@ abstract class AbstractCommand extends Command
         }
 
         $server = sprintf(
-            "mongodb://%s%s:%s%s",
+            'mongodb://%s%s:%s%s',
             $credentials,
             (isset($params['host']) ? $params['host'] : 'localhost'),
             (isset($params['port']) ? $params['port'] : '27017'),

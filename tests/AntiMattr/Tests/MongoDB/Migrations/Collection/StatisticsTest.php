@@ -62,7 +62,7 @@ class StatisticsTest extends AntiMattrTestCase
             ->will($this->returnValue('example'));
 
         $data = array(
-            'errmsg' => 'foo'
+            'errmsg' => 'foo',
         );
 
         $database->expects($this->once())
@@ -88,7 +88,7 @@ class StatisticsTest extends AntiMattrTestCase
             ->will($this->returnValue('example'));
 
         $expectedData = array(
-            'count' => 100
+            'count' => 100,
         );
 
         $database->expects($this->once())

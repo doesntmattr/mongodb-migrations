@@ -31,7 +31,7 @@ class MigrateCommand extends AbstractCommand
             ->setName($this->getName())
             ->setDescription('Execute a migration to a specified version or the latest available version.')
             ->addArgument('version', InputArgument::OPTIONAL, 'The version to migrate to.', null)
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command executes a migration to a specified version or the latest available version:
 
     <info>%command.full_name%</info>
@@ -81,7 +81,7 @@ EOT
                 );
             }
 
-            if (! $noInteraction) {
+            if (!$noInteraction) {
                 $question = new ConfirmationQuestion(
                     '<question>Are you sure you wish to continue? (y/n)</question> ',
                     'n'
@@ -100,7 +100,7 @@ EOT
         }
 
         // warn the user if no dry run and interaction is on
-        if (! $noInteraction) {
+        if (!$noInteraction) {
             $question = new ConfirmationQuestion(
                 '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
                 'n'
@@ -110,7 +110,7 @@ EOT
                 ->getHelper('question')
                 ->ask($input, $output, $question);
 
-            if (! $confirmation) {
+            if (!$confirmation) {
                 $output->writeln('<error>Migration cancelled!</error>');
 
                 return 1;

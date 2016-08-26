@@ -25,7 +25,7 @@ use MongoTimestamp;
 class Version
 {
     const STATE_NONE = 0;
-    const STATE_PRE  = 1;
+    const STATE_PRE = 1;
     const STATE_EXEC = 2;
     const STATE_POST = 3;
 
@@ -55,7 +55,7 @@ class Version
     private $outputWriter;
 
     /**
-     * The version in timestamp format (YYYYMMDDHHMMSS)
+     * The version in timestamp format (YYYYMMDDHHMMSS).
      *
      * @var int
      */
@@ -118,7 +118,7 @@ class Version
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isMigrated()
     {
@@ -126,9 +126,9 @@ class Version
     }
 
     /**
-     * Returns the time this migration version took to execute
+     * Returns the time this migration version took to execute.
      *
-     * @return integer $time The time this migration version took to execute
+     * @return int $time The time this migration version took to execute
      */
     public function getTime()
     {
@@ -156,7 +156,7 @@ class Version
         try {
             $statistics->updateBefore();
         } catch (\Exception $e) {
-            $message = sprintf("     <info>Warning during %s: %s</info>",
+            $message = sprintf('     <info>Warning during %s: %s</info>',
                 $this->getExecutionState(),
                 $e->getMessage()
             );
@@ -168,7 +168,7 @@ class Version
     /**
      * Execute this migration version up or down and and return the SQL.
      *
-     * @param string $direction The direction to execute the migration.
+     * @param string $direction The direction to execute the migration
      *
      * @throws \Exception when migration fails
      */
@@ -213,7 +213,6 @@ class Version
             }
 
             $this->state = self::STATE_NONE;
-
         } catch (SkipException $e) {
 
             // now mark it as migrated
@@ -226,9 +225,7 @@ class Version
             $this->outputWriter->write(sprintf("\n  <info>SS</info> skipped (Reason: %s)",  $e->getMessage()));
 
             $this->state = self::STATE_NONE;
-
         } catch (\Exception $e) {
-
             $this->outputWriter->write(sprintf(
                 '<error>Migration %s failed during %s. Error %s</error>',
                 $this->version, $this->getExecutionState(), $e->getMessage()
@@ -284,7 +281,7 @@ class Version
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
 
-        $document = array("v" => $this->version, "t" => $this->createMongoTimestamp());
+        $document = array('v' => $this->version, 't' => $this->createMongoTimestamp());
         $collection->insert($document);
     }
 
@@ -292,7 +289,7 @@ class Version
     {
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
-        $collection->remove(array("v" => $this->version));
+        $collection->remove(array('v' => $this->version));
     }
 
     protected function updateStatisticsAfter()
@@ -303,7 +300,7 @@ class Version
                 $name = $statistic->getCollection()->getName();
                 $this->statistics[$name] = $statistic;
             } catch (\Exception $e) {
-                $message = sprintf("     <info>Warning during %s: %s</info>",
+                $message = sprintf('     <info>Warning during %s: %s</info>',
                     $this->getExecutionState(),
                     $e->getMessage()
                 );
@@ -318,7 +315,7 @@ class Version
         foreach ($this->statistics as $key => $statistic) {
             $this->outputWriter->write(sprintf("\n     Collection %s\n", $key));
 
-            $line  = '     ';
+            $line = '     ';
             $line .= 'metric '.str_repeat(' ', 16 - strlen('metric'));
             $line .= 'before '.str_repeat(' ', 20 - strlen('before'));
             $line .= 'after '.str_repeat(' ', 20 - strlen('after'));

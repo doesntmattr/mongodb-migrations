@@ -49,7 +49,7 @@ class ConfigurationTest extends AntiMattrTestCase
     {
         $this->prepareValidConfiguration();
 
-        $directory = dirname(__DIR__)."/Resources/Migrations/";
+        $directory = dirname(__DIR__).'/Resources/Migrations/';
         $this->configuration->registerMigrationsFromDirectory($directory);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
@@ -127,12 +127,12 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $foundVersions = array(
             array('v' => 'found1'),
-            array('v' => 'found2')
+            array('v' => 'found2'),
         );
 
         $expectedVersions = array(
             'found1',
-            'found2'
+            'found2',
         );
 
         $collection->expects($this->once())
@@ -178,7 +178,7 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->configuration->setMigrationsNamespace('Example\Migrations\TestAntiMattr\MongoDB');
         $this->assertFalse($this->configuration->hasVersion('20140822185742'));
 
-        $directory = dirname(__DIR__)."/Resources/Migrations/";
+        $directory = dirname(__DIR__).'/Resources/Migrations/';
         $this->configuration->registerMigrationsFromDirectory($directory);
 
         $this->assertEquals(3, count($this->configuration->getMigrations()));
@@ -258,7 +258,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
     private function prepareValidConfiguration()
     {
-        $directory = dirname(__DIR__)."/Resources/Migrations/";
+        $directory = dirname(__DIR__).'/Resources/Migrations/';
         $this->configuration->setMigrationsDatabaseName('test_antimattr_migrations');
         $this->configuration->setMigrationsDirectory($directory);
         $this->configuration->setMigrationsNamespace('Example\Migrations\TestAntiMattr\MongoDB');

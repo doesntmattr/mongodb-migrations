@@ -19,17 +19,17 @@ use Exception;
  */
 class Statistics
 {
-    const COUNT = "count";
-    const SIZE = "size";
-    const AVG_OBJ_SIZE = "avgObjSize";
-    const STORAGE_SIZE = "storageSize";
-    const NUM_EXTENTS = "numExtents";
-    const NINDEXES = "nindexes";
-    const LAST_EXTENT_SIZE = "lastExtentSize";
-    const PADDING_FACTOR = "paddingFactor";
-    const TOTAL_INDEX_SIZE = "totalIndexSize";
+    const COUNT = 'count';
+    const SIZE = 'size';
+    const AVG_OBJ_SIZE = 'avgObjSize';
+    const STORAGE_SIZE = 'storageSize';
+    const NUM_EXTENTS = 'numExtents';
+    const NINDEXES = 'nindexes';
+    const LAST_EXTENT_SIZE = 'lastExtentSize';
+    const PADDING_FACTOR = 'paddingFactor';
+    const TOTAL_INDEX_SIZE = 'totalIndexSize';
 
-    static public $metrics = array(
+    public static $metrics = array(
         self::COUNT,
         self::SIZE,
         self::AVG_OBJ_SIZE,
@@ -38,7 +38,7 @@ class Statistics
         self::NINDEXES,
         self::LAST_EXTENT_SIZE,
         self::PADDING_FACTOR,
-        self::TOTAL_INDEX_SIZE
+        self::TOTAL_INDEX_SIZE,
     );
 
     /**
@@ -121,7 +121,7 @@ class Statistics
         try {
             if (!$data = $database->command(array('collStats' => $name))) {
                 $message = sprintf(
-                    "Statistics not found for collection %s",
+                    'Statistics not found for collection %s',
                     $name
                 );
                 throw new Exception($message);

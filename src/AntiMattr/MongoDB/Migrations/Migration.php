@@ -21,7 +21,7 @@ use AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException;
 class Migration
 {
     /**
-     * The OutputWriter object instance used for outputting information
+     * The OutputWriter object instance used for outputting information.
      *
      * @var OutputWriter
      */
@@ -33,7 +33,7 @@ class Migration
     private $configuration;
 
     /**
-     * Construct a Migration instance
+     * Construct a Migration instance.
      *
      * @param Configuration $configuration A migration Configuration instance
      */
@@ -46,7 +46,7 @@ class Migration
     /**
      * Run a migration to the current version or the given target version.
      *
-     * @param string $to The version to migrate to.
+     * @param string $to The version to migrate to
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
      * @throws AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException
@@ -62,7 +62,7 @@ class Migration
         $to = (string) $to;
 
         $migrations = $this->configuration->getMigrations();
-        if ( ! isset($migrations[$to]) && $to > 0) {
+        if (!isset($migrations[$to]) && $to > 0) {
             throw new UnknownVersionException($to);
         }
 
@@ -86,7 +86,7 @@ class Migration
         }
 
         $this->outputWriter->write("\n  <comment>------------------------</comment>\n");
-        $this->outputWriter->write(sprintf("  <info>++</info> finished in %s", $time));
-        $this->outputWriter->write(sprintf("  <info>++</info> %s migrations executed", count($migrationsToExecute)));
+        $this->outputWriter->write(sprintf('  <info>++</info> finished in %s', $time));
+        $this->outputWriter->write(sprintf('  <info>++</info> %s migrations executed', count($migrationsToExecute)));
     }
 }

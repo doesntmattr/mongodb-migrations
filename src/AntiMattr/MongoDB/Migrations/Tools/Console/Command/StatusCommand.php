@@ -31,7 +31,7 @@ class StatusCommand extends AbstractCommand
             ->setName($this->getName())
             ->setDescription('View the status of a set of migrations.')
             ->addOption('show-versions', null, InputOption::VALUE_NONE, 'This will display a list of all available migrations and their status')
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command outputs the status of a set of migrations:
 
     <info>%command.full_name%</info>
@@ -84,19 +84,19 @@ EOT
         $numNewMigrations = $configMap['num_new_migrations'];
 
         $info = array(
-            'Name'                              => $configMap['name'],
-            'Database Driver'                   => $configMap['database_driver'],
-            'Database Name'                     => $configMap['migrations_database_name'],
-            'Configuration Source'              => $configuration instanceof AbstractFileConfiguration ? $configuration->getFile() : 'manually configured',
-            'Version Collection Name'           => $configMap['migrations_collection_name'],
-            'Migrations Namespace'              => $configMap['migrations_namespace'],
-            'Migrations Directory'              => $configMap['migrations_directory'],
-            'Current Version'                   => $currentVersionFormatted,
-            'Latest Version'                    => $latestVersionFormatted,
-            'Executed Migrations'               => $configMap['num_executed_migrations'],
-            'Executed Unavailable Migrations'   => $numExecutedUnavailableMigrations > 0 ? '<error>'.$numExecutedUnavailableMigrations.'</error>' : 0,
-            'Available Migrations'              => $configMap['num_available_migrations'],
-            'New Migrations'                    => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0
+            'Name' => $configMap['name'],
+            'Database Driver' => $configMap['database_driver'],
+            'Database Name' => $configMap['migrations_database_name'],
+            'Configuration Source' => $configuration instanceof AbstractFileConfiguration ? $configuration->getFile() : 'manually configured',
+            'Version Collection Name' => $configMap['migrations_collection_name'],
+            'Migrations Namespace' => $configMap['migrations_namespace'],
+            'Migrations Directory' => $configMap['migrations_directory'],
+            'Current Version' => $currentVersionFormatted,
+            'Latest Version' => $latestVersionFormatted,
+            'Executed Migrations' => $configMap['num_executed_migrations'],
+            'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations > 0 ? '<error>'.$numExecutedUnavailableMigrations.'</error>' : 0,
+            'Available Migrations' => $configMap['num_available_migrations'],
+            'New Migrations' => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0,
         );
         foreach ($info as $name => $value) {
             $this->writeInfoLine($output, $name, $value);

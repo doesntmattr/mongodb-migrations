@@ -22,19 +22,19 @@ abstract class AbstractConfigurationTest extends AntiMattrTestCase
     public function testMigrationsDirectory()
     {
         $config = $this->loadConfiguration();
-        $this->assertEquals("/path/to/migrations/classes/AntiMattrMigrations", $config->getMigrationsDirectory());
+        $this->assertEquals('/path/to/migrations/classes/AntiMattrMigrations', $config->getMigrationsDirectory());
     }
 
     public function testMigrationsNamespace()
     {
         $config = $this->loadConfiguration();
-        $this->assertEquals("AntiMattrMigrationsTest", $config->getMigrationsNamespace());
+        $this->assertEquals('AntiMattrMigrationsTest', $config->getMigrationsNamespace());
     }
 
     public function testMigrationName()
     {
         $config = $this->loadConfiguration();
-        $this->assertEquals("AntiMattr Sandbox Migrations", $config->getName());
+        $this->assertEquals('AntiMattr Sandbox Migrations', $config->getName());
     }
 
     public function testMigrationsCollection()

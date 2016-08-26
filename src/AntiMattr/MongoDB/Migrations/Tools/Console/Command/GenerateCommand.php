@@ -64,7 +64,7 @@ class Version<version> extends AbstractMigration
                 ->setName($this->getName())
                 ->setDescription('Generate a blank migration class.')
                 ->addOption('editor-cmd', null, InputOption::VALUE_OPTIONAL, 'Open file with this command upon creation.')
-                ->setHelp(<<<EOT
+                ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command generates a blank migration class:
 
     <info>%command.full_name%</info>
@@ -109,13 +109,13 @@ EOT
             '<namespace>',
             '<version>',
             '<up>',
-            '<down>'
+            '<down>',
         );
         $replacements = array(
             $configuration->getMigrationsNamespace(),
             $version,
-            $up ? "        " . implode("\n        ", explode("\n", $up)) : null,
-            $down ? "        " . implode("\n        ", explode("\n", $down)) : null
+            $up ? '        '.implode("\n        ", explode("\n", $up)) : null,
+            $down ? '        '.implode("\n        ", explode("\n", $down)) : null,
         );
         $code = str_replace($placeHolders, $replacements, self::$_template);
 
@@ -150,7 +150,8 @@ EOT
     }
 
     /**
-     * @param  Configuration $configuration
+     * @param Configuration $configuration
+     *
      * @return string
      */
     protected function getDirectory(Configuration $configuration)
@@ -161,8 +162,9 @@ EOT
     }
 
     /**
-     * @param  string $dir
-     * @param  string $version
+     * @param string $dir
+     * @param string $version
+     *
      * @return string
      */
     protected function buildVersionPath($dir, $version)

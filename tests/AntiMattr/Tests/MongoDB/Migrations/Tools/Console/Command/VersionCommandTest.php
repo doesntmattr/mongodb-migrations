@@ -41,7 +41,7 @@ class VersionCommandTest extends AntiMattrTestCase
         $input = new ArgvInput(
             array(
                 VersionCommand::NAME,
-                $numVersion
+                $numVersion,
             )
         );
 
@@ -63,7 +63,7 @@ class VersionCommandTest extends AntiMattrTestCase
             array(
                 VersionCommand::NAME,
                 $numVersion,
-                '--add'
+                '--add',
             )
         );
 
@@ -91,7 +91,7 @@ class VersionCommandTest extends AntiMattrTestCase
             array(
                 VersionCommand::NAME,
                 $numVersion,
-                '--add'
+                '--add',
             )
         );
 
@@ -139,7 +139,7 @@ class VersionCommandTest extends AntiMattrTestCase
             array(
                 VersionCommand::NAME,
                 $numVersion,
-                '--delete'
+                '--delete',
             )
         );
 
@@ -190,7 +190,7 @@ class VersionCommandTest extends AntiMattrTestCase
             array(
                 VersionCommand::NAME,
                 $numVersion,
-                '--delete'
+                '--delete',
             )
         );
 
@@ -237,7 +237,7 @@ class VersionCommandTest extends AntiMattrTestCase
             array(
                 VersionCommand::NAME,
                 $numVersion,
-                '--add'
+                '--add',
             )
         );
 
