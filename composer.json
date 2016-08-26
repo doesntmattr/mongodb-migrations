@@ -9,6 +9,9 @@
         {"name": "Matthew Fitzgerald", "email": "matthewfitz@gmail.com"},
         {"name": "Ryan Catlin", "email": "ryan.catlin@gmail.com"}
     ],
+    "conflict": {
+        "antimattr/mongodb-migrations" : "*"
+    },
     "require": {
         "php": ">=5.3.2",
         "doctrine/mongodb": "1.*",
