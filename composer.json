@@ -24,7 +24,6 @@
         "friendsofphp/php-cs-fixer": "^1.0",
         "mikey179/vfsStream": "1.*"
     },
-    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "AntiMattr\\MongoDB\\Migrations\\": "src/" }
     },
