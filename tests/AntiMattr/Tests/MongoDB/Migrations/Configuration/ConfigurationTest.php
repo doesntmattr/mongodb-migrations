@@ -250,6 +250,22 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->configuration->validate();
     }
 
+    public function testGetUnavailableMigratedVersions()
+    {
+        $configuration = $this->getMockBuilder('AntiMattr\MongoDB\Migrations\Configuration\Configuration')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getMigratedVersions', 'getAvailableVersions'))
+            ->getMock();
+        $configuration->expects($this->once())
+            ->method('getMigratedVersions')
+            ->will($this->returnValue(array('1', '2')));
+        $configuration->expects($this->once())
+            ->method('getAvailableVersions')
+            ->will($this->returnValue(array('2', '3')));
+
+        $this->assertEquals(array('1'), $configuration->getUnavailableMigratedVersions());
+    }
+
     public function testValidate()
     {
         $this->prepareValidConfiguration();

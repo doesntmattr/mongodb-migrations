@@ -296,6 +296,16 @@ class Configuration
     }
 
     /**
+     * Return all migrated versions from versions collection that have migration files deleted.
+     *
+     * @return array
+     */
+    public function getUnavailableMigratedVersions()
+    {
+        return array_diff($this->getMigratedVersions(), $this->getAvailableVersions());
+    }
+
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -620,12 +630,11 @@ class Configuration
         $availableMigrations = $this->getAvailableVersions();
         $numAvailableMigrations = count($availableMigrations);
 
-        // New migration count
-        $numNewMigrations = count($availableMigrations) - count($executedMigrations);
-
         // Executed Unavailable migration count
-        $executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
-        $numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
+        $numExecutedUnavailableMigrations = count($this->getUnavailableMigratedVersions());
+
+        // New migration count
+        $numNewMigrations = $numAvailableMigrations - ($numExecutedMigrations - $numExecutedUnavailableMigrations);
 
         return array(
             'name' => $this->getName(),

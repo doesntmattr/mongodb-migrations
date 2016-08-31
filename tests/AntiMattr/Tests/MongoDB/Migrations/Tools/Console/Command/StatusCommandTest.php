@@ -19,6 +19,7 @@ class StatusCommandTest extends AntiMattrTestCase
     private $config;
     private $migration;
     private $version;
+    private $version2;
 
     protected function setUp()
     {
@@ -27,6 +28,7 @@ class StatusCommandTest extends AntiMattrTestCase
         $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
         $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
         $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->version2 = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
 
         $this->command->setMigrationConfiguration($this->config);
     }
@@ -202,6 +204,254 @@ class StatusCommandTest extends AntiMattrTestCase
                     '%s::%s',
                     'New Migrations',
                     $numNewMigrations
+                )
+            )
+        ;
+
+        // Run command, run.
+        $this->command->run(
+            $input,
+            $this->output
+        );
+    }
+
+    public function testExecuteWithShowingVersions()
+    {
+        $input = new ArgvInput(
+            array(
+                StatusCommand::NAME,
+                '--show-versions',
+            )
+        );
+
+        $configName = 'config-name';
+        $databaseDriver = 'MongoDB';
+        $migrationsDatabaseName = ' migrations-database-name';
+        $migrationsCollectionName = 'migrations-collection-name';
+        $migrationsNamespace = 'migrations-namespace';
+        $migrationsDirectory = 'migrations-directory';
+        $currentVersion = 'abcdefghijk';
+        $latestVersion = '1234567890';
+        $numExecutedMigrations = 2;
+        $numExecutedUnavailableMigrations = 1;
+        $numAvailableMigrations = 2;
+        $numNewMigrations = 1;
+        $notMigratedVersion = '20140822185743';
+        $migratedVersion = '20140822185745';
+        $unavailableMigratedVersion = '20140822185744';
+
+        // Expectations
+        $this->version->expects($this->exactly(3))
+            ->method('getVersion')
+            ->will($this->returnValue($notMigratedVersion));
+
+        $this->version2->expects($this->exactly(3))
+            ->method('getVersion')
+            ->will($this->returnValue($migratedVersion));
+
+        $this->config->expects($this->once())
+            ->method('getDetailsMap')
+            ->will(
+                $this->returnValue(
+                    array(
+                        'name' => $configName,
+                        'database_driver' => $databaseDriver,
+                        'migrations_database_name' => $migrationsDatabaseName,
+                        'migrations_collection_name' => $migrationsCollectionName,
+                        'migrations_namespace' => $migrationsNamespace,
+                        'migrations_directory' => $migrationsDirectory,
+                        'current_version' => $currentVersion,
+                        'latest_version' => $latestVersion,
+                        'num_executed_migrations' => $numExecutedMigrations,
+                        'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
+                        'num_available_migrations' => $numAvailableMigrations,
+                        'num_new_migrations' => $numNewMigrations,
+                    )
+                )
+            )
+        ;
+        $this->config->expects($this->once())
+            ->method('getMigrations')
+            ->will(
+                $this->returnValue(
+                    array($this->version, $this->version2)
+                )
+            )
+        ;
+        $this->config->expects($this->once())
+            ->method('getMigratedVersions')
+            ->will(
+                $this->returnValue(
+                    array($unavailableMigratedVersion, $migratedVersion)
+                )
+            )
+        ;
+        $this->config->expects($this->once())
+            ->method('getUnavailableMigratedVersions')
+            ->will(
+                $this->returnValue(
+                    array($unavailableMigratedVersion)
+                )
+            )
+        ;
+
+        $this->output->expects($this->at(0))
+            ->method('writeln')
+            ->with(
+                "\n <info>==</info> Configuration\n"
+            )
+        ;
+        $this->output->expects($this->at(1))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Name',
+                    $configName
+                )
+            )
+        ;
+        $this->output->expects($this->at(2))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Database Driver',
+                    'MongoDB'
+                )
+            )
+        ;
+        $this->output->expects($this->at(3))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Database Name',
+                    $migrationsDatabaseName
+                )
+            )
+        ;
+        $this->output->expects($this->at(4))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Configuration Source',
+                    'manually configured'
+                )
+            )
+        ;
+        $this->output->expects($this->at(5))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Version Collection Name',
+                    $migrationsCollectionName
+                )
+            )
+        ;
+        $this->output->expects($this->at(6))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Migrations Namespace',
+                    $migrationsNamespace
+                )
+            )
+        ;
+        $this->output->expects($this->at(7))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Migrations Directory',
+                    $migrationsDirectory
+                )
+            )
+        ;
+        $this->output->expects($this->at(8)) // current version formatted
+        ->method('writeln')
+        ;
+        $this->output->expects($this->at(9)) // latest version formatted
+        ->method('writeln')
+        ;
+        $this->output->expects($this->at(10))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Executed Migrations',
+                    $numExecutedMigrations
+                )
+            )
+        ;
+        $this->output->expects($this->at(11))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::<error>%s</error>',
+                    'Executed Unavailable Migrations',
+                    $numExecutedUnavailableMigrations
+                )
+            )
+        ;
+        $this->output->expects($this->at(12))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::%s',
+                    'Available Migrations',
+                    $numAvailableMigrations
+                )
+            )
+        ;
+        $this->output->expects($this->at(13))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '%s::<question>%s</question>',
+                    'New Migrations',
+                    $numNewMigrations
+                )
+            )
+        ;
+        $this->output->expects($this->at(14))
+            ->method('writeln')
+            ->with("\n <info>==</info> Available Migration Versions\n")
+        ;
+        $this->output->expects($this->at(15))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '    <comment>>></comment> %s (<comment>%s</comment>)                <error>not migrated</error>',
+                    \DateTime::createFromFormat('YmdHis', $notMigratedVersion)->format('Y-m-d H:i:s'),
+                    $notMigratedVersion
+                )
+            )
+        ;
+        $this->output->expects($this->at(16))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '    <comment>>></comment> %s (<comment>%s</comment>)                <info>migrated</info>',
+                    \DateTime::createFromFormat('YmdHis', $migratedVersion)->format('Y-m-d H:i:s'),
+                    $migratedVersion
+                )
+            )
+        ;
+        $this->output->expects($this->at(17))
+            ->method('writeln')
+            ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
+        ;
+        $this->output->expects($this->at(18))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '    <comment>>></comment> %s (<comment>%s</comment>)',
+                    \DateTime::createFromFormat('YmdHis', $unavailableMigratedVersion)->format('Y-m-d H:i:s'),
+                    $unavailableMigratedVersion
                 )
             )
         ;
