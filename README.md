@@ -3,7 +3,10 @@
 The original authors did an awesome job of making a library that has been really
 really useful AND stable.  Thank you @rcatlin and @matthewfitz !
 
-antimattr-mongodb-migrations
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/doesntmattr/mongodb-migrations.png?branch=master)](https://travis-ci.org/doesntmattr/mongodb-migrations)
+
+AntiMattr MongoDB Migrations
 ============================
 
 The AntiMattr MongoDB Migration library provides managed migration support for MongoDB.
@@ -32,7 +35,7 @@ Similar to [Doctrine Migrations](https://github.com/doctrine/migrations), config
  * Connection configuration (php)
  * Migration configuration (xml or yaml)
 
-Example Connection configuration "test_antimattr_mongodb.php"
+Example Connection configuration "test\_antimattr\_mongodb.php"
 
 ```php
 /**
@@ -52,7 +55,7 @@ return array(
 
 XML or YAML Migration Configurations are supported
 
-Example XML "test_antimattr_mongodb.xml"
+Example XML "test\_antimattr\_mongodb.xml"
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -72,7 +75,7 @@ Example XML "test_antimattr_mongodb.xml"
 </antimattr-migrations>
 ```
 
-Example YAML "test_antimattr_mongodb.yml"
+Example YAML "test\_antimattr\_mongodb.yml"
 
 ```yaml
 ---
