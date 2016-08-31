@@ -7,6 +7,7 @@ use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\StatusCommand;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -223,7 +224,7 @@ class StatusCommandStub extends StatusCommand
         $this->configuration = $configuration;
     }
 
-    public function getMigrationConfiguration()
+    public function getMigrationConfiguration(InputInterface $input, OutputInterface $output)
     {
         return $this->configuration;
     }
