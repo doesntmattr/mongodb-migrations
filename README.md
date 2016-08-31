@@ -3,7 +3,10 @@
 The original authors did an awesome job of making a library that has been really
 really useful AND stable.  Thank you @rcatlin and @matthewfitz !
 
-antimattr-mongodb-migrations
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/doesntmattr/mongodb-migrations.png?branch=master)](https://travis-ci.org/doesntmattr/mongodb-migrations)
+
+AntiMattr MongoDB Migrations
 ============================
 
 The AntiMattr MongoDB Migration library provides managed migration support for MongoDB.
