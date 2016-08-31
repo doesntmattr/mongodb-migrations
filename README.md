@@ -35,7 +35,7 @@ Similar to [Doctrine Migrations](https://github.com/doctrine/migrations), config
  * Connection configuration (php)
  * Migration configuration (xml or yaml)
 
-Example Connection configuration "test_antimattr_mongodb.php"
+Example Connection configuration "test\_antimattr\_mongodb.php"
 
 ```php
 /**
@@ -55,7 +55,7 @@ return array(
 
 XML or YAML Migration Configurations are supported
 
-Example XML "test_antimattr_mongodb.xml"
+Example XML "test\_antimattr\_mongodb.xml"
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -75,7 +75,7 @@ Example XML "test_antimattr_mongodb.xml"
 </antimattr-migrations>
 ```
 
-Example YAML "test_antimattr_mongodb.yml"
+Example YAML "test\_antimattr\_mongodb.yml"
 
 ```yaml
 ---
