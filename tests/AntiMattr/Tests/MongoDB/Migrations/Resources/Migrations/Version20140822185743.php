@@ -15,18 +15,16 @@ class Version20140822185743 extends AbstractMigration
      */
     public function getDescription()
     {
-        return "";
+        return '';
     }
 
     public function up(Database $db)
     {
         // this up() migration is auto-generated, please modify it to your needs
-
     }
 
     public function down(Database $db)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

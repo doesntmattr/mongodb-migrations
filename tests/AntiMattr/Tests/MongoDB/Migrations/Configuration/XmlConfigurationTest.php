@@ -10,7 +10,7 @@ class XmlConfigurationTest extends AbstractConfigurationTest
     {
         $connection = $this->getConnection();
         $config = new XmlConfiguration($connection);
-        $config->load(dirname(__DIR__)."/Resources/fixtures/config.xml");
+        $config->load(dirname(__DIR__).'/Resources/fixtures/config.xml');
 
         return $config;
     }

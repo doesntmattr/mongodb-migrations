@@ -2,12 +2,10 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
-use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\GenerateCommand;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
@@ -39,13 +37,13 @@ class GenerateCommandTest extends AntiMattrTestCase
             'Base', // rootDir
             null,   // permissions
             array(  // structure
-                'Migrations' => array()
+                'Migrations' => array(),
             )
         );
 
         $input = new ArgvInput(
             array(
-                GenerateCommand::NAME
+                GenerateCommand::NAME,
             )
         );
 
@@ -89,7 +87,7 @@ class GenerateCommandTest extends AntiMattrTestCase
 
         $input = new ArgvInput(
             array(
-                GenerateCommand::NAME
+                GenerateCommand::NAME,
             )
         );
 

@@ -12,7 +12,6 @@
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Migration;
-use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +33,7 @@ class ExecuteCommand extends AbstractCommand
             ->addArgument('version', InputArgument::REQUIRED, 'The version to execute.', null)
             ->addOption('up', null, InputOption::VALUE_NONE, 'Execute the migration up.')
             ->addOption('down', null, InputOption::VALUE_NONE, 'Execute the migration down.')
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command executes a single migration version up or down manually:
 
     <info>%command.full_name% YYYYMMDDHHMMSS</info>

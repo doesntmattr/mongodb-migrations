@@ -38,7 +38,7 @@ class MigrationTest extends AntiMattrTestCase
             ->will($this->returnValue('1'));
 
         $expectedMigrations = array(
-            '1' => 'foo'
+            '1' => 'foo',
         );
 
         $this->configuration->expects($this->once())
@@ -63,7 +63,7 @@ class MigrationTest extends AntiMattrTestCase
         $expectedMigrations = array(
             '0' => 'foo',
             '1' => 'foo',
-            '2' => 'foo'
+            '2' => 'foo',
         );
 
         $this->configuration->expects($this->once())
@@ -89,7 +89,7 @@ class MigrationTest extends AntiMattrTestCase
         $expectedMigrations = array(
             '0' => 'foo',
             '1' => 'foo',
-            '2' => 'foo'
+            '2' => 'foo',
         );
 
         $this->configuration->expects($this->once())

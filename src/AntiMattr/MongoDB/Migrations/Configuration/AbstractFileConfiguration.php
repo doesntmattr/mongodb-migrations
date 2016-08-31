@@ -19,25 +19,23 @@ use AntiMattr\MongoDB\Migrations\Exception\ConfigurationFileAlreadyLoadedExcepti
 abstract class AbstractFileConfiguration extends Configuration
 {
     /**
-     * The configuration file used to load configuration information
+     * The configuration file used to load configuration information.
      *
      * @var string
      */
     private $file;
 
     /**
-     * Whether or not the configuration file has been loaded yet or not
+     * Whether or not the configuration file has been loaded yet or not.
      *
-     * @var boolean
+     * @var bool
      */
     private $loaded = false;
 
     /**
-     * Load the information from the passed configuration file
+     * Load the information from the passed configuration file.
      *
      * @param string $file The path to the configuration file
-     *
-     * @return void
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\ConfigurationFileAlreadyLoadedException
      */
@@ -76,7 +74,7 @@ abstract class AbstractFileConfiguration extends Configuration
      * load the given configuration file whether it be xml, yaml, etc. or something
      * else.
      *
-     * @param string $file The path to a configuration file.
+     * @param string $file The path to a configuration file
      */
     abstract protected function doLoad($file);
 }

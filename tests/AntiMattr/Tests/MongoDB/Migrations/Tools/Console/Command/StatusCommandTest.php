@@ -35,14 +35,14 @@ class StatusCommandTest extends AntiMattrTestCase
     {
         $input = new ArgvInput(
             array(
-                StatusCommand::NAME
+                StatusCommand::NAME,
             )
         );
 
         $configValues = array(
             'name' => 'config-name',
             'migrationsDatabaseName' => 'database-name',
-            'migrationsCollectionName' => 'collection-name'
+            'migrationsCollectionName' => 'collection-name',
         );
         $configName = 'config-name';
         $databaseDriver = 'MongoDB';
@@ -234,6 +234,6 @@ class StatusCommandStub extends StatusCommand
      */
     protected function writeInfoLine(OutputInterface $output, $name, $value)
     {
-        $output->writeln($name . "::" . $value);
+        $output->writeln($name.'::'.$value);
     }
 }

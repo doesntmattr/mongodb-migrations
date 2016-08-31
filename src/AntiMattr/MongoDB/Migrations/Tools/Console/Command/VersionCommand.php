@@ -34,7 +34,7 @@ class VersionCommand extends AbstractCommand
             ->addArgument('version', InputArgument::REQUIRED, 'The version to add or delete.', null)
             ->addOption('add', null, InputOption::VALUE_NONE, 'Add the specified version.')
             ->addOption('delete', null, InputOption::VALUE_NONE, 'Delete the specified version.')
-            ->setHelp(<<<EOT
+            ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command allows you to manually add and delete migration versions from the version table:
 
     <info>%command.full_name% YYYYMMDDHHMMSS --add</info>
@@ -52,7 +52,7 @@ EOT
      * @param Symfony\Component\Console\Input\InputInterface
      * @param Symfony\Component\Console\Output\OutputInterface
      *
-     * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist.
+     * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      * @throws InvalidArgumentException
      */
     public function execute(InputInterface $input, OutputInterface $output)

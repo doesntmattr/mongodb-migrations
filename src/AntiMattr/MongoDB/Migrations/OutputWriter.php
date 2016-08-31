@@ -21,13 +21,14 @@ class OutputWriter
     public function __construct(\Closure $closure = null)
     {
         if ($closure === null) {
-            $closure = function ($message) {};
+            $closure = function ($message) {
+            };
         }
         $this->closure = $closure;
     }
 
     /**
-     * @param string $message The message to write.
+     * @param string $message The message to write
      */
     public function write($message)
     {

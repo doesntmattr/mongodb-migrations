@@ -112,7 +112,7 @@ class VersionTest extends AntiMattrTestCase
 
         $insert = array(
             'v' => $this->versionName,
-            't' => $timestamp
+            't' => $timestamp,
         );
 
         $collection->expects($this->once())
@@ -136,7 +136,7 @@ class VersionTest extends AntiMattrTestCase
             ->will($this->returnValue($collection));
 
         $remove = array(
-            'v' => $this->versionName
+            'v' => $this->versionName,
         );
 
         $collection->expects($this->once())
@@ -251,7 +251,7 @@ class VersionTest extends AntiMattrTestCase
     {
         return array(
             array('up'),
-            array('down')
+            array('down'),
         );
     }
 }
@@ -311,11 +311,9 @@ class Version20140908000000 extends AbstractMigration
 
     public function up(Database $db)
     {
-
     }
 
     public function down(Database $db)
     {
-
     }
 }

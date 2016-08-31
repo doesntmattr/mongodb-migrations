@@ -60,7 +60,7 @@ abstract class AbstractMigration
     }
 
     /**
-     * Get custom migration description
+     * Get custom migration description.
      *
      * @return string
      */
@@ -109,8 +109,8 @@ abstract class AbstractMigration
     /**
      * Print a warning message if the condition evalutes to TRUE.
      *
-     * @param boolean $condition
-     * @param string  $message
+     * @param bool   $condition
+     * @param string $message
      */
     public function warnIf($condition, $message = '')
     {
@@ -124,8 +124,8 @@ abstract class AbstractMigration
     /**
      * Abort the migration if the condition evalutes to TRUE.
      *
-     * @param boolean $condition
-     * @param string  $message
+     * @param bool   $condition
+     * @param string $message
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\AbortException
      */
@@ -141,8 +141,8 @@ abstract class AbstractMigration
     /**
      * Skip this migration (but not the next ones) if condition evalutes to TRUE.
      *
-     * @param boolean $condition
-     * @param string  $message
+     * @param bool   $condition
+     * @param string $message
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\SkipException
      */

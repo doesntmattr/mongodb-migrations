@@ -17,7 +17,7 @@ namespace AntiMattr\MongoDB\Migrations\Configuration;
 class XmlConfiguration extends AbstractFileConfiguration
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function doLoad($file)
     {
