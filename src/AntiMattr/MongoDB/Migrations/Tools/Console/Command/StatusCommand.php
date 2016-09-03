@@ -17,6 +17,7 @@ use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -30,7 +31,12 @@ class StatusCommand extends AbstractCommand
         $this
             ->setName($this->getName())
             ->setDescription('View the status of a set of migrations.')
-            ->addOption('show-versions', null, InputOption::VALUE_NONE, 'This will display a list of all available migrations and their status')
+            ->addOption(
+                'show-versions',
+                null,
+                InputOption::VALUE_NONE,
+                'This will display a list of all available migrations and their status'
+            )
             ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command outputs the status of a set of migrations:
 
@@ -98,28 +104,49 @@ EOT
             'Available Migrations' => $configMap['num_available_migrations'],
             'New Migrations' => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0,
         );
+
         foreach ($info as $name => $value) {
             $this->writeInfoLine($output, $name, $value);
         }
 
-        $showVersions = $input->getOption('show-versions') ? true : false;
-        if ($showVersions === true) {
+        if ($input->getOption('show-versions')) {
             if ($migrations = $configuration->getMigrations()) {
                 $output->writeln("\n <info>==</info> Available Migration Versions\n");
+                $rows = [];
                 $migratedVersions = $configuration->getMigratedVersions();
+
                 foreach ($migrations as $version) {
                     $isMigrated = in_array($version->getVersion(), $migratedVersions);
-                    $status = $isMigrated ? '<info>migrated</info>' : '<error>not migrated</error>';
-                    $output->writeln('    <comment>>></comment> '.Configuration::formatVersion($version->getVersion()).' (<comment>'.$version->getVersion().'</comment>)'.str_repeat(' ', 30 - strlen($name)).$status);
-                }
-            }
+                    $status = '<error>not migrated</error>';
 
-            $executedUnavailableMigrations = $configuration->getUnavailableMigratedVersions();
-            if ($executedUnavailableMigrations) {
-                $output->writeln("\n <info>==</info> Previously Executed Unavailable Migration Versions\n");
-                foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
-                    $output->writeln('    <comment>>></comment> '.Configuration::formatVersion($executedUnavailableMigration).' (<comment>'.$executedUnavailableMigration.'</comment>)');
+                    if ($isMigrated) {
+                        $ts = $configuration->getMigratedTimestamp(
+                            $version->getVersion()
+                        );
+
+                        $status = sprintf(
+                            '<info>%s</info>',
+                            date('Y-m-d H:i', $ts)
+                        );
+                    }
+
+                    $versionTxt = sprintf('<comment>%s</comment>', $version->getVersion());
+                    if (!$version->getMigration()) {
+                        $e = new \Exception();
+                        print_r(str_replace('/path/to/code/', '', $e->getTraceAsString()));
+                    }
+                    $desc = $version->getMigration()->getDescription();
+                    if (strlen($desc) > 80) {
+                        $desc = substr($desc, 0, 78).'...';
+                    }
+
+                    $rows[] = [$versionTxt, $status, $desc];
                 }
+
+                $table = new Table($output);
+                $table->setHeaders(['Version', 'Date Migrated', 'Description'])
+                      ->setRows($rows)
+                      ->render();
             }
         }
     }
@@ -141,6 +168,11 @@ EOT
         );
     }
 
+    /**
+     * getName.
+     *
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
