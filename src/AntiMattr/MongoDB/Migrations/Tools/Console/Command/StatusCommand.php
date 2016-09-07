@@ -131,10 +131,6 @@ EOT
                     }
 
                     $versionTxt = sprintf('<comment>%s</comment>', $version->getVersion());
-                    if (!$version->getMigration()) {
-                        $e = new \Exception();
-                        print_r(str_replace('/path/to/code/', '', $e->getTraceAsString()));
-                    }
                     $desc = $version->getMigration()->getDescription();
                     if (strlen($desc) > 80) {
                         $desc = substr($desc, 0, 78).'...';
