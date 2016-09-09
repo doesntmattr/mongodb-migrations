@@ -112,7 +112,7 @@ EOT
         if ($input->getOption('show-versions')) {
             if ($migrations = $configuration->getMigrations()) {
                 $output->writeln("\n <info>==</info> Available Migration Versions\n");
-                $rows = [];
+                $rows = array();
                 $migratedVersions = $configuration->getMigratedVersions();
 
                 foreach ($migrations as $version) {
@@ -136,7 +136,7 @@ EOT
                         $desc = substr($desc, 0, 78).'...';
                     }
 
-                    $rows[] = [$versionTxt, $status, $desc];
+                    $rows[] = array($versionTxt, $status, $desc);
                 }
 
                 $table = new Table($output);
