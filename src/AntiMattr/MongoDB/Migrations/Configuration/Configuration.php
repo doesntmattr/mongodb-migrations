@@ -309,7 +309,7 @@ class Configuration
         $this->createMigrationCollection();
 
         $cursor = $this->getCollection()->find(
-            ['v' => $version]
+            array('v' => $version)
         );
 
         if (!$cursor->count()) {
