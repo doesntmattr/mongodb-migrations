@@ -29,10 +29,6 @@ class StatusCommandTest extends AntiMattrTestCase
         $this->outputFormatter = $this->buildMock(
             'Symfony\Component\Console\Formatter\OutputFormatterInterface'
         );
-        $this->output
-            ->method('getFormatter')
-            ->will($this->returnValue($this->outputFormatter));
-
         $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
         $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\AbstractMigration');
         $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
@@ -257,6 +253,10 @@ class StatusCommandTest extends AntiMattrTestCase
         $unavailableMigratedVersion = '20140822185744';
 
         // Expectations
+        $this->output
+            ->method('getFormatter')
+            ->will($this->returnValue($this->outputFormatter));
+
         $this->version->expects($this->exactly(2))
             ->method('getVersion')
             ->will($this->returnValue($notMigratedVersion));
