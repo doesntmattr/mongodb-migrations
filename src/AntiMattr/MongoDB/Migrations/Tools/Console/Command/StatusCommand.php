@@ -140,7 +140,7 @@ EOT
                 }
 
                 $table = new Table($output);
-                $table->setHeaders(['Version', 'Date Migrated', 'Description'])
+                $table->setHeaders(array('Version', 'Date Migrated', 'Description'))
                       ->setRows($rows)
                       ->render();
             }
