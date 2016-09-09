@@ -291,6 +291,14 @@ class StatusCommandTest extends AntiMattrTestCase
             )
         ;
         $this->config->expects($this->once())
+            ->method('getUnavailableMigratedVersions')
+            ->will(
+                $this->returnValue(
+                    array($unavailableMigratedVersion)
+                )
+            )
+        ;
+        $this->config->expects($this->once())
             ->method('getMigrations')
             ->will(
                 $this->returnValue(
@@ -431,6 +439,21 @@ class StatusCommandTest extends AntiMattrTestCase
         $this->output->expects($this->at(14))
             ->method('writeln')
             ->with("\n <info>==</info> Available Migration Versions\n")
+        ;
+
+        $this->output->expects($this->at(39))
+            ->method('writeln')
+            ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
+        ;
+        $this->output->expects($this->at(40))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '    <comment>>></comment> %s (<comment>%s</comment>)',
+                    \DateTime::createFromFormat('YmdHis', $unavailableMigratedVersion)->format('Y-m-d H:i:s'),
+                    $unavailableMigratedVersion
+                )
+            )
         ;
 
         // Run command, run.

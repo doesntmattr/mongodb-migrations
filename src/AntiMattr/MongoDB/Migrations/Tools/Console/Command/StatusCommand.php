@@ -144,6 +144,14 @@ EOT
                       ->setRows($rows)
                       ->render();
             }
+
+            $executedUnavailableMigrations = $configuration->getUnavailableMigratedVersions();
+            if ($executedUnavailableMigrations) {
+                $output->writeln("\n <info>==</info> Previously Executed Unavailable Migration Versions\n");
+                foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
+                    $output->writeln('    <comment>>></comment> '.Configuration::formatVersion($executedUnavailableMigration).' (<comment>'.$executedUnavailableMigration.'</comment>)');
+                }
+            }
         }
     }
 
