@@ -26,10 +26,20 @@ class StatusCommandTest extends AntiMattrTestCase
     {
         $this->command = new StatusCommandStub();
         $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->outputFormatter = $this->buildMock(
+            'Symfony\Component\Console\Formatter\OutputFormatterInterface'
+        );
         $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
+        $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\AbstractMigration');
         $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->version->expects($this->any())
+            ->method('getMigration')
+            ->will($this->returnValue($this->migration));
+
         $this->version2 = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->version2->expects($this->any())
+            ->method('getMigration')
+            ->will($this->returnValue($this->migration));
 
         $this->command->setMigrationConfiguration($this->config);
     }
@@ -239,16 +249,25 @@ class StatusCommandTest extends AntiMattrTestCase
         $numNewMigrations = 1;
         $notMigratedVersion = '20140822185743';
         $migratedVersion = '20140822185745';
+        $migrationDescription = 'drop all collections';
         $unavailableMigratedVersion = '20140822185744';
 
         // Expectations
-        $this->version->expects($this->exactly(3))
+        $this->output
+            ->method('getFormatter')
+            ->will($this->returnValue($this->outputFormatter));
+
+        $this->version->expects($this->exactly(2))
             ->method('getVersion')
             ->will($this->returnValue($notMigratedVersion));
 
         $this->version2->expects($this->exactly(3))
             ->method('getVersion')
             ->will($this->returnValue($migratedVersion));
+
+        $this->migration
+            ->method('getDescription')
+            ->will($this->returnValue('drop all'));
 
         $this->config->expects($this->once())
             ->method('getDetailsMap')
@@ -272,6 +291,14 @@ class StatusCommandTest extends AntiMattrTestCase
             )
         ;
         $this->config->expects($this->once())
+            ->method('getUnavailableMigratedVersions')
+            ->will(
+                $this->returnValue(
+                    array($unavailableMigratedVersion)
+                )
+            )
+        ;
+        $this->config->expects($this->once())
             ->method('getMigrations')
             ->will(
                 $this->returnValue(
@@ -287,15 +314,6 @@ class StatusCommandTest extends AntiMattrTestCase
                 )
             )
         ;
-        $this->config->expects($this->once())
-            ->method('getUnavailableMigratedVersions')
-            ->will(
-                $this->returnValue(
-                    array($unavailableMigratedVersion)
-                )
-            )
-        ;
-
         $this->output->expects($this->at(0))
             ->method('writeln')
             ->with(
@@ -422,31 +440,12 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('writeln')
             ->with("\n <info>==</info> Available Migration Versions\n")
         ;
-        $this->output->expects($this->at(15))
-            ->method('writeln')
-            ->with(
-                sprintf(
-                    '    <comment>>></comment> %s (<comment>%s</comment>)                <error>not migrated</error>',
-                    \DateTime::createFromFormat('YmdHis', $notMigratedVersion)->format('Y-m-d H:i:s'),
-                    $notMigratedVersion
-                )
-            )
-        ;
-        $this->output->expects($this->at(16))
-            ->method('writeln')
-            ->with(
-                sprintf(
-                    '    <comment>>></comment> %s (<comment>%s</comment>)                <info>migrated</info>',
-                    \DateTime::createFromFormat('YmdHis', $migratedVersion)->format('Y-m-d H:i:s'),
-                    $migratedVersion
-                )
-            )
-        ;
-        $this->output->expects($this->at(17))
+
+        $this->output->expects($this->at(39))
             ->method('writeln')
             ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
         ;
-        $this->output->expects($this->at(18))
+        $this->output->expects($this->at(40))
             ->method('writeln')
             ->with(
                 sprintf(

@@ -296,6 +296,38 @@ class Configuration
     }
 
     /**
+     * Returns the time a migration occurred.
+     *
+     * @param string $version
+     *
+     * @return string
+     *
+     * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
+     */
+    public function getMigratedTimestamp($version)
+    {
+        $this->createMigrationCollection();
+
+        $cursor = $this->getCollection()->find(
+            array('v' => $version)
+        );
+
+        if (!$cursor->count()) {
+            throw new UnknownVersionException($version);
+        }
+
+        if ($cursor->count() > 1) {
+            throw \DomainException(
+                'Unexpected duplicate version records in the database'
+            );
+        }
+
+        $returnVersion = $cursor->getNext();
+
+        return (string) $returnVersion['t'];
+    }
+
+    /**
      * Return all migrated versions from versions collection that have migration files deleted.
      *
      * @return array
