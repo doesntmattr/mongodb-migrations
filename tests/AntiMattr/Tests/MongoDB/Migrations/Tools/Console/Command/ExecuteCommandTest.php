@@ -127,7 +127,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
         );
     }
 
-    public function testExecuteReplyWithoutInteraction()
+    public function testExecuteReplayWithoutInteraction()
     {
         // Variables and Objects
         $application = new Application();

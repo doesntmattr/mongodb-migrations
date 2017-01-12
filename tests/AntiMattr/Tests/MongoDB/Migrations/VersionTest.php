@@ -233,7 +233,7 @@ class VersionTest extends AntiMattrTestCase
     /**
      * @test
      *
-     * testDownExecuteWithReplayThrowsException
+     * testExecuteDownWithReplayThrowsException
      *
      * @expectedException \AntiMattr\MongoDB\Migrations\Exception\AbortException
      */
