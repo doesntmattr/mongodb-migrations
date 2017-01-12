@@ -59,7 +59,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
 
         $this->version->expects($this->once())
             ->method('execute')
-            ->with('down')
+            ->with('down', false)
         ;
 
         // Run command, run.
@@ -117,7 +117,52 @@ class ExecuteCommandTest extends AntiMattrTestCase
 
         $this->version->expects($this->once())
             ->method('execute')
-            ->with('up')
+            ->with('up', false)
+        ;
+
+        // Run command, run.
+        $this->command->run(
+            $input,
+            $this->output
+        );
+    }
+
+    public function testExecuteReplyWithoutInteraction()
+    {
+        // Variables and Objects
+        $application = new Application();
+        $numVersion = '11235713';
+        $interactive = false;
+
+        // Arguments and Options
+        $input = new ArgvInput(
+            array(
+                'application-name',
+                ExecuteCommand::NAME,
+                $numVersion,
+                '--up',
+                '--replay',
+            )
+        );
+
+        // Set properties on objects
+        $this->command->setApplication($application);
+        $this->command->setMigrationConfiguration($this->config);
+        $input->setInteractive($interactive);
+
+        // Expectations
+        $this->config->expects($this->once())
+            ->method('getVersion')
+            ->with($numVersion)
+            ->will(
+                $this->returnValue($this->version)
+            )
+        ;
+
+        $replay = true;
+        $this->version->expects($this->once())
+            ->method('execute')
+            ->with('up', $replay)
         ;
 
         // Run command, run.
