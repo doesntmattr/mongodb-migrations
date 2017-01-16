@@ -298,7 +298,10 @@ class Version
 
         if ($replay) {
             $query = array('v' => $this->version);
-            $collection->update($query, $document);
+            // If the user asked for a 'replay' of a migration that
+            // has not been run, it will be inserted anew
+            $options = array('upsert' => true);
+            $collection->update($query, $document, $options);
         } else {
             $collection->insert($document);
         }
