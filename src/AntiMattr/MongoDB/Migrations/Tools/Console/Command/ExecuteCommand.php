@@ -33,6 +33,7 @@ class ExecuteCommand extends AbstractCommand
             ->addArgument('version', InputArgument::REQUIRED, 'The version to execute.', null)
             ->addOption('up', null, InputOption::VALUE_NONE, 'Execute the migration up.')
             ->addOption('down', null, InputOption::VALUE_NONE, 'Execute the migration down.')
+            ->addOption('replay', null, InputOption::VALUE_NONE, 'Replay an \'up\' migration and avoid the duplicate exception.')
             ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command executes a single migration version up or down manually:
 
@@ -59,12 +60,13 @@ EOT
     {
         $version = $input->getArgument('version');
         $direction = $input->getOption('down') ? 'down' : 'up';
+        $replay = $input->getOption('replay');
 
         $configuration = $this->getMigrationConfiguration($input, $output);
         $version = $configuration->getVersion($version);
 
         if (!$input->isInteractive()) {
-            $version->execute($direction);
+            $version->execute($direction, $replay);
         } else {
             $question = new ConfirmationQuestion(
                 '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
@@ -76,7 +78,7 @@ EOT
                 ->ask($input, $output, $question);
 
             if ($confirmation === true) {
-                $version->execute($direction);
+                $version->execute($direction, $replay);
             } else {
                 $output->writeln('<error>Migration cancelled!</error>');
             }

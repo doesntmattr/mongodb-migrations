@@ -14,6 +14,7 @@ namespace AntiMattr\MongoDB\Migrations;
 use AntiMattr\MongoDB\Migrations\Collection\Statistics;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
+use AntiMattr\MongoDB\Migrations\Exception\AbortException;
 use Doctrine\MongoDB\Collection;
 use Doctrine\MongoDB\Database;
 use Exception;
@@ -169,11 +170,18 @@ class Version
      * Execute this migration version up or down and and return the SQL.
      *
      * @param string $direction The direction to execute the migration
+     * @param bool   $replay    If the migration is being replayed
      *
      * @throws \Exception when migration fails
      */
-    public function execute($direction)
+    public function execute($direction, $replay = false)
     {
+        if ('down' === $direction && $replay) {
+            throw new AbortException(
+                'Cannot run \'down\' and replay it. Use replay with \'up\''
+            );
+        }
+
         try {
             $start = microtime(true);
 
@@ -194,7 +202,7 @@ class Version
             $this->updateStatisticsAfter();
 
             if ($direction === 'up') {
-                $this->markMigrated();
+                $this->markMigrated($replay);
             } else {
                 $this->markNotMigrated();
             }
@@ -276,13 +284,27 @@ class Version
         return $result;
     }
 
-    public function markMigrated()
+    /**
+     * markMigrated.
+     *
+     * @param bool $replay This is a replayed migration, do an update instead of an insert
+     */
+    public function markMigrated($replay = false)
     {
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
 
         $document = array('v' => $this->version, 't' => $this->createMongoTimestamp());
-        $collection->insert($document);
+
+        if ($replay) {
+            $query = array('v' => $this->version);
+            // If the user asked for a 'replay' of a migration that
+            // has not been run, it will be inserted anew
+            $options = array('upsert' => true);
+            $collection->update($query, $document, $options);
+        } else {
+            $collection->insert($document);
+        }
     }
 
     public function markNotMigrated()

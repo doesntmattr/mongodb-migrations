@@ -47,9 +47,9 @@ class VersionTest extends AntiMattrTestCase
 
     public function testConstructor()
     {
-        $this->assertEquals($this->configuration, $this->version->getConfiguration());
-        $this->assertEquals(Version::STATE_NONE, $this->version->getState());
-        $this->assertEquals($this->versionName, $this->version->getVersion());
+        $this->assertSame($this->configuration, $this->version->getConfiguration());
+        $this->assertSame(Version::STATE_NONE, $this->version->getState());
+        $this->assertSame($this->versionName, $this->version->getVersion());
         $this->assertEquals($this->versionName, (string) $this->version);
         $this->assertNotNull($this->version->getMigration());
     }
@@ -120,6 +120,36 @@ class VersionTest extends AntiMattrTestCase
             ->with($insert);
 
         $this->version->markMigrated();
+    }
+
+    public function testMarkMigratedWithReplay()
+    {
+        $timestamp = $this->buildMock('MongoTimestamp');
+        $this->version->setTimestamp($timestamp);
+
+        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $this->configuration->expects($this->once())
+            ->method('createMigrationCollection');
+
+        $this->configuration->expects($this->once())
+            ->method('getCollection')
+            ->will($this->returnValue($collection));
+
+        $query = array(
+            'v' => $this->versionName,
+        );
+
+        $update = array(
+            'v' => $this->versionName,
+            't' => $timestamp,
+        );
+
+        $collection->expects($this->once())
+            ->method('update')
+            ->with($query, $update);
+
+        $replay = true;
+        $this->version->markMigrated($replay);
     }
 
     public function testMarkNotMigrated()
@@ -201,11 +231,31 @@ class VersionTest extends AntiMattrTestCase
     }
 
     /**
+     * @test
+     *
+     * testExecuteDownWithReplayThrowsException
+     *
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\AbortException
+     */
+    public function testExecuteDownWithReplayThrowsException()
+    {
+        // These methods will not be called
+        $this->migration->expects($this->never())->method('down');
+        $this->configuration->expects($this->never())
+            ->method('createMigrationCollection');
+        $this->configuration->expects($this->never())
+            ->method('getCollection');
+
+        $replay = true;
+        $this->version->execute('down', $replay);
+    }
+
+    /**
      * @dataProvider provideDirection
      */
     public function testExecuteThrowsSkipException($direction)
     {
-        $expectedException = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\SkipException');
+        $expectedException = new \AntiMattr\MongoDB\Migrations\Exception\SkipException();
 
         $this->migration->expects($this->once())
             ->method($direction)
