@@ -1,5 +1,5 @@
 {
-    "name": "w473/mongodb-migrations",
+    "name": "doesntmattr/mongodb-migrations",
     "type": "library",
     "description": "Managed Database Migrations for MongoDB",
     "keywords": ["antimattr", "database", "doctrine", "migration", "mongodb"],
