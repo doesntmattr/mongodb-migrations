@@ -40,10 +40,5 @@
     },
     "archive": {
         "exclude": ["bin", "demo", "tests", "*phpunit.xml"]
-    },
-    "config": {
-        "platform": {
-            "ext-mongo": "1.6.16"
-        }
     }
 }
