@@ -343,3 +343,8 @@ Don't have the pre-commit hook running, please make sure to run the fixer/sniffe
 $ vendor/bin/php-cs-fixer fix src/
 $ vendor/bin/php-cs-fixer fix tests/
 ```
+
+PHP 7
+-----
+Please run before:
+composer require alcaeus/mongo-php-adapter
