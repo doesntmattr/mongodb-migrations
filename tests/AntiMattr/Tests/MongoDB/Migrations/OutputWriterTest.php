@@ -11,7 +11,7 @@ class OutputWriterTest extends AntiMattrTestCase
 
     protected function setUp()
     {
-        $this->output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
         $output = $this->output;
         $this->outputWriter = new OutputWriter(function ($message) use ($output) {
             return $output->writeln($message);

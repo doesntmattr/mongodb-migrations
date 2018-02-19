@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "antimattr/test-case": "~1.0@stable",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "^5.0",
         "friendsofphp/php-cs-fixer": "^1.0",
         "mikey179/vfsStream": "1.*"
     },
