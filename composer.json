@@ -25,12 +25,16 @@
         "mikey179/vfsStream": "1.*"
     },
     "autoload": {
-        "psr-0": { "AntiMattr\\MongoDB\\Migrations\\": "src/" }
+        "psr-4": {
+            "AntiMattr\\": "src/AntiMattr"
+        }
     },
     "autoload-dev": {
-        "psr-0": {
-            "AntiMattr\\TestCase\\": "vendor/antimattr/test-case/src",
-            "AntiMattr\\Tests\\MongoDB\\Migrations\\": "tests/"
+        "psr-4": {
+            "AntiMattr\\": [
+                "vendor/antimattr/test-case/src/AntiMattr",
+                "tests/AntiMattr"
+            ]
         }
     },
     "extra": {
