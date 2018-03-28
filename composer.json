@@ -21,6 +21,7 @@
     "require-dev": {
         "antimattr/test-case": "~1.0@stable",
         "phpunit/phpunit": "^5.0",
+        "phpunit/phpunit-mock-objects": ">=3.0.4",
         "friendsofphp/php-cs-fixer": "^2.0",
         "mikey179/vfsStream": "1.*"
     },
