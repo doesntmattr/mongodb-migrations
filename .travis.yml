@@ -10,7 +10,6 @@ matrix:
     # Test the latest
     - php: 7.1
     - php: 7.2
-    - php: nightly
 
     # Test with the lowest deps
     - php: 7.2
@@ -18,7 +17,7 @@ matrix:
 
 before_script:
   # Not using code coverage
-  - if [[ ${TRAVIS_PHP_VERSION} != "nightly" ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
   - pecl install -f mongodb-stable
   - composer config "platform.ext-mongo" "1.6.16"
   - composer self-update
