@@ -18,7 +18,7 @@ matrix:
 
 before_script:
   # Not using code coverage
-  - phpenv config-rm xdebug.ini
+  - if [[ ${TRAVIS_PHP_VERSION} != "nightly" ]]; then phpenv config-rm xdebug.ini; fi
   - pecl install -f mongodb-stable
   - composer config "platform.ext-mongo" "1.6.16"
   - composer self-update
