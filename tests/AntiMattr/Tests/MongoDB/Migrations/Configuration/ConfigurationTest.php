@@ -269,7 +269,7 @@ class ConfigurationTest extends AntiMattrTestCase
     public function testValidate()
     {
         $this->prepareValidConfiguration();
-        $this->configuration->validate();
+        self::assertNull($this->configuration->validate());
     }
 
     private function prepareValidConfiguration()
