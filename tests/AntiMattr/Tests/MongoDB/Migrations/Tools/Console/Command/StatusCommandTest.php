@@ -445,28 +445,21 @@ class StatusCommandTest extends AntiMattrTestCase
             ->with("\n <info>==</info> Available Migration Versions\n")
         ;
 
-        $isLowest = false;
-        if (class_exists('\PHPUnit_Runner_Version')) {
-            $isLowest = '5.0.0' ===  \PHPUnit_Runner_Version::id();
-        }
+        $this->output->expects($this->at(39))
+            ->method('writeln')
+            ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
+        ;
 
-        if (!$isLowest) {
-            $this->output->expects($this->at(39))
-                ->method('writeln')
-                ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
-            ;
-
-            $this->output->expects($this->at(40))
-                ->method('writeln')
-                ->with(
-                    sprintf(
-                        '    <comment>>></comment> %s (<comment>%s</comment>)',
-                        \DateTime::createFromFormat('YmdHis', $unavailableMigratedVersion)->format('Y-m-d H:i:s'),
-                        $unavailableMigratedVersion
-                    )
+        $this->output->expects($this->at(40))
+            ->method('writeln')
+            ->with(
+                sprintf(
+                    '    <comment>>></comment> %s (<comment>%s</comment>)',
+                    \DateTime::createFromFormat('YmdHis', $unavailableMigratedVersion)->format('Y-m-d H:i:s'),
+                    $unavailableMigratedVersion
                 )
-            ;
-        }
+            )
+        ;
 
         // Run command, run.
         $this->command->run(
