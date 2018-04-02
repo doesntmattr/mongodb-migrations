@@ -20,27 +20,26 @@ class Version20140822185742 extends AbstractMigration
         $testA = $db->selectCollection('test_a');
         $this->analyze($testA);
 
-        $testA->ensureIndex(array('actor' => -1));
+        $testA->ensureIndex(['actor' => -1]);
     }
 
     public function down(Database $db)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 
     /**
-	 * This preUp is not required
-	 * I use it to demonstrate the analyzer
-	 */
+     * This preUp is not required
+     * I use it to demonstrate the analyzer.
+     */
     public function preUp(Database $db)
     {
         $testA = $db->selectCollection('test_a');
 
-        $testDocuments = array();
+        $testDocuments = [];
 
-        for ($i = 0; $i < 100; $i++) {
-            $testDocument = array();
+        for ($i = 0; $i < 100; ++$i) {
+            $testDocument = [];
             $testDocument['iteration'] = $i;
             $testDocument['actor'] = $this->generateRandomString();
             $testDocument['object'] = $this->generateRandomString();
@@ -53,9 +52,9 @@ class Version20140822185742 extends AbstractMigration
     }
 
     /**
-	 * This postUp is not required
-	 * I use it to demonstrate the analyzer
-	 */
+     * This postUp is not required
+     * I use it to demonstrate the analyzer.
+     */
     public function postUp(Database $db)
     {
         $testA = $db->selectCollection('test_a');
@@ -67,7 +66,7 @@ class Version20140822185742 extends AbstractMigration
         $length = rand(10, 50);
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
 

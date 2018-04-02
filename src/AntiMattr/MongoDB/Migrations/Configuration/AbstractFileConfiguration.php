@@ -55,7 +55,7 @@ abstract class AbstractFileConfiguration extends Configuration
     protected function getDirectoryRelativeToFile($file, $input)
     {
         $path = realpath(dirname($file).'/'.$input);
-        if ($path !== false) {
+        if (false !== $path) {
             $directory = $path;
         } else {
             $directory = $input;

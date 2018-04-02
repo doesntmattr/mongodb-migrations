@@ -21,12 +21,10 @@ class Version20140822185744 extends AbstractMigration
     public function up(Database $db)
     {
         // this up() migration is auto-generated, please modify it to your needs
-
     }
 
     public function down(Database $db)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

@@ -105,18 +105,18 @@ EOT
      */
     protected function generateMigration(Configuration $configuration, InputInterface $input, $version, $up = null, $down = null)
     {
-        $placeHolders = array(
+        $placeHolders = [
             '<namespace>',
             '<version>',
             '<up>',
             '<down>',
-        );
-        $replacements = array(
+        ];
+        $replacements = [
             $configuration->getMigrationsNamespace(),
             $version,
             $up ? '        '.implode("\n        ", explode("\n", $up)) : null,
             $down ? '        '.implode("\n        ", explode("\n", $down)) : null,
-        );
+        ];
         $code = str_replace($placeHolders, $replacements, self::$_template);
 
         $dir = $this->getDirectory($configuration);

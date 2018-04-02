@@ -11,7 +11,6 @@
 
 namespace AntiMattr\MongoDB\Migrations;
 
-use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Exception\AbortException;
 use AntiMattr\MongoDB\Migrations\Exception\IrreversibleException;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
@@ -65,7 +64,9 @@ abstract class AbstractMigration
      * @return string
      */
     abstract public function getDescription();
+
     abstract public function up(Database $db);
+
     abstract public function down(Database $db);
 
     /**
@@ -100,7 +101,7 @@ abstract class AbstractMigration
      */
     protected function throwIrreversibleMigrationException($message = null)
     {
-        if ($message === null) {
+        if (null === $message) {
             $message = 'This migration is irreversible and cannot be reverted.';
         }
         throw new IrreversibleException($message);
@@ -116,7 +117,7 @@ abstract class AbstractMigration
     {
         $message = (strlen($message)) ? $message : 'Unknown Reason';
 
-        if ($condition === true) {
+        if (true === $condition) {
             $this->outputWriter->write('    <warning>Warning during '.$this->version->getExecutionState().': '.$message.'</warning>');
         }
     }
@@ -133,7 +134,7 @@ abstract class AbstractMigration
     {
         $message = (strlen($message)) ? $message : 'Unknown Reason';
 
-        if ($condition === true) {
+        if (true === $condition) {
             throw new AbortException($message);
         }
     }
@@ -150,7 +151,7 @@ abstract class AbstractMigration
     {
         $message = (strlen($message)) ? $message : 'Unknown Reason';
 
-        if ($condition === true) {
+        if (true === $condition) {
             throw new SkipException($message);
         }
     }

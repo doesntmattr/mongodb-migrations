@@ -89,7 +89,7 @@ EOT
         $numExecutedUnavailableMigrations = $configMap['num_executed_unavailable_migrations'];
         $numNewMigrations = $configMap['num_new_migrations'];
 
-        $info = array(
+        $info = [
             'Name' => $configMap['name'],
             'Database Driver' => $configMap['database_driver'],
             'Database Name' => $configMap['migrations_database_name'],
@@ -103,7 +103,7 @@ EOT
             'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations > 0 ? '<error>'.$numExecutedUnavailableMigrations.'</error>' : 0,
             'Available Migrations' => $configMap['num_available_migrations'],
             'New Migrations' => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0,
-        );
+        ];
 
         foreach ($info as $name => $value) {
             $this->writeInfoLine($output, $name, $value);
@@ -112,7 +112,7 @@ EOT
         if ($input->getOption('show-versions')) {
             if ($migrations = $configuration->getMigrations()) {
                 $output->writeln("\n <info>==</info> Available Migration Versions\n");
-                $rows = array();
+                $rows = [];
                 $migratedVersions = $configuration->getMigratedVersions();
 
                 foreach ($migrations as $version) {
@@ -136,11 +136,11 @@ EOT
                         $desc = substr($desc, 0, 78).'...';
                     }
 
-                    $rows[] = array($versionTxt, $status, $desc);
+                    $rows[] = [$versionTxt, $status, $desc];
                 }
 
                 $table = new Table($output);
-                $table->setHeaders(array('Version', 'Date Migrated', 'Description'))
+                $table->setHeaders(['Version', 'Date Migrated', 'Description'])
                       ->setRows($rows)
                       ->render();
             }

@@ -67,7 +67,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $cursor = $this->buildMock('MongoCursor');
 
-        $in = array('v' => array('$in' => array('20140822185742', '20140822185743', '20140822185744')));
+        $in = ['v' => ['$in' => ['20140822185742', '20140822185743', '20140822185744']]];
 
         $collection->expects($this->once())
             ->method('find')
@@ -76,7 +76,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $cursor->expects($this->once())
             ->method('sort')
-            ->with(array('v' => -1))
+            ->with(['v' => -1])
             ->will($this->returnValue($cursor));
 
         $cursor->expects($this->once())
@@ -86,7 +86,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $cursor->expects($this->once())
             ->method('getNext')
-            ->will($this->returnValue(array('v' => '20140822185743')));
+            ->will($this->returnValue(['v' => '20140822185743']));
 
         $version = $this->configuration->getCurrentVersion();
 
@@ -125,15 +125,15 @@ class ConfigurationTest extends AntiMattrTestCase
             ->with('antimattr_migration_versions_test')
             ->will($this->returnValue($collection));
 
-        $foundVersions = array(
-            array('v' => 'found1'),
-            array('v' => 'found2'),
-        );
+        $foundVersions = [
+            ['v' => 'found1'],
+            ['v' => 'found2'],
+        ];
 
-        $expectedVersions = array(
+        $expectedVersions = [
             'found1',
             'found2',
-        );
+        ];
 
         $collection->expects($this->once())
             ->method('find')
@@ -191,7 +191,7 @@ class ConfigurationTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
      */
     public function testGetVersionThrowsUnknownVersionException()
     {
@@ -230,12 +230,12 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $collection->expects($this->at(1))
             ->method('findOne')
-            ->with(array('v' => 'found'))
+            ->with(['v' => 'found'])
             ->will($this->returnValue('foo'));
 
         $collection->expects($this->at(2))
             ->method('findOne')
-            ->with(array('v' => 'found2'))
+            ->with(['v' => 'found2'])
             ->will($this->returnValue(null));
 
         $this->assertTrue($this->configuration->hasVersionMigrated($version1));
@@ -243,7 +243,7 @@ class ConfigurationTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException AntiMattr\MongoDB\Migrations\Exception\ConfigurationValidationException
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\ConfigurationValidationException
      */
     public function testValidateThrowsConfigurationValidationException()
     {
@@ -254,16 +254,16 @@ class ConfigurationTest extends AntiMattrTestCase
     {
         $configuration = $this->getMockBuilder('AntiMattr\MongoDB\Migrations\Configuration\Configuration')
             ->disableOriginalConstructor()
-            ->setMethods(array('getMigratedVersions', 'getAvailableVersions'))
+            ->setMethods(['getMigratedVersions', 'getAvailableVersions'])
             ->getMock();
         $configuration->expects($this->once())
             ->method('getMigratedVersions')
-            ->will($this->returnValue(array('1', '2')));
+            ->will($this->returnValue(['1', '2']));
         $configuration->expects($this->once())
             ->method('getAvailableVersions')
-            ->will($this->returnValue(array('2', '3')));
+            ->will($this->returnValue(['2', '3']));
 
-        $this->assertEquals(array('1'), $configuration->getUnavailableMigratedVersions());
+        $this->assertEquals(['1'], $configuration->getUnavailableMigratedVersions());
     }
 
     public function testValidate()

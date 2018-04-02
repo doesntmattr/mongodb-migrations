@@ -60,7 +60,7 @@ EOT
         $configuration = $this->getMigrationConfiguration($input, $output);
         $migration = $this->createMigration($configuration);
 
-        if ($input->getOption('add') === false && $input->getOption('delete') === false) {
+        if (false === $input->getOption('add') && false === $input->getOption('delete')) {
             throw new \InvalidArgumentException('You must specify whether you want to --add or --delete the specified version.');
         }
 

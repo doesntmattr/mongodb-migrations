@@ -24,7 +24,7 @@ class MigrationTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
      */
     public function testMigrateThrowsUnknownVersionException()
     {
@@ -37,9 +37,9 @@ class MigrationTest extends AntiMattrTestCase
             ->method('getCurrentVersion')
             ->will($this->returnValue('1'));
 
-        $expectedMigrations = array(
+        $expectedMigrations = [
             '1' => 'foo',
-        );
+        ];
 
         $this->configuration->expects($this->once())
             ->method('getMigrations')
@@ -52,7 +52,7 @@ class MigrationTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException
      */
     public function testMigrateButNoMigrationsFound()
     {
@@ -60,11 +60,11 @@ class MigrationTest extends AntiMattrTestCase
             ->method('getCurrentVersion')
             ->will($this->returnValue('1'));
 
-        $expectedMigrations = array(
+        $expectedMigrations = [
             '0' => 'foo',
             '1' => 'foo',
             '2' => 'foo',
-        );
+        ];
 
         $this->configuration->expects($this->once())
             ->method('getMigrations')
@@ -86,11 +86,11 @@ class MigrationTest extends AntiMattrTestCase
             ->method('getCurrentVersion')
             ->will($this->returnValue('1'));
 
-        $expectedMigrations = array(
+        $expectedMigrations = [
             '0' => 'foo',
             '1' => 'foo',
             '2' => 'foo',
-        );
+        ];
 
         $this->configuration->expects($this->once())
             ->method('getMigrations')
@@ -100,7 +100,7 @@ class MigrationTest extends AntiMattrTestCase
 
         $this->configuration->expects($this->once())
             ->method('getMigrationsToExecute')
-            ->will($this->returnValue(array('2' => $version)));
+            ->will($this->returnValue(['2' => $version]));
 
         $this->outputWriter->expects($this->exactly(4))
             ->method('write');

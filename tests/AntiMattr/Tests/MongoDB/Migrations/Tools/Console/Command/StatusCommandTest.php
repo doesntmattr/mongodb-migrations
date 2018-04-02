@@ -47,16 +47,16 @@ class StatusCommandTest extends AntiMattrTestCase
     public function testExecuteWithoutShowingVersions()
     {
         $input = new ArgvInput(
-            array(
+            [
                 StatusCommand::NAME,
-            )
+            ]
         );
 
-        $configValues = array(
+        $configValues = [
             'name' => 'config-name',
             'migrationsDatabaseName' => 'database-name',
             'migrationsCollectionName' => 'collection-name',
-        );
+        ];
         $configName = 'config-name';
         $databaseDriver = 'MongoDB';
         $migrationsDatabaseName = ' migrations-database-name';
@@ -67,8 +67,8 @@ class StatusCommandTest extends AntiMattrTestCase
         $currentVersionFormatted = 'abcdefghijk (<comment>abcdefghijk</comment>)';
         $latestVersion = '1234567890';
         $latestVersionFormatted = '1234567890 (<comment>1234567890</comment>)';
-        $executedMigrations = array();
-        $availableMigrations = array();
+        $executedMigrations = [];
+        $availableMigrations = [];
         $numExecutedMigrations = 0;
         $numExecutedUnavailableMigrations = 0;
         $numAvailableMigrations = 0;
@@ -79,7 +79,7 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('getDetailsMap')
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'name' => $configName,
                         'database_driver' => $databaseDriver,
                         'migrations_database_name' => $migrationsDatabaseName,
@@ -92,7 +92,7 @@ class StatusCommandTest extends AntiMattrTestCase
                         'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
                         'num_available_migrations' => $numAvailableMigrations,
                         'num_new_migrations' => $numNewMigrations,
-                    )
+                    ]
                 )
             )
         ;
@@ -229,10 +229,10 @@ class StatusCommandTest extends AntiMattrTestCase
     public function testExecuteWithShowingVersions()
     {
         $input = new ArgvInput(
-            array(
+            [
                 StatusCommand::NAME,
                 '--show-versions',
-            )
+            ]
         );
 
         $configName = 'config-name';
@@ -273,7 +273,7 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('getDetailsMap')
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'name' => $configName,
                         'database_driver' => $databaseDriver,
                         'migrations_database_name' => $migrationsDatabaseName,
@@ -286,7 +286,7 @@ class StatusCommandTest extends AntiMattrTestCase
                         'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
                         'num_available_migrations' => $numAvailableMigrations,
                         'num_new_migrations' => $numNewMigrations,
-                    )
+                    ]
                 )
             )
         ;
@@ -294,7 +294,7 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('getUnavailableMigratedVersions')
             ->will(
                 $this->returnValue(
-                    array($unavailableMigratedVersion)
+                    [$unavailableMigratedVersion]
                 )
             )
         ;
@@ -302,7 +302,7 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('getMigrations')
             ->will(
                 $this->returnValue(
-                    array($this->version, $this->version2)
+                    [$this->version, $this->version2]
                 )
             )
         ;
@@ -310,7 +310,7 @@ class StatusCommandTest extends AntiMattrTestCase
             ->method('getMigratedVersions')
             ->will(
                 $this->returnValue(
-                    array($unavailableMigratedVersion, $migratedVersion)
+                    [$unavailableMigratedVersion, $migratedVersion]
                 )
             )
         ;

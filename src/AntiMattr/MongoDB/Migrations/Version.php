@@ -65,7 +65,7 @@ class Version
     /**
      * @var AntiMattr\MongoDB\Migrations\Collection\Statistics[]
      */
-    private $statistics = array();
+    private $statistics = [];
 
     /**
      * @var int
@@ -189,7 +189,7 @@ class Version
 
             $this->migration->{'pre'.ucfirst($direction)}($this->db);
 
-            if ($direction === 'up') {
+            if ('up' === $direction) {
                 $this->outputWriter->write("\n".sprintf('  <info>++</info> migrating <comment>%s</comment>', $this->version)."\n");
             } else {
                 $this->outputWriter->write("\n".sprintf('  <info>--</info> reverting <comment>%s</comment>', $this->version)."\n");
@@ -201,7 +201,7 @@ class Version
 
             $this->updateStatisticsAfter();
 
-            if ($direction === 'up') {
+            if ('up' === $direction) {
                 $this->markMigrated($replay);
             } else {
                 $this->markNotMigrated();
@@ -214,7 +214,7 @@ class Version
 
             $end = microtime(true);
             $this->time = round($end - $start, 2);
-            if ($direction === 'up') {
+            if ('up' === $direction) {
                 $this->outputWriter->write(sprintf("\n  <info>++</info> migrated (%ss)", $this->time));
             } else {
                 $this->outputWriter->write(sprintf("\n  <info>--</info> reverted (%ss)", $this->time));
@@ -222,15 +222,14 @@ class Version
 
             $this->state = self::STATE_NONE;
         } catch (SkipException $e) {
-
             // now mark it as migrated
-            if ($direction === 'up') {
+            if ('up' === $direction) {
                 $this->markMigrated();
             } else {
                 $this->markNotMigrated();
             }
 
-            $this->outputWriter->write(sprintf("\n  <info>SS</info> skipped (Reason: %s)",  $e->getMessage()));
+            $this->outputWriter->write(sprintf("\n  <info>SS</info> skipped (Reason: %s)", $e->getMessage()));
 
             $this->state = self::STATE_NONE;
         } catch (\Exception $e) {
@@ -275,7 +274,7 @@ class Version
             throw $e;
         }
 
-        $result = $db->command(array('$eval' => $js, 'nolock' => true));
+        $result = $db->command(['$eval' => $js, 'nolock' => true]);
 
         if (isset($result['errmsg'])) {
             throw new \Exception($result['errmsg'], isset($result['errno']) ? $result['errno'] : null);
@@ -294,13 +293,13 @@ class Version
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
 
-        $document = array('v' => $this->version, 't' => $this->createMongoTimestamp());
+        $document = ['v' => $this->version, 't' => $this->createMongoTimestamp()];
 
         if ($replay) {
-            $query = array('v' => $this->version);
+            $query = ['v' => $this->version];
             // If the user asked for a 'replay' of a migration that
             // has not been run, it will be inserted anew
-            $options = array('upsert' => true);
+            $options = ['upsert' => true];
             $collection->update($query, $document, $options);
         } else {
             $collection->insert($document);
@@ -311,7 +310,7 @@ class Version
     {
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
-        $collection->remove(array('v' => $this->version));
+        $collection->remove(['v' => $this->version]);
     }
 
     protected function updateStatisticsAfter()

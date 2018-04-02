@@ -23,7 +23,7 @@ class StatisticsTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testGetCollectionStatsThrowsExceptionWhenDataNotFound()
     {
@@ -44,7 +44,7 @@ class StatisticsTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testGetCollectionStatsThrowsExceptionWhenErrmsgFound()
     {
@@ -61,9 +61,9 @@ class StatisticsTest extends AntiMattrTestCase
             ->method('getName')
             ->will($this->returnValue('example'));
 
-        $data = array(
+        $data = [
             'errmsg' => 'foo',
-        );
+        ];
 
         $database->expects($this->once())
             ->method('command')
@@ -87,9 +87,9 @@ class StatisticsTest extends AntiMattrTestCase
             ->method('getName')
             ->will($this->returnValue('example'));
 
-        $expectedData = array(
+        $expectedData = [
             'count' => 100,
-        );
+        ];
 
         $database->expects($this->once())
             ->method('command')

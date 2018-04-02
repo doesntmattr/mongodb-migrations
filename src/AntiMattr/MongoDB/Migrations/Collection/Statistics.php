@@ -29,7 +29,7 @@ class Statistics
     const PADDING_FACTOR = 'paddingFactor';
     const TOTAL_INDEX_SIZE = 'totalIndexSize';
 
-    public static $metrics = array(
+    public static $metrics = [
         self::COUNT,
         self::SIZE,
         self::AVG_OBJ_SIZE,
@@ -39,7 +39,7 @@ class Statistics
         self::LAST_EXTENT_SIZE,
         self::PADDING_FACTOR,
         self::TOTAL_INDEX_SIZE,
-    );
+    ];
 
     /**
      * @var Doctrine\MongoDB\Collection
@@ -49,12 +49,12 @@ class Statistics
     /**
      * @var array
      */
-    private $before = array();
+    private $before = [];
 
     /**
      * @var array
      */
-    private $after = array();
+    private $after = [];
 
     /**
      * @param Doctrine\MongoDB\Collection
@@ -119,7 +119,7 @@ class Statistics
         $name = $this->collection->getName();
 
         try {
-            if (!$data = $database->command(array('collStats' => $name))) {
+            if (!$data = $database->command(['collStats' => $name])) {
                 $message = sprintf(
                     'Statistics not found for collection %s',
                     $name
@@ -135,6 +135,6 @@ class Statistics
             throw $e;
         }
 
-        return array();
+        return [];
     }
 }

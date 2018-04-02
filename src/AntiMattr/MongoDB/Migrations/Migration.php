@@ -53,7 +53,7 @@ class Migration
      */
     public function migrate($to = null)
     {
-        if ($to === null) {
+        if (null === $to) {
             $to = $this->configuration->getLatestVersion();
         }
 

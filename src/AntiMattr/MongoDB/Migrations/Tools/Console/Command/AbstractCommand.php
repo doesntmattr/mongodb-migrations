@@ -98,7 +98,7 @@ abstract class AbstractCommand extends Command
             if ($input->getOption('configuration')) {
                 $info = pathinfo($input->getOption('configuration'));
                 $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
-                $class = $info['extension'] === 'xml' ? 'XmlConfiguration' : 'YamlConfiguration';
+                $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
                 $class = sprintf('%s\%s', $namespace, $class);
                 $configuration = new $class($conn, $outputWriter);
                 $configuration->load($input->getOption('configuration'));
@@ -139,7 +139,7 @@ abstract class AbstractCommand extends Command
             $database
         );
 
-        $options = array();
+        $options = [];
         if (!empty($params['options'])) {
             $options = $params['options'];
         }
