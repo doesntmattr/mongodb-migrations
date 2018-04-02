@@ -12,9 +12,9 @@
 namespace AntiMattr\TestCase;
 
 use DateTime;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-abstract class AntiMattrTestCase extends PHPUnit_Framework_TestCase
+abstract class AntiMattrTestCase extends TestCase
 {
     protected function buildMock($class)
     {

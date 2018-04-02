@@ -20,10 +20,7 @@
         "alcaeus/mongo-php-adapter": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.0",
-        "phpunit/phpunit-mock-objects": ">=3.0.4",
-        "sebastian/version": ">=1.0.3",
-        "sebastian/comparator": ">=1.2.3",
+        "phpunit/phpunit": "^7.0",
         "friendsofphp/php-cs-fixer": "^2.0",
         "mikey179/vfsStream": "1.*"
     },
