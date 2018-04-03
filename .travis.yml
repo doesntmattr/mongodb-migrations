@@ -7,11 +7,11 @@ cache:
 
 matrix:
   include:
-    # Test the latest
+    # Test the latest dependencies
     - php: 7.1
     - php: 7.2
 
-    # Test with the lowest deps
+    # Test with the lowest dependencies
     - php: 7.2
       env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest --prefer-dist"
 
