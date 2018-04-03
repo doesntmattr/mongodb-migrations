@@ -30,7 +30,7 @@ abstract class AntiMattrTestCase extends TestCase
      */
     protected function createDateTime($time = null)
     {
-        $time = $time ? : 'now';
+        $time = $time ?: 'now';
 
         return new DateTime($time);
     }

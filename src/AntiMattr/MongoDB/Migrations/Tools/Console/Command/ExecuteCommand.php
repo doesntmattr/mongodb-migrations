@@ -77,7 +77,7 @@ EOT
                 ->getHelper('question')
                 ->ask($input, $output, $question);
 
-            if ($confirmation === true) {
+            if (true === $confirmation) {
                 $version->execute($direction, $replay);
             } else {
                 $output->writeln('<error>Migration cancelled!</error>');

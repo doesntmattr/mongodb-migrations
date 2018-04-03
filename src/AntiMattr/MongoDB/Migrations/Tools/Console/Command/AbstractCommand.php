@@ -50,10 +50,10 @@ abstract class AbstractCommand extends Command
     {
         $name = $configuration->getName();
         $name = $name ? $name : 'AntiMattr Database Migrations';
-        $name = str_repeat(' ', 20).$name.str_repeat(' ', 20);
-        $output->writeln('<question>'.str_repeat(' ', strlen($name)).'</question>');
-        $output->writeln('<question>'.$name.'</question>');
-        $output->writeln('<question>'.str_repeat(' ', strlen($name)).'</question>');
+        $name = str_repeat(' ', 20) . $name . str_repeat(' ', 20);
+        $output->writeln('<question>' . str_repeat(' ', strlen($name)) . '</question>');
+        $output->writeln('<question>' . $name . '</question>');
+        $output->writeln('<question>' . str_repeat(' ', strlen($name)) . '</question>');
         $output->writeln('');
     }
 
@@ -98,7 +98,7 @@ abstract class AbstractCommand extends Command
             if ($input->getOption('configuration')) {
                 $info = pathinfo($input->getOption('configuration'));
                 $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
-                $class = $info['extension'] === 'xml' ? 'XmlConfiguration' : 'YamlConfiguration';
+                $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
                 $class = sprintf('%s\%s', $namespace, $class);
                 $configuration = new $class($conn, $outputWriter);
                 $configuration->load($input->getOption('configuration'));
@@ -120,15 +120,15 @@ abstract class AbstractCommand extends Command
     {
         $credentials = '';
         if (isset($params['password'])) {
-            $credentials = ':'.$params['password'];
+            $credentials = ':' . $params['password'];
         }
         if (isset($params['user'])) {
-            $credentials = $params['user'].$credentials.'@';
+            $credentials = $params['user'] . $credentials . '@';
         }
 
         $database = '';
         if (isset($params['dbname'])) {
-            $database = '/'.$params['dbname'];
+            $database = '/' . $params['dbname'];
         }
 
         $server = sprintf(
@@ -139,7 +139,7 @@ abstract class AbstractCommand extends Command
             $database
         );
 
-        $options = array();
+        $options = [];
         if (!empty($params['options'])) {
             $options = $params['options'];
         }

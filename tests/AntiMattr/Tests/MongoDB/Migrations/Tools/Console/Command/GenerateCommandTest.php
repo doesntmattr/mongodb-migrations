@@ -36,15 +36,15 @@ class GenerateCommandTest extends AntiMattrTestCase
         $root = vfsStream::setup(
             'Base', // rootDir
             null,   // permissions
-            array(  // structure
-                'Migrations' => array(),
-            )
+            [  // structure
+                'Migrations' => [],
+            ]
         );
 
         $input = new ArgvInput(
-            array(
+            [
                 GenerateCommand::NAME,
-            )
+            ]
         );
 
         // Expectations
@@ -76,7 +76,7 @@ class GenerateCommandTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExecuteWithInvalidMigrationDirectory()
     {
@@ -86,9 +86,9 @@ class GenerateCommandTest extends AntiMattrTestCase
         $root = vfsStream::setup('Base');
 
         $input = new ArgvInput(
-            array(
+            [
                 GenerateCommand::NAME,
-            )
+            ]
         );
 
         // Expectations

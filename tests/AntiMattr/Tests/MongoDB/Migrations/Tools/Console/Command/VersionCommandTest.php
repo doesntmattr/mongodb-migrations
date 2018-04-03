@@ -39,10 +39,10 @@ class VersionCommandTest extends AntiMattrTestCase
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
-            )
+            ]
         );
 
         // Run command, run.
@@ -53,21 +53,21 @@ class VersionCommandTest extends AntiMattrTestCase
     }
 
     /**
-     * @expectedException AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
+     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException
      */
     public function testUnknownVersionException()
     {
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
                 '--add',
-            )
+            ]
         );
 
-         // Expectations
+        // Expectations
         $this->config->expects($this->once())
             ->method('hasVersion')
             ->with($numVersion)
@@ -88,11 +88,11 @@ class VersionCommandTest extends AntiMattrTestCase
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
                 '--add',
-            )
+            ]
         );
 
         // Expectations
@@ -136,11 +136,11 @@ class VersionCommandTest extends AntiMattrTestCase
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
                 '--delete',
-            )
+            ]
         );
 
         // Expectations
@@ -187,11 +187,11 @@ class VersionCommandTest extends AntiMattrTestCase
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
                 '--delete',
-            )
+            ]
         );
 
         // Expectations
@@ -234,11 +234,11 @@ class VersionCommandTest extends AntiMattrTestCase
         // Variables and objects
         $numVersion = '123456789012';
         $input = new ArgvInput(
-            array(
+            [
                 VersionCommand::NAME,
                 $numVersion,
                 '--add',
-            )
+            ]
         );
 
         // Expectations
@@ -282,6 +282,7 @@ class VersionCommandStub extends VersionCommand
     {
         $this->migration = $migration;
     }
+
     protected function createMigration(Configuration $configuration)
     {
         return $this->migration;

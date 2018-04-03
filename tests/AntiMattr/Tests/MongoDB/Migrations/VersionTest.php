@@ -110,10 +110,10 @@ class VersionTest extends AntiMattrTestCase
             ->method('getCollection')
             ->will($this->returnValue($collection));
 
-        $insert = array(
+        $insert = [
             'v' => $this->versionName,
             't' => $timestamp,
-        );
+        ];
 
         $collection->expects($this->once())
             ->method('insert')
@@ -135,14 +135,14 @@ class VersionTest extends AntiMattrTestCase
             ->method('getCollection')
             ->will($this->returnValue($collection));
 
-        $query = array(
+        $query = [
             'v' => $this->versionName,
-        );
+        ];
 
-        $update = array(
+        $update = [
             'v' => $this->versionName,
             't' => $timestamp,
-        );
+        ];
 
         $collection->expects($this->once())
             ->method('update')
@@ -165,9 +165,9 @@ class VersionTest extends AntiMattrTestCase
             ->method('getCollection')
             ->will($this->returnValue($collection));
 
-        $remove = array(
+        $remove = [
             'v' => $this->versionName,
-        );
+        ];
 
         $collection->expects($this->once())
             ->method('remove')
@@ -278,13 +278,13 @@ class VersionTest extends AntiMattrTestCase
     public function testExecute($direction)
     {
         $this->migration->expects($this->once())
-            ->method('pre'.$direction);
+            ->method('pre' . $direction);
 
         $this->migration->expects($this->once())
             ->method($direction);
 
         $this->migration->expects($this->once())
-            ->method('post'.$direction);
+            ->method('post' . $direction);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
@@ -299,10 +299,10 @@ class VersionTest extends AntiMattrTestCase
 
     public function provideDirection()
     {
-        return array(
-            array('up'),
-            array('down'),
-        );
+        return [
+            ['up'],
+            ['down'],
+        ];
     }
 }
 

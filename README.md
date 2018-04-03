@@ -41,16 +41,16 @@ Example Connection configuration "test\_antimattr\_mongodb.php"
 /**
  * @link http://php.net/manual/en/mongoclient.construct.php
  */
-return array(
+return [
     'host' => 'localhost', // default is localhost
     'port' => '27017', // default is 27017
     'dbname' => null, // optional, if authentication DB is required
     'user' => null, // optional, if authentication is required
     'password' => null, // optional, if authentication is required
-    'options' => array(
+    'options' => [
         'connect' => true // recommended
-    )
-);
+    ]
+];
 ```
 
 XML or YAML Migration Configurations are supported
@@ -103,13 +103,13 @@ use AntiMattr\MongoDB\Migrations\Tools\Console\Command as AntiMattr;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->addCommands(array(
+$application->addCommands([
     new AntiMattr\ExecuteCommand(),
     new AntiMattr\GenerateCommand(),
     new AntiMattr\MigrateCommand(),
     new AntiMattr\StatusCommand(),
     new AntiMattr\VersionCommand()
-));
+]);
 $application->run();
 ```
 
@@ -343,8 +343,3 @@ Don't have the pre-commit hook running, please make sure to run the fixer/sniffe
 $ vendor/bin/php-cs-fixer fix src/
 $ vendor/bin/php-cs-fixer fix tests/
 ```
-
-PHP 7
------
-Please run before:
-composer require alcaeus/mongo-php-adapter

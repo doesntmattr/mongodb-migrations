@@ -33,20 +33,20 @@ class MigrateCommandTest extends AntiMattrTestCase
         // Variables and Objects
         $numVersion = '000123456789';
         $input = new ArgvInput(
-            array(
+            [
                 'application-name',
                 MigrateCommand::NAME,
                 $numVersion,
-            )
+            ]
         );
         $interactive = true;
-        $executedVersions = array($executedVersion);
-        $availableVersions = array();
+        $executedVersions = [$executedVersion];
+        $availableVersions = [];
         $application = new Application();
         $helperSet = new HelperSet(
-            array(
+            [
                 'question' => $question,
-            )
+            ]
         );
 
         // Set properties on objects
@@ -100,13 +100,13 @@ class MigrateCommandTest extends AntiMattrTestCase
         // Variables and Objects
         $numVersion = '000123456789';
         $input = new ArgvInput(
-            array(
+            [
                 MigrateCommand::NAME,
                 $numVersion,
-            )
+            ]
         );
         $interactive = false;
-        $availableVersions = array($availableVersion);
+        $availableVersions = [$availableVersion];
 
         // Set properties on objects
         $input->setInteractive($interactive);
@@ -117,7 +117,7 @@ class MigrateCommandTest extends AntiMattrTestCase
         $configuration->expects($this->once())
             ->method('getMigratedVersions')
             ->will(
-                $this->returnValue(array())
+                $this->returnValue([])
             )
         ;
 

@@ -10,7 +10,7 @@ class YamlConfigurationTest extends AbstractConfigurationTest
     {
         $connection = $this->getConnection();
         $config = new YamlConfiguration($connection);
-        $config->load(dirname(__DIR__).'/Resources/fixtures/config.yml');
+        $config->load(dirname(__DIR__) . '/Resources/fixtures/config.yml');
 
         return $config;
     }

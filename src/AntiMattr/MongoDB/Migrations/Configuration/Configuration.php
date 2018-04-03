@@ -95,7 +95,7 @@ class Configuration
     /**
      * @var AntiMattr\MongoDB\Migrations\Version[]
      */
-    protected $migrations = array();
+    protected $migrations = [];
 
     /**
      * @var AntiMattr\MongoDB\Migrations\OutputWriter
@@ -109,7 +109,7 @@ class Configuration
     public function __construct(Connection $connection, OutputWriter $outputWriter = null)
     {
         $this->connection = $connection;
-        if ($outputWriter === null) {
+        if (null === $outputWriter) {
             $outputWriter = new OutputWriter();
         }
         $this->outputWriter = $outputWriter;
@@ -141,7 +141,7 @@ class Configuration
      */
     public function getAvailableVersions()
     {
-        $availableVersions = array();
+        $availableVersions = [];
         foreach ($this->migrations as $migration) {
             $availableVersions[] = $migration->getVersion();
         }
@@ -287,7 +287,7 @@ class Configuration
         $this->createMigrationCollection();
 
         $cursor = $this->getCollection()->find();
-        $versions = array();
+        $versions = [];
         foreach ($cursor as $record) {
             $versions[] = $record['v'];
         }
@@ -309,7 +309,7 @@ class Configuration
         $this->createMigrationCollection();
 
         $cursor = $this->getCollection()->find(
-            array('v' => $version)
+            ['v' => $version]
         );
 
         if (!$cursor->count()) {
@@ -422,7 +422,7 @@ class Configuration
      */
     public function registerMigrations(array $migrations)
     {
-        $versions = array();
+        $versions = [];
         foreach ($migrations as $version => $class) {
             $versions[] = $this->registerMigration($version, $class);
         }
@@ -443,14 +443,14 @@ class Configuration
     {
         $path = realpath($path);
         $path = rtrim($path, '/');
-        $files = glob($path.'/Version*.php');
-        $versions = array();
+        $files = glob($path . '/Version*.php');
+        $versions = [];
         if ($files) {
             foreach ($files as $file) {
                 require_once $file;
                 $info = pathinfo($file);
                 $version = substr($info['filename'], 7);
-                $class = $this->migrationsNamespace.'\\'.$info['filename'];
+                $class = $this->migrationsNamespace . '\\' . $info['filename'];
                 $versions[] = $this->registerMigration($version, $class);
             }
         }
@@ -499,9 +499,9 @@ class Configuration
     {
         $this->createMigrationCollection();
 
-        $record = $this->getCollection()->findOne(array('v' => $version->getVersion()));
+        $record = $this->getCollection()->findOne(['v' => $version->getVersion()]);
 
-        return $record !== null;
+        return null !== $record;
     }
 
     /**
@@ -511,7 +511,7 @@ class Configuration
     {
         $this->createMigrationCollection();
 
-        $migratedVersions = array();
+        $migratedVersions = [];
         if ($this->migrations) {
             foreach ($this->migrations as $migration) {
                 $migratedVersions[] = $migration->getVersion();
@@ -520,12 +520,12 @@ class Configuration
 
         $cursor = $this->getCollection()
             ->find(
-                array('v' => array('$in' => $migratedVersions))
+                ['v' => ['$in' => $migratedVersions]]
             )
-            ->sort(array('v' => -1))
+            ->sort(['v' => -1])
             ->limit(1);
 
-        if ($cursor->count() === 0) {
+        if (0 === $cursor->count()) {
             return '0';
         }
 
@@ -544,7 +544,7 @@ class Configuration
         $versions = array_keys($this->migrations);
         $latest = end($versions);
 
-        return $latest !== false ? (string) $latest : '0';
+        return false !== $latest ? (string) $latest : '0';
     }
 
     /**
@@ -558,7 +558,7 @@ class Configuration
 
         if (true !== $this->migrationCollectionCreated) {
             $collection = $this->getCollection();
-            $collection->ensureIndex(array('v' => -1), array('name' => 'version', 'unique' => true));
+            $collection->ensureIndex(['v' => -1], ['name' => 'version', 'unique' => true]);
             $this->migrationCollectionCreated = true;
         }
 
@@ -576,18 +576,18 @@ class Configuration
      */
     public function getMigrationsToExecute($direction, $to)
     {
-        if ($direction === 'down') {
+        if ('down' === $direction) {
             if (count($this->migrations)) {
                 $allVersions = array_reverse(array_keys($this->migrations));
                 $classes = array_reverse(array_values($this->migrations));
                 $allVersions = array_combine($allVersions, $classes);
             } else {
-                $allVersions = array();
+                $allVersions = [];
             }
         } else {
             $allVersions = $this->migrations;
         }
-        $versions = array();
+        $versions = [];
         $migrated = $this->getMigratedVersions();
         foreach ($allVersions as $version) {
             if ($this->shouldExecuteMigration($direction, $version, $to, $migrated)) {
@@ -611,7 +611,7 @@ class Configuration
      */
     private function shouldExecuteMigration($direction, Version $version, $to, $migrated)
     {
-        if ($direction === 'down') {
+        if ('down' === $direction) {
             if (!in_array($version->getVersion(), $migrated)) {
                 return false;
             }
@@ -619,7 +619,7 @@ class Configuration
             return $version->getVersion() > $to;
         }
 
-        if ($direction === 'up') {
+        if ('up' === $direction) {
             if (in_array($version->getVersion(), $migrated)) {
                 return false;
             }
@@ -668,7 +668,7 @@ class Configuration
         // New migration count
         $numNewMigrations = $numAvailableMigrations - ($numExecutedMigrations - $numExecutedUnavailableMigrations);
 
-        return array(
+        return [
             'name' => $this->getName(),
             'database_driver' => 'MongoDB',
             'migrations_database_name' => $this->getMigrationsDatabaseName(),
@@ -681,6 +681,6 @@ class Configuration
             'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
             'num_available_migrations' => $numAvailableMigrations,
             'num_new_migrations' => $numNewMigrations,
-        );
+        ];
     }
 }

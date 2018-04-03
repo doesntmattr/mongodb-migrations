@@ -35,12 +35,12 @@ class ExecuteCommandTest extends AntiMattrTestCase
 
         // Arguments and Options
         $input = new ArgvInput(
-            array(
+            [
                 'application-name',
                 ExecuteCommand::NAME,
                 $numVersion,
                 '--down',
-            )
+            ]
         );
 
         // Set properties on objects
@@ -77,20 +77,20 @@ class ExecuteCommandTest extends AntiMattrTestCase
         // Variables and Objects
         $application = new Application();
         $helperSet = new HelperSet(
-            array(
+            [
                 'question' => $question,
-            )
+            ]
         );
         $numVersion = '1234567890';
         $interactive = true;
 
         // Arguments and Options
         $input = new ArgvInput(
-            array(
+            [
                 'application-name',
                 ExecuteCommand::NAME,
                 $numVersion,
-            )
+            ]
         );
 
         // Set properties on objects
@@ -136,13 +136,13 @@ class ExecuteCommandTest extends AntiMattrTestCase
 
         // Arguments and Options
         $input = new ArgvInput(
-            array(
+            [
                 'application-name',
                 ExecuteCommand::NAME,
                 $numVersion,
                 '--up',
                 '--replay',
-            )
+            ]
         );
 
         // Set properties on objects
