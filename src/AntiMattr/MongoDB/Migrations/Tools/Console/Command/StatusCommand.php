@@ -100,9 +100,9 @@ EOT
             'Current Version' => $currentVersionFormatted,
             'Latest Version' => $latestVersionFormatted,
             'Executed Migrations' => $configMap['num_executed_migrations'],
-            'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations > 0 ? '<error>'.$numExecutedUnavailableMigrations.'</error>' : 0,
+            'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations > 0 ? '<error>' . $numExecutedUnavailableMigrations . '</error>' : 0,
             'Available Migrations' => $configMap['num_available_migrations'],
-            'New Migrations' => $numNewMigrations > 0 ? '<question>'.$numNewMigrations.'</question>' : 0,
+            'New Migrations' => $numNewMigrations > 0 ? '<question>' . $numNewMigrations . '</question>' : 0,
         ];
 
         foreach ($info as $name => $value) {
@@ -133,7 +133,7 @@ EOT
                     $versionTxt = sprintf('<comment>%s</comment>', $version->getVersion());
                     $desc = $version->getMigration()->getDescription();
                     if (strlen($desc) > 80) {
-                        $desc = substr($desc, 0, 78).'...';
+                        $desc = substr($desc, 0, 78) . '...';
                     }
 
                     $rows[] = [$versionTxt, $status, $desc];

@@ -187,12 +187,12 @@ class Version
 
             $this->state = self::STATE_PRE;
 
-            $this->migration->{'pre'.ucfirst($direction)}($this->db);
+            $this->migration->{'pre' . ucfirst($direction)}($this->db);
 
             if ('up' === $direction) {
-                $this->outputWriter->write("\n".sprintf('  <info>++</info> migrating <comment>%s</comment>', $this->version)."\n");
+                $this->outputWriter->write("\n" . sprintf('  <info>++</info> migrating <comment>%s</comment>', $this->version) . "\n");
             } else {
-                $this->outputWriter->write("\n".sprintf('  <info>--</info> reverting <comment>%s</comment>', $this->version)."\n");
+                $this->outputWriter->write("\n" . sprintf('  <info>--</info> reverting <comment>%s</comment>', $this->version) . "\n");
             }
 
             $this->state = self::STATE_EXEC;
@@ -210,7 +210,7 @@ class Version
             $this->summarizeStatistics();
 
             $this->state = self::STATE_POST;
-            $this->migration->{'post'.ucfirst($direction)}($this->db);
+            $this->migration->{'post' . ucfirst($direction)}($this->db);
 
             $end = microtime(true);
             $this->time = round($end - $start, 2);
@@ -260,7 +260,7 @@ class Version
             throw new \RuntimeException('Missing Configuration for migrations script directory');
         }
 
-        $path = realpath($scripts.'/'.$file);
+        $path = realpath($scripts . '/' . $file);
         if (!file_exists($path)) {
             throw new \InvalidArgumentException(sprintf('Could not execute %s. File does not exist.', $path));
         }
@@ -337,12 +337,12 @@ class Version
             $this->outputWriter->write(sprintf("\n     Collection %s\n", $key));
 
             $line = '     ';
-            $line .= 'metric '.str_repeat(' ', 16 - strlen('metric'));
-            $line .= 'before '.str_repeat(' ', 20 - strlen('before'));
-            $line .= 'after '.str_repeat(' ', 20 - strlen('after'));
-            $line .= 'difference '.str_repeat(' ', 20 - strlen('difference'));
+            $line .= 'metric ' . str_repeat(' ', 16 - strlen('metric'));
+            $line .= 'before ' . str_repeat(' ', 20 - strlen('before'));
+            $line .= 'after ' . str_repeat(' ', 20 - strlen('after'));
+            $line .= 'difference ' . str_repeat(' ', 20 - strlen('difference'));
 
-            $this->outputWriter->write($line."\n     ".str_repeat('=', 80));
+            $this->outputWriter->write($line . "\n     " . str_repeat('=', 80));
             $before = $statistic->getBefore();
             $after = $statistic->getAfter();
 
@@ -351,10 +351,10 @@ class Version
                 $valueAfter = isset($after[$metric]) ? $after[$metric] : 0;
                 $difference = $valueAfter - $valueBefore;
 
-                $nameMessage = $metric.str_repeat(' ', 16 - strlen($metric));
-                $beforeMessage = $valueBefore.str_repeat(' ', 20 - strlen($valueBefore));
-                $afterMessage = $valueAfter.str_repeat(' ', 20 - strlen($valueAfter));
-                $differenceMessage = $difference.str_repeat(' ', 20 - strlen($difference));
+                $nameMessage = $metric . str_repeat(' ', 16 - strlen($metric));
+                $beforeMessage = $valueBefore . str_repeat(' ', 20 - strlen($valueBefore));
+                $afterMessage = $valueAfter . str_repeat(' ', 20 - strlen($valueAfter));
+                $differenceMessage = $difference . str_repeat(' ', 20 - strlen($difference));
 
                 $line = sprintf(
                     '     %s %s %s %s',

@@ -278,13 +278,13 @@ class VersionTest extends AntiMattrTestCase
     public function testExecute($direction)
     {
         $this->migration->expects($this->once())
-            ->method('pre'.$direction);
+            ->method('pre' . $direction);
 
         $this->migration->expects($this->once())
             ->method($direction);
 
         $this->migration->expects($this->once())
-            ->method('post'.$direction);
+            ->method('post' . $direction);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())

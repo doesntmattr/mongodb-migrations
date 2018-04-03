@@ -114,8 +114,8 @@ EOT
         $replacements = [
             $configuration->getMigrationsNamespace(),
             $version,
-            $up ? '        '.implode("\n        ", explode("\n", $up)) : null,
-            $down ? '        '.implode("\n        ", explode("\n", $down)) : null,
+            $up ? '        ' . implode("\n        ", explode("\n", $up)) : null,
+            $down ? '        ' . implode("\n        ", explode("\n", $down)) : null,
         ];
         $code = str_replace($placeHolders, $replacements, self::$_template);
 

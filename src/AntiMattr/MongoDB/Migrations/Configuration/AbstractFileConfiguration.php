@@ -44,7 +44,7 @@ abstract class AbstractFileConfiguration extends Configuration
         if ($this->loaded) {
             throw new ConfigurationFileAlreadyLoadedException('Migrations configuration file already loaded');
         }
-        if (file_exists($path = getcwd().'/'.$file)) {
+        if (file_exists($path = getcwd() . '/' . $file)) {
             $file = $path;
         }
         $this->file = $file;
@@ -54,7 +54,7 @@ abstract class AbstractFileConfiguration extends Configuration
 
     protected function getDirectoryRelativeToFile($file, $input)
     {
-        $path = realpath(dirname($file).'/'.$input);
+        $path = realpath(dirname($file) . '/' . $input);
         if (false !== $path) {
             $directory = $path;
         } else {

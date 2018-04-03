@@ -118,7 +118,7 @@ abstract class AbstractMigration
         $message = (strlen($message)) ? $message : 'Unknown Reason';
 
         if (true === $condition) {
-            $this->outputWriter->write('    <warning>Warning during '.$this->version->getExecutionState().': '.$message.'</warning>');
+            $this->outputWriter->write('    <warning>Warning during ' . $this->version->getExecutionState() . ': ' . $message . '</warning>');
         }
     }
 

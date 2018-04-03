@@ -489,6 +489,6 @@ class StatusCommandStub extends StatusCommand
      */
     protected function writeInfoLine(OutputInterface $output, $name, $value)
     {
-        $output->writeln($name.'::'.$value);
+        $output->writeln($name . '::' . $value);
     }
 }

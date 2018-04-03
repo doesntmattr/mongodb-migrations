@@ -443,14 +443,14 @@ class Configuration
     {
         $path = realpath($path);
         $path = rtrim($path, '/');
-        $files = glob($path.'/Version*.php');
+        $files = glob($path . '/Version*.php');
         $versions = [];
         if ($files) {
             foreach ($files as $file) {
                 require_once $file;
                 $info = pathinfo($file);
                 $version = substr($info['filename'], 7);
-                $class = $this->migrationsNamespace.'\\'.$info['filename'];
+                $class = $this->migrationsNamespace . '\\' . $info['filename'];
                 $versions[] = $this->registerMigration($version, $class);
             }
         }
