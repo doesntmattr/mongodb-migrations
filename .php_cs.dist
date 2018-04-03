@@ -1,12 +1,10 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    //->exclude('tests/Fixtures')
     ->in(__DIR__)
 ;
 
 $config = PhpCsFixer\Config::create()
-    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
