@@ -1,44 +1,49 @@
-:warning: Forked from [antimattr/mongodb-migrations](https://github.com/antimattr/mongodb-migrations) for contributors as the original project isn't being maintained. See [issue 16](https://github.com/antimattr/mongodb-migrations/issues/16)
-
-The original authors did an awesome job of making a library that has been really
-really useful AND stable.  Thank you @rcatlin and @matthewfitz !
-
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/doesntmattr/mongodb-migrations.png?branch=master)](https://travis-ci.org/doesntmattr/mongodb-migrations)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/doesntmattr/mongodb-migrations/v/stable)](https://packagist.org/packages/doesntmattr/mongodb-migrations)
 [![Total Downloads](https://poser.pugx.org/doesntmattr/mongodb-migrations/downloads)](https://packagist.org/packages/doesntmattr/mongodb-migrations)
 
-AntiMattr MongoDB Migrations
-============================
+# MongoDB Migrations
 
-The AntiMattr MongoDB Migration library provides managed migration support for MongoDB.
+The MongoDB Migration library provides managed migration support for MongoDB. It was moved to the doesntmattr organisation from [antimattr/mongodb-migrations](https://github.com/antimattr/mongodb-migrations) to continue maintenance (See [issue 16](https://github.com/antimattr/mongodb-migrations/issues/16)).
 
-Are you familiar with [Doctrine Migrations](https://github.com/doctrine/migrations)?
+The original authors are @rcatlin and @matthewfitz
 
-This library intentionally parallels the structure and features provided.
+It follows the structure and features provided by [Doctrine Migrations](https://github.com/doctrine/migrations).
 
-Installation
-============
+## PHP Version Support
 
-Use composer to install
+If you require php 5.6 support use version `^1.0`. Version `^2.0` requires at least php 7.1. The `1.x` releases will only receive bug fixes.
+
+## Symfony Bundle
+
+There is a Symfony Bundle you can install to more easily integrate with Symfony. Use the installation instructions there:
+
+https://github.com/doesntmattr/mongodb-migrations-bundle
+
+## Installation
+
+To install with composer:
 
 ```bash
-composer install
+# For php 5.6
+composer require "doesntmattr/mongodb-migrations=^1.0"
+
+# For php 7.1
+composer require "doesntmattr/mongodb-migrations=^2.0"
 ```
 
-Features
-========
+## Features
 
-Features - Configuration
-------------------------
+### Configuration
 
-Similar to [Doctrine Migrations](https://github.com/doctrine/migrations), configurations are separated into 2 files
+Similar to [Doctrine Migrations](https://github.com/doctrine/migrations), configuration is separated into 2 files:
 
  * Connection configuration (php)
  * Migration configuration (xml or yaml)
 
-Example Connection configuration "test\_antimattr\_mongodb.php"
+Example connection configuration "test\_antimattr\_mongodb.php":
 
 ```php
 /**
@@ -56,9 +61,9 @@ return [
 ];
 ```
 
-XML or YAML Migration Configurations are supported
+XML or YAML migration configuration files are supported.
 
-Example XML "test\_antimattr\_mongodb.xml"
+Example XML "test\_antimattr\_mongodb.xml":
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -78,7 +83,7 @@ Example XML "test\_antimattr\_mongodb.xml"
 </antimattr-migrations>
 ```
 
-Example YAML "test\_antimattr\_mongodb.yml"
+Example YAML "test\_antimattr\_mongodb.yml":
 
 ```yaml
 ---
@@ -90,12 +95,11 @@ migrations_directory: /path/to/migrations/classes/AntiMattrMigrations
 migrations_script_directory: /path/to/migrations/script_directory # optional
 ```
 
-Features - Console Command Support
-----------------------------------
+### Console Command Support
 
-There is an example Console Application in the demo directory
+There is an example Console Application in the `/demo` directory.
 
-This is how to register the commands in your application
+This is how you can register commands in your application:
 
 ```php
 require '../../vendor/autoload.php';
@@ -116,7 +120,7 @@ $application->addCommands([
 $application->run();
 ```
 
-Notice the console is executable
+Notice the console is executable:
 
 ```bash
 > cd demo/ConsoleApplication/
@@ -146,16 +150,14 @@ mongodb
   mongodb:migrations:version    Manually add and delete migration versions from the version table.
 ```
 
-Features - Generate a New Migration
------------------------------------
+### Generate a New Migration
 
 ```bash
 > ./console mongodb:migrations:generate --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml
 Generated new migration class to "Example/Migrations/TestAntiMattr/MongoDB/Version20140822185742.php"
 ```
 
-Features - Status of Migrations
--------------------------------
+### Migrations Status
 
 ```bash
 > ./console mongodb:migrations:status --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml
@@ -177,8 +179,7 @@ Features - Status of Migrations
     >> New Migrations:                      3
 ```
 
-Features - Migrate all Migrations
----------------------------------
+### Migrate all
 
 This is what you will execute during your deployment process.
 
@@ -226,8 +227,7 @@ Migrating up to 20140822185744 from 0
   ++ 3 migrations executed
 ```
 
-Features - Execute a Single Migration
--------------------------------------
+### Execute a Single Migration
 
 ```bash
 ./console mongodb:migrations:execute --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml 20140822185742
@@ -253,25 +253,26 @@ WARNING! You are about to execute a database migration that could result in data
   ++ migrated (0.02s)
 ```
 
-Features - Version Up or Down
------------------------------
+If you need to run a migration again, you can use the `--replay` argument.
+
+
+### Version Up or Down
 
 Is your migration history out of sync for some reason? You can manually add or remove a record from the history without running the underlying migration.
 
-You can delete
+You can delete:
 
 ```bash
 ./console mongodb:migrations:version --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml --delete 20140822185744
 ```
 
-You can add
+You can add:
 
 ```bash
 ./console mongodb:migrations:version --db-configuration=config/test_antimattr_mongodb.php --configuration=config/test_antimattr_mongodb.yml --add 20140822185744
 ```
 
-Features - Analyze Migrations
------------------------------
+### Analyze Migrations
 
 Identify the collections you want to analyze. Statistics will be captured before and after the migration is run.
 
@@ -287,10 +288,9 @@ class Version20140822185742 extends AbstractMigration
     }
 ```
 
-Features - Execute JS Scripts
------------------------------
+### Execute JS Scripts
 
-First identify the directory for scripts in your Migration configuration
+First identify the directory for scripts in your Migration Configuration:
 
 ```yaml
 ---
@@ -302,7 +302,7 @@ migrations_directory: /path/to/migrations/classes/AntiMattrMigrations
 migrations_script_directory: /path/to/migrations/script_directory # optional
 ```
 
-Then execute the scripts via AbstractMigration::executeScripts
+Then execute the scripts via `AbstractMigration::executeScript()`:
 
 ```php
 class Version20140822185743 extends AbstractMigration
@@ -313,34 +313,30 @@ class Version20140822185743 extends AbstractMigration
     }
 ```
 
-Pull Requests
-=============
+## Contributing
 
-Pull Requests - PSR Standards
------------------------------
+### PSR Standards
 
-Please use the pre-commit hook to run the fix all code to PSR standards
+There is a git pre-commit hook that will fix all your contributed code to PSR standards.
 
-Install once with
+You can install it with:
 
 ```bash
 ./bin/install.sh 
 Copying /antimattr-mongodb-migrations/bin/pre-commit.sh -> /antimattr-mongodb-migrations/bin/../.git/hooks/pre-commit
 ```
 
-Pull Requests - Testing
------------------------
+### Testing
 
-Please make sure tests pass
+Tests should pass:
 
 ```bash
-$ vendor/bin/phpunit tests
+$ ./vendor/bin/phpunit
 ```
 
-Pull Requests - Code Sniffer and Fixer
---------------------------------------
+### Code Sniffer and Fixer
 
-Don't have the pre-commit hook running, please make sure to run the fixer/sniffer manually
+If you didn't install the git pre-commit hook then ensure you run the fixer/sniffer manually:
 
 ```bash
 $ vendor/bin/php-cs-fixer fix src/
