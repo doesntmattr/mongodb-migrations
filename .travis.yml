@@ -24,7 +24,8 @@ before_script:
   # To be removed when this issue is resolved: https://github.com/composer/composer/issues/5355
   - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
   - composer update -v ${COMPOSER_FLAGS}
-  - phpenv config-add xdebug.ini
+  # Restore xdebug for code coverage
+  - echo "extension=xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.clover
