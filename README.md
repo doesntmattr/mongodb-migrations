@@ -5,6 +5,7 @@ really useful AND stable.  Thank you @rcatlin and @matthewfitz !
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/doesntmattr/mongodb-migrations.png?branch=master)](https://travis-ci.org/doesntmattr/mongodb-migrations)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/?branch=master)
 
 AntiMattr MongoDB Migrations
 ============================
