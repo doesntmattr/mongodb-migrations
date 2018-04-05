@@ -5,6 +5,9 @@ really useful AND stable.  Thank you @rcatlin and @matthewfitz !
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/doesntmattr/mongodb-migrations.png?branch=master)](https://travis-ci.org/doesntmattr/mongodb-migrations)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/doesntmattr/mongodb-migrations/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/doesntmattr/mongodb-migrations/v/stable)](https://packagist.org/packages/doesntmattr/mongodb-migrations)
+[![Total Downloads](https://poser.pugx.org/doesntmattr/mongodb-migrations/downloads)](https://packagist.org/packages/doesntmattr/mongodb-migrations)
 
 AntiMattr MongoDB Migrations
 ============================

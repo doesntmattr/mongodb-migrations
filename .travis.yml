@@ -16,7 +16,7 @@ matrix:
       env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest --prefer-dist"
 
 before_script:
-  # Not using code coverage
+  # Remove xdebug at the start
   - phpenv config-rm xdebug.ini
   - pecl install -f mongodb-stable
   - composer config "platform.ext-mongo" "1.6.16"
@@ -24,6 +24,12 @@ before_script:
   # To be removed when this issue is resolved: https://github.com/composer/composer/issues/5355
   - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
   - composer update -v ${COMPOSER_FLAGS}
+  # Restore xdebug for code coverage
+  - echo "zend_extension=xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
