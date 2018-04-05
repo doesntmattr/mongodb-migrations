@@ -65,7 +65,7 @@ class ConfigurationTest extends AntiMattrTestCase
             ->with('antimattr_migration_versions_test')
             ->will($this->returnValue($collection));
 
-        $cursor = $this->buildMock('MongoCursor');
+        $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
 
         $in = ['v' => ['$in' => ['20140822185742', '20140822185743', '20140822185744']]];
 
@@ -160,7 +160,7 @@ class ConfigurationTest extends AntiMattrTestCase
             ->with('antimattr_migration_versions_test')
             ->will($this->returnValue($collection));
 
-        $cursor = $this->buildMock('MongoCursor');
+        $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
 
         $collection->expects($this->once())
             ->method('find')

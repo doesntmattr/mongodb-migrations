@@ -54,7 +54,7 @@ class VersionTest extends AntiMattrTestCase
         $this->assertNotNull($this->version->getMigration());
     }
 
-    public function testAnalyzeThrowsMongoException()
+    public function testAnalyzeThrowsException()
     {
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
@@ -65,7 +65,7 @@ class VersionTest extends AntiMattrTestCase
             ->method('getName')
             ->will($this->returnValue('test_name'));
 
-        $expectedException = new \MongoException();
+        $expectedException = new \RuntimeException();
 
         $this->statistics->expects($this->once())
             ->method('updateBefore')
@@ -176,14 +176,14 @@ class VersionTest extends AntiMattrTestCase
         $this->version->markNotMigrated();
     }
 
-    public function testUpdateStatisticsAfterThrowsMongoException()
+    public function testUpdateStatisticsAfterThrowsException()
     {
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
             ->method('setCollection')
             ->with($collection);
 
-        $expectedException = new \MongoException();
+        $expectedException = new \RuntimeException();
 
         $this->statistics->expects($this->once())
             ->method('updateAfter')
