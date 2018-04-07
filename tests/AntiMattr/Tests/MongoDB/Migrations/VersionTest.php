@@ -6,6 +6,7 @@ use AntiMattr\MongoDB\Migrations\AbstractMigration;
 use AntiMattr\MongoDB\Migrations\Version;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use Doctrine\MongoDB\Database;
+use MongoDB\BSON\UTCDateTime;
 
 class VersionTest extends AntiMattrTestCase
 {
@@ -99,7 +100,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testMarkMigrated()
     {
-        $timestamp = $this->buildMock('MongoTimestamp');
+        $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
@@ -124,7 +125,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testMarkMigratedWithReplay()
     {
-        $timestamp = $this->buildMock('MongoTimestamp');
+        $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');
@@ -154,7 +155,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testMarkNotMigrated()
     {
-        $timestamp = $this->buildMock('MongoTimestamp');
+        $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
         $collection = $this->buildMock('Doctrine\MongoDB\Collection');

@@ -18,7 +18,7 @@ use AntiMattr\MongoDB\Migrations\Exception\AbortException;
 use Doctrine\MongoDB\Collection;
 use Doctrine\MongoDB\Database;
 use Exception;
-use MongoTimestamp;
+use MongoDB\BSON\UTCDateTime;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -382,11 +382,11 @@ class Version
     }
 
     /**
-     * @return MongoTimestamp
+     * @return UTCDateTime
      */
     protected function createMongoTimestamp()
     {
-        return new MongoTimestamp();
+        return new UTCDateTime();
     }
 
     /**
