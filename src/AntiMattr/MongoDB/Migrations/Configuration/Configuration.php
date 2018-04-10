@@ -17,6 +17,7 @@ use AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use AntiMattr\MongoDB\Migrations\Version;
 use Doctrine\MongoDB\Connection;
+use Doctrine\MongoDB\Database;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -172,9 +173,9 @@ class Configuration
     }
 
     /**
-     * @return Doctrine\MongoDB\Connection
+     * @return Doctrine\MongoDB\Database
      */
-    public function getDatabase()
+    public function getDatabase(): ?Database
     {
         if (isset($this->database)) {
             return $this->database;
