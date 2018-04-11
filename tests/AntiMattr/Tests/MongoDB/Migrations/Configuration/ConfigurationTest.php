@@ -226,8 +226,6 @@ class ConfigurationTest extends AntiMattrTestCase
             ->method('getVersion')
             ->willReturn('found2');
 
-        $cursor = $this->buildMock('MongoCursor');
-
         $collection->expects($this->at(1))
             ->method('findOne')
             ->with(['v' => 'found'])
