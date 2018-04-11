@@ -318,7 +318,7 @@ class Configuration
         }
 
         if ($cursor->count() > 1) {
-            throw \DomainException(
+            throw new \DomainException(
                 'Unexpected duplicate version records in the database'
             );
         }
