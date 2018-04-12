@@ -8,8 +8,6 @@ use AntiMattr\MongoDB\Migrations\Configuration\Timestamp;
 class TimestampTest extends AntiMattrTestCase
 {
     /**
-     * testTimestamp.
-     *
      * @dataProvider provideTimestamps
      */
     public function testTimestamp($ts, $expected)
@@ -59,8 +57,6 @@ class TimestampTest extends AntiMattrTestCase
     }
 
     /**
-     * testWillThrowAnExceptionForUnknownClass.
-     *
      * @expectedException \DomainException
      */
     public function testWillThrowAnExceptionForUnknownClass()
@@ -69,8 +65,6 @@ class TimestampTest extends AntiMattrTestCase
     }
 
     /**
-     * testWillThrowAnExceptionForNull.
-     *
      * @expectedException \DomainException
      */
     public function testWillThrowAnExceptionForNull()

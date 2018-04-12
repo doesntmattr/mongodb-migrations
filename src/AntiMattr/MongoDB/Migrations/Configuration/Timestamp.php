@@ -22,8 +22,6 @@ class Timestamp
     private $t;
 
     /**
-     * __construct.
-     *
      * @param mixed $t
      */
     public function __construct($t)
@@ -32,22 +30,8 @@ class Timestamp
     }
 
     /**
-     * __invoke.
-     *
-     * @param mixed $t
-     *
-     * @return int
-     */
-    public function __invoke($t): int
-    {
-        return (new static($t))->getTimestamp();
-    }
-
-    /**
-     * getTimestamp.
-     *
      * Normalise based on the different options for backward/forward
-     * compatibility
+     * compatibility.
      *
      * @return int Time in seconds since 1970
      */
@@ -94,8 +78,6 @@ class Timestamp
     }
 
     /**
-     * __toString.
-     *
      * @return string
      */
     public function __toString(): string
