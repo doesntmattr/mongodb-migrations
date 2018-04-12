@@ -306,6 +306,41 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->configuration->getMigratedTimestamp('1');
     }
 
+    public function testGetMigratedTimestamp()
+    {
+        $this->prepareValidConfiguration();
+
+        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $database = $this->buildMock('Doctrine\MongoDB\Database');
+
+        $this->connection->expects($this->once())
+            ->method('selectDatabase')
+            ->with('test_antimattr_migrations')
+            ->willReturn($database);
+
+        $database->expects($this->once())
+            ->method('selectCollection')
+            ->with('antimattr_migration_versions_test')
+            ->willReturn($collection);
+
+        $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
+
+        $collection->expects($this->once())
+            ->method('find')
+            ->willReturn($cursor);
+
+        $cursor->expects($this->exactly(2))
+            ->method('count')
+            ->willReturn(1);
+
+        $cursor->expects($this->once())
+            ->method('getNext')
+            ->willReturn(['t' => new \DateTime()]);
+
+        $this->assertTrue(is_numeric($this->configuration->getMigratedTimestamp('1')));
+    }
+
+
     private function prepareValidConfiguration()
     {
         $directory = dirname(__DIR__) . '/Resources/Migrations/';
