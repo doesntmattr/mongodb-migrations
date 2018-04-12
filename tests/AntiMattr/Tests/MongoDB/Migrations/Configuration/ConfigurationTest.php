@@ -34,12 +34,12 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($database));
+            ->willReturn($database);
 
         $database->expects($this->once())
             ->method('selectCollection')
             ->with('antimattr_migration_versions_test')
-            ->will($this->returnValue($expectedCollection));
+            ->willReturn($expectedCollection);
 
         $collection = $this->configuration->getCollection();
         $this->assertEquals($expectedCollection, $collection);
@@ -58,12 +58,12 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($database));
+            ->willReturn($database);
 
         $database->expects($this->once())
             ->method('selectCollection')
             ->with('antimattr_migration_versions_test')
-            ->will($this->returnValue($collection));
+            ->willReturn($collection);
 
         $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
 
@@ -72,21 +72,21 @@ class ConfigurationTest extends AntiMattrTestCase
         $collection->expects($this->once())
             ->method('find')
             ->with($in)
-            ->will($this->returnValue($cursor));
+            ->willReturn($cursor);
 
         $cursor->expects($this->once())
             ->method('sort')
             ->with(['v' => -1])
-            ->will($this->returnValue($cursor));
+            ->willReturn($cursor);
 
         $cursor->expects($this->once())
             ->method('limit')
             ->with(1)
-            ->will($this->returnValue($cursor));
+            ->willReturn($cursor);
 
         $cursor->expects($this->once())
             ->method('getNext')
-            ->will($this->returnValue(['v' => '20140822185743']));
+            ->willReturn(['v' => '20140822185743']);
 
         $version = $this->configuration->getCurrentVersion();
 
@@ -102,7 +102,7 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($expectedDatabase));
+            ->willReturn($expectedDatabase);
 
         $database = $this->configuration->getDatabase();
         $this->assertEquals($expectedDatabase, $database);
@@ -118,12 +118,12 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($database));
+            ->willReturn($database);
 
         $database->expects($this->once())
             ->method('selectCollection')
             ->with('antimattr_migration_versions_test')
-            ->will($this->returnValue($collection));
+            ->willReturn($collection);
 
         $foundVersions = [
             ['v' => 'found1'],
@@ -137,7 +137,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $collection->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($foundVersions));
+            ->willReturn($foundVersions);
 
         $versions = $this->configuration->getMigratedVersions();
         $this->assertEquals($expectedVersions, $versions);
@@ -153,22 +153,22 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($database));
+            ->willReturn($database);
 
         $database->expects($this->once())
             ->method('selectCollection')
             ->with('antimattr_migration_versions_test')
-            ->will($this->returnValue($collection));
+            ->willReturn($collection);
 
         $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
 
         $collection->expects($this->once())
             ->method('find')
-            ->will($this->returnValue($cursor));
+            ->willReturn($cursor);
 
         $cursor->expects($this->once())
             ->method('count')
-            ->will($this->returnValue(2));
+            ->willReturn(2);
 
         $this->assertEquals(2, $this->configuration->getNumberOfExecutedMigrations());
     }
@@ -211,32 +211,30 @@ class ConfigurationTest extends AntiMattrTestCase
         $this->connection->expects($this->once())
             ->method('selectDatabase')
             ->with('test_antimattr_migrations')
-            ->will($this->returnValue($database));
+            ->willReturn($database);
 
         $database->expects($this->once())
             ->method('selectCollection')
             ->with('antimattr_migration_versions_test')
-            ->will($this->returnValue($collection));
+            ->willReturn($collection);
 
         $version1->expects($this->once())
             ->method('getVersion')
-            ->will($this->returnValue('found'));
+            ->willReturn('found');
 
         $version2->expects($this->once())
             ->method('getVersion')
-            ->will($this->returnValue('found2'));
-
-        $cursor = $this->buildMock('MongoCursor');
+            ->willReturn('found2');
 
         $collection->expects($this->at(1))
             ->method('findOne')
             ->with(['v' => 'found'])
-            ->will($this->returnValue('foo'));
+            ->willReturn('foo');
 
         $collection->expects($this->at(2))
             ->method('findOne')
             ->with(['v' => 'found2'])
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         $this->assertTrue($this->configuration->hasVersionMigrated($version1));
         $this->assertFalse($this->configuration->hasVersionMigrated($version2));
@@ -258,10 +256,10 @@ class ConfigurationTest extends AntiMattrTestCase
             ->getMock();
         $configuration->expects($this->once())
             ->method('getMigratedVersions')
-            ->will($this->returnValue(['1', '2']));
+            ->willReturn(['1', '2']);
         $configuration->expects($this->once())
             ->method('getAvailableVersions')
-            ->will($this->returnValue(['2', '3']));
+            ->willReturn(['2', '3']);
 
         $this->assertEquals(['1'], $configuration->getUnavailableMigratedVersions());
     }
@@ -270,6 +268,74 @@ class ConfigurationTest extends AntiMattrTestCase
     {
         $this->prepareValidConfiguration();
         self::assertNull($this->configuration->validate());
+    }
+
+    /**
+     * @expectedException \DomainException
+     * @expectedExceptionMessage Unexpected duplicate version records in the database
+     */
+    public function testDuplicateInGetMigratedTimestampThrowsException()
+    {
+        $this->prepareValidConfiguration();
+
+        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $database = $this->buildMock('Doctrine\MongoDB\Database');
+
+        $this->connection->expects($this->once())
+            ->method('selectDatabase')
+            ->with('test_antimattr_migrations')
+            ->willReturn($database);
+
+        $database->expects($this->once())
+            ->method('selectCollection')
+            ->with('antimattr_migration_versions_test')
+            ->willReturn($collection);
+
+        $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
+
+        $collection->expects($this->once())
+            ->method('find')
+            ->willReturn($cursor);
+
+        $cursor->expects($this->exactly(2))
+            ->method('count')
+            ->willReturn(2);
+
+        $this->configuration->getMigratedTimestamp('1');
+    }
+
+    public function testGetMigratedTimestamp()
+    {
+        $this->prepareValidConfiguration();
+
+        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $database = $this->buildMock('Doctrine\MongoDB\Database');
+
+        $this->connection->expects($this->once())
+            ->method('selectDatabase')
+            ->with('test_antimattr_migrations')
+            ->willReturn($database);
+
+        $database->expects($this->once())
+            ->method('selectCollection')
+            ->with('antimattr_migration_versions_test')
+            ->willReturn($collection);
+
+        $cursor = $this->buildMock('Doctrine\MongoDB\Cursor');
+
+        $collection->expects($this->once())
+            ->method('find')
+            ->willReturn($cursor);
+
+        $cursor->expects($this->exactly(2))
+            ->method('count')
+            ->willReturn(1);
+
+        $cursor->expects($this->once())
+            ->method('getNext')
+            ->willReturn(['t' => new \DateTime()]);
+
+        $this->assertTrue(is_numeric($this->configuration->getMigratedTimestamp('1')));
     }
 
     private function prepareValidConfiguration()
