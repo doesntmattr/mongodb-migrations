@@ -304,7 +304,7 @@ class Configuration
      * @return string
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
-     * @throws DomainException If more than one version exists
+     * @throws DomainException                                                If more than one version exists
      */
     public function getMigratedTimestamp($version)
     {

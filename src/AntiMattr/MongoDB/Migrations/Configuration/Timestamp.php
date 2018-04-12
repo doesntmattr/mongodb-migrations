@@ -13,7 +13,7 @@ namespace AntiMattr\MongoDB\Migrations\Configuration;
 
 /**
  * This class is to normalise the potential values from the 't' version
- * attribute
+ * attribute.
  *
  * @author Douglas Reith <douglas@reith.com.au>
  */
@@ -22,7 +22,7 @@ class Timestamp
     private $t;
 
     /**
-     * __construct
+     * __construct.
      *
      * @param mixed $t
      */
@@ -32,9 +32,10 @@ class Timestamp
     }
 
     /**
-     * __invoke
+     * __invoke.
      *
      * @param mixed $t
+     *
      * @return int
      */
     public function __invoke($t): int
@@ -43,7 +44,7 @@ class Timestamp
     }
 
     /**
-     * getTimestamp
+     * getTimestamp.
      *
      * Normalise based on the different options for backward/forward
      * compatibility
@@ -69,7 +70,7 @@ class Timestamp
             );
         }
 
-        switch(get_class($this->t)) {
+        switch (get_class($this->t)) {
             case 'MongoTimestamp':
                 return (int) $this->t->__toString();
 
@@ -93,7 +94,7 @@ class Timestamp
     }
 
     /**
-     * __toString
+     * __toString.
      *
      * @return string
      */

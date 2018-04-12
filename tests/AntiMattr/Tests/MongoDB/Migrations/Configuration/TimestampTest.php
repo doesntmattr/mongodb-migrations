@@ -8,7 +8,7 @@ use AntiMattr\MongoDB\Migrations\Configuration\Timestamp;
 class TimestampTest extends AntiMattrTestCase
 {
     /**
-     * testTimestamp
+     * testTimestamp.
      *
      * @dataProvider provideTimestamps
      */
@@ -24,34 +24,34 @@ class TimestampTest extends AntiMattrTestCase
         $millisecondsSince1970 = $secondsSince1970 * 1000;
 
         $timestamps = [
-            [$rightNow, $secondsSince1970]
+            [$rightNow, $secondsSince1970],
         ];
 
         if (class_exists('\MongoDB\BSON\Timestamp')) {
             $timestamps[] = [
                 new \MongoDB\BSON\Timestamp(0, $secondsSince1970),
-                $secondsSince1970
+                $secondsSince1970,
             ];
         }
 
         if (class_exists('\MongoDB\BSON\UTCDateTime')) {
             $timestamps[] = [
                 new \MongoDB\BSON\UTCDateTime($millisecondsSince1970),
-                $secondsSince1970
+                $secondsSince1970,
             ];
         }
 
         if (class_exists('\MongoDate')) {
             $timestamps[] = [
                 new \MongoDate($secondsSince1970),
-                $secondsSince1970
+                $secondsSince1970,
             ];
         }
 
         if (class_exists('\MongoTimestamp')) {
             $timestamps[] = [
                 new \MongoTimestamp($secondsSince1970),
-                $secondsSince1970
+                $secondsSince1970,
             ];
         }
 
@@ -59,7 +59,7 @@ class TimestampTest extends AntiMattrTestCase
     }
 
     /**
-     * testWillThrowAnExceptionForUnknownClass
+     * testWillThrowAnExceptionForUnknownClass.
      *
      * @expectedException \DomainException
      */
@@ -69,7 +69,7 @@ class TimestampTest extends AntiMattrTestCase
     }
 
     /**
-     * testWillThrowAnExceptionForNull
+     * testWillThrowAnExceptionForNull.
      *
      * @expectedException \DomainException
      */
