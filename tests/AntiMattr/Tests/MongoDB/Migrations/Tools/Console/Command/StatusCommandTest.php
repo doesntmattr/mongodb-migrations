@@ -52,11 +52,6 @@ class StatusCommandTest extends AntiMattrTestCase
             ]
         );
 
-        $configValues = [
-            'name' => 'config-name',
-            'migrationsDatabaseName' => 'database-name',
-            'migrationsCollectionName' => 'collection-name',
-        ];
         $configName = 'config-name';
         $databaseDriver = 'MongoDB';
         $migrationsDatabaseName = ' migrations-database-name';
@@ -64,9 +59,7 @@ class StatusCommandTest extends AntiMattrTestCase
         $migrationsNamespace = 'migrations-namespace';
         $migrationsDirectory = 'migrations-directory';
         $currentVersion = 'abcdefghijk';
-        $currentVersionFormatted = 'abcdefghijk (<comment>abcdefghijk</comment>)';
         $latestVersion = '1234567890';
-        $latestVersionFormatted = '1234567890 (<comment>1234567890</comment>)';
         $executedMigrations = [];
         $availableMigrations = [];
         $numExecutedMigrations = 0;
