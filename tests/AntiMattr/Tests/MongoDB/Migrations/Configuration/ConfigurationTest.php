@@ -271,12 +271,12 @@ class ConfigurationTest extends AntiMattrTestCase
     }
 
     /**
-     * testDuplicateThrowsException.
+     * testDuplicateInGetMigratedTimestampThrowsException.
      *
      * @expectedException \DomainException
      * @expectedExceptionMessage Unexpected duplicate version records in the database
      */
-    public function testDuplicateThrowsException()
+    public function testDuplicateInGetMigratedTimestampThrowsException()
     {
         $this->prepareValidConfiguration();
 
@@ -339,6 +339,7 @@ class ConfigurationTest extends AntiMattrTestCase
 
         $this->assertTrue(is_numeric($this->configuration->getMigratedTimestamp('1')));
     }
+
 
     private function prepareValidConfiguration()
     {
