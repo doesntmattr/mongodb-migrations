@@ -83,8 +83,8 @@ EOT
 
             if (!$noInteraction) {
                 $question = new ConfirmationQuestion(
-                    '<question>Are you sure you wish to continue? (y/n)</question> ',
-                    'n'
+                    '<question>Are you sure you wish to continue? (y/[n])</question> ',
+                    false
                 );
 
                 $confirmation = $this
@@ -102,8 +102,8 @@ EOT
         // warn the user if no dry run and interaction is on
         if (!$noInteraction) {
             $question = new ConfirmationQuestion(
-                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
-                'n'
+                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/[n])</question> ',
+                false
             );
 
             $confirmation = $this

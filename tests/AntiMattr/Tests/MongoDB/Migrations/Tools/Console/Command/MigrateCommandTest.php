@@ -4,12 +4,14 @@ namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Migration;
+use AntiMattr\MongoDB\Migrations\Version;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\MigrateCommand;
 use AntiMattr\TestCase\AntiMattrTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Tester\CommandTester;
 
 class MigrateCommandTest extends AntiMattrTestCase
 {
@@ -138,6 +140,78 @@ class MigrateCommandTest extends AntiMattrTestCase
             $input,
             $this->output
         );
+    }
+
+    public function testDefaultInteractionWillCancelMigration()
+    {
+        $migration = $this->buildMock(Migration::class);
+        $numVersion = '000123456789';
+
+        // We do not expect this to be called
+        $migration->expects($this->never())
+            ->method('migrate')
+            ->with($numVersion)
+        ;
+        $this->command->setMigration($migration);
+
+        $configuration = $this->buildMock(Configuration::class);
+        $configuration->expects($this->once())
+            ->method('getAvailableVersions')
+            ->willReturn([])
+        ;
+        $this->command->setMigrationConfiguration($configuration);
+
+        $executedVersion = $this->buildMock(Version::class);
+        $configuration->expects($this->once())
+            ->method('getMigratedVersions')
+            ->willReturn([$executedVersion])
+        ;
+
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->add($this->command);
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->setInputs(["\n"]);
+        $commandTester->execute(['version' => $numVersion]);
+
+        $this->assertRegExp('/Migration cancelled/', $commandTester->getDisplay());
+    }
+
+    public function testDefaultSecondInteractionWillCancelMigration()
+    {
+        $migration = $this->buildMock(Migration::class);
+        $numVersion = '000123456789';
+
+        // We do not expect this to be called
+        $migration->expects($this->never())
+            ->method('migrate')
+            ->with($numVersion)
+        ;
+        $this->command->setMigration($migration);
+
+        $configuration = $this->buildMock(Configuration::class);
+        $configuration->expects($this->once())
+            ->method('getAvailableVersions')
+            ->willReturn([])
+        ;
+        $this->command->setMigrationConfiguration($configuration);
+
+        $executedVersion = $this->buildMock(Version::class);
+        $configuration->expects($this->once())
+            ->method('getMigratedVersions')
+            ->willReturn([$executedVersion])
+        ;
+
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->add($this->command);
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->setInputs(['y', "\n"]);
+        $commandTester->execute(['version' => $numVersion]);
+
+        $this->assertRegExp('/Migration cancelled/', $commandTester->getDisplay());
     }
 }
 
