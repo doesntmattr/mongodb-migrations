@@ -7,6 +7,7 @@ use AntiMattr\TestCase\AntiMattrTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
@@ -125,6 +126,34 @@ class ExecuteCommandTest extends AntiMattrTestCase
             $input,
             $this->output
         );
+    }
+
+    public function testDefaultResponseWillCancelExecute()
+    {
+        // Do NOT expect this to be called
+        $this->version->expects($this->never())
+            ->method('execute')
+            ->with('up', false)
+        ;
+
+        $numVersion = '000123456789';
+        $this->config->expects($this->once())
+            ->method('getVersion')
+            ->with($numVersion)
+            ->willReturn($this->version)
+        ;
+
+        $this->command->setMigrationConfiguration($this->config);
+
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->add($this->command);
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->setInputs(["\n"]);
+        $commandTester->execute(['version' => $numVersion]);
+
+        $this->assertRegExp('/Migration cancelled/', $commandTester->getDisplay());
     }
 
     public function testExecuteReplayWithoutInteraction()

@@ -69,8 +69,8 @@ EOT
             $version->execute($direction, $replay);
         } else {
             $question = new ConfirmationQuestion(
-                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/n)</question> ',
-                'n'
+                '<question>WARNING! You are about to execute a database migration that could result in data lost. Are you sure you wish to continue? (y/[n])</question> ',
+                false
             );
 
             $confirmation = $this
