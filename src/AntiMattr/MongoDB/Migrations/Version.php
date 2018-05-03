@@ -167,7 +167,7 @@ class Version
     }
 
     /**
-     * Execute this migration version up or down and and return the SQL.
+     * Execute this migration version up or down
      *
      * @param string $direction The direction to execute the migration
      * @param bool   $replay    If the migration is being replayed
