@@ -33,16 +33,6 @@ abstract class AbstractMigration
     private $outputWriter;
 
     /**
-     * @var Doctrine\MongoDB\Connection
-     */
-    protected $connection;
-
-    /**
-     * @var Doctrine\MongoDB\Database
-     */
-    protected $db;
-
-    /**
      * @var AntiMattr\MongoDB\Migrations\Version
      */
     protected $version;
@@ -51,10 +41,6 @@ abstract class AbstractMigration
     {
         $this->configuration = $version->getConfiguration();
         $this->outputWriter = $this->configuration->getOutputWriter();
-        $this->connection = $this->configuration->getConnection();
-        $this->connection = $this->connection->selectDatabase(
-            $this->configuration->getMigrationsDatabaseName()
-        );
         $this->version = $version;
     }
 
