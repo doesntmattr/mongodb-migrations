@@ -79,8 +79,8 @@ EOT
     }
 
     /**
-     * @param Symfony\Component\Console\Input\InputInterface
-     * @param Symfony\Component\Console\Output\OutputInterface
+     * @param \Symfony\Component\Console\Input\InputInterface
+     * @param \Symfony\Component\Console\Output\OutputInterface
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -93,8 +93,8 @@ EOT
     }
 
     /**
-     * @param AntiMattr\MongoDB\Migrations\Configuration\Configuration
-     * @param Symfony\Component\Console\Input\InputInterface
+     * @param \AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @param \Symfony\Component\Console\Input\InputInterface
      * @param string $version
      * @param string $up
      * @param string $down

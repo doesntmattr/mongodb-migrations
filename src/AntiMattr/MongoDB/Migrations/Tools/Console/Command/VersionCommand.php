@@ -49,8 +49,8 @@ EOT
     }
 
     /**
-     * @param Symfony\Component\Console\Input\InputInterface
-     * @param Symfony\Component\Console\Output\OutputInterface
+     * @param \Symfony\Component\Console\Input\InputInterface
+     * @param \Symfony\Component\Console\Output\OutputInterface
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      * @throws InvalidArgumentException

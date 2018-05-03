@@ -25,22 +25,22 @@ use Doctrine\MongoDB\Database;
 class Configuration
 {
     /**
-     * @var Doctrine\MongoDB\Collection
+     * @var \Doctrine\MongoDB\Collection
      */
     private $collection;
 
     /**
-     * @var Doctrine\MongoDB\Connection
+     * @var \Doctrine\MongoDB\Connection
      */
     private $connection;
 
     /**
-     * @var Doctrine\MongoDB\Database
+     * @var \Doctrine\MongoDB\Database
      */
     private $database;
 
     /**
-     * @var Doctrine\MongoDB\Connection
+     * @var \Doctrine\MongoDB\Connection
      */
     private $migrationsDatabase;
 
@@ -94,18 +94,18 @@ class Configuration
     private $name;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\Version[]
+     * @var \AntiMattr\MongoDB\Migrations\Version[]
      */
     protected $migrations = [];
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\OutputWriter
+     * @var \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     private $outputWriter;
 
     /**
-     * @param Doctrine\MongoDB\Connection               $connection
-     * @param AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
+     * @param \Doctrine\MongoDB\Connection               $connection
+     * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
      */
     public function __construct(Connection $connection, OutputWriter $outputWriter = null)
     {
@@ -151,7 +151,7 @@ class Configuration
     }
 
     /**
-     * @return Doctrine\MongoDB\Collection
+     * @return \Doctrine\MongoDB\Collection
      */
     public function getCollection()
     {
@@ -165,7 +165,7 @@ class Configuration
     }
 
     /**
-     * @return Doctrine\MongoDB\Connection
+     * @return \Doctrine\MongoDB\Connection
      */
     public function getConnection()
     {
@@ -173,7 +173,7 @@ class Configuration
     }
 
     /**
-     * @return Doctrine\MongoDB\Database
+     * @return \Doctrine\MongoDB\Database
      */
     public function getDatabase(): ?Database
     {
@@ -281,7 +281,7 @@ class Configuration
     /**
      * Returns all migrated versions from the versions collection, in an array.
      *
-     * @return AntiMattr\MongoDB\Migrations\Version[]
+     * @return \AntiMattr\MongoDB\Migrations\Version[]
      */
     public function getMigratedVersions()
     {
@@ -379,7 +379,7 @@ class Configuration
     }
 
     /**
-     * @return AntiMattr\MongoDB\Migrations\OutputWriter
+     * @return \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     public function getOutputWriter()
     {
@@ -468,7 +468,7 @@ class Configuration
      *
      * @param string $version The version string in the format YYYYMMDDHHMMSS
      *
-     * @return AntiMattr\MongoDB\Migrations\Version
+     * @return \AntiMattr\MongoDB\Migrations\Version
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      */
@@ -496,7 +496,7 @@ class Configuration
     /**
      * Check if a version has been migrated or not yet.
      *
-     * @param AntiMattr\MongoDB\Migrations\Version $version
+     * @param \AntiMattr\MongoDB\Migrations\Version $version
      *
      * @return bool
      */

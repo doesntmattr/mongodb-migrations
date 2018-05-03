@@ -36,22 +36,22 @@ class Version
     private $class;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @var \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
     private $configuration;
 
     /**
-     * @var Doctrine\MongoDB\Connection
+     * @var \Doctrine\MongoDB\Connection
      */
     private $connection;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\AbstractMigration
+     * @var \AntiMattr\MongoDB\Migrations\AbstractMigration
      */
     protected $migration;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\OutputWriter
+     * @var \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     private $outputWriter;
 
@@ -63,7 +63,7 @@ class Version
     private $version;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\Collection\Statistics[]
+     * @var \AntiMattr\MongoDB\Migrations\Collection\Statistics[]
      */
     private $statistics = [];
 
@@ -89,7 +89,7 @@ class Version
     }
 
     /**
-     * @return AntiMattr\MongoDB\Migrations\Configuration\Configuration $configuration
+     * @return \AntiMattr\MongoDB\Migrations\Configuration\Configuration $configuration
      */
     public function getConfiguration()
     {
@@ -111,7 +111,7 @@ class Version
     }
 
     /**
-     * @return AntiMattr\MongoDB\Migrations\AbstractMigration
+     * @return \AntiMattr\MongoDB\Migrations\AbstractMigration
      */
     public function getMigration()
     {
@@ -145,7 +145,7 @@ class Version
     }
 
     /**
-     * @param Doctrine\MongoDB\Collection
+     * @param \Doctrine\MongoDB\Collection
      */
     public function analyze(Collection $collection)
     {
@@ -244,7 +244,7 @@ class Version
     }
 
     /**
-     * @param Doctrine\MongoDB\Database
+     * @param \Doctrine\MongoDB\Database
      * @param string $file
      *
      * @return array
@@ -374,7 +374,7 @@ class Version
     }
 
     /**
-     * @return AntiMattr\MongoDB\Migrations\AbstractMigration
+     * @return \AntiMattr\MongoDB\Migrations\AbstractMigration
      */
     protected function createMigration()
     {
@@ -390,7 +390,7 @@ class Version
     }
 
     /**
-     * @return AntiMattr\MongoDB\Migrations\Collection\Statistics
+     * @return \AntiMattr\MongoDB\Migrations\Collection\Statistics
      */
     protected function createStatistics()
     {

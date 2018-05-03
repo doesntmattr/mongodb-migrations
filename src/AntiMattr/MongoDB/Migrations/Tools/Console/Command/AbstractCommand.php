@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class AbstractCommand extends Command
 {
     /**
-     * @var AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @var \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
     private $configuration;
 
@@ -43,8 +43,8 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * @param AntiMattr\MongoDB\Migrations\Configuration\Configuration
-     * @param Symfony\Component\Console\Output\OutputInterface
+     * @param \AntiMattr\MongoDB\Migrations\Configuration\Configuration $configuration
+     * @param \Symfony\Component\Console\Output\OutputInterface         $output
      */
     protected function outputHeader(Configuration $configuration, OutputInterface $output)
     {
@@ -58,7 +58,7 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * @param AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @param \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
     public function setMigrationConfiguration(Configuration $config)
     {
@@ -66,10 +66,10 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * @param Symfony\Component\Console\Output\InputInterface  $input
-     * @param Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Output\InputInterface  $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @return \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
     protected function getMigrationConfiguration(InputInterface $input, OutputInterface $output)
     {
@@ -112,9 +112,9 @@ abstract class AbstractCommand extends Command
     }
 
     /**
-     * @params array $params
+     * @param array $params
      *
-     * @return Doctrine\MongoDB\Connection
+     * @return \Doctrine\MongoDB\Connection
      */
     protected function createConnection($params)
     {

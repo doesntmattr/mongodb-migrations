@@ -23,17 +23,17 @@ use Doctrine\MongoDB\Database;
 abstract class AbstractMigration
 {
     /**
-     * @var AntiMattr\MongoDB\Migrations\Configuration\Configuration
+     * @var \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
     private $configuration;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\OutputWriter
+     * @var \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     private $outputWriter;
 
     /**
-     * @var AntiMattr\MongoDB\Migrations\Version
+     * @var \AntiMattr\MongoDB\Migrations\Version
      */
     protected $version;
 
@@ -56,7 +56,7 @@ abstract class AbstractMigration
     abstract public function down(Database $db);
 
     /**
-     * @param Doctrine\MongoDB\Collection
+     * @param \Doctrine\MongoDB\Collection
      */
     protected function analyze(Collection $collection)
     {
@@ -64,7 +64,7 @@ abstract class AbstractMigration
     }
 
     /**
-     * @param Doctrine\MongoDB\Database
+     * @param \Doctrine\MongoDB\Database
      * @param string $filename
      */
     protected function executeScript(Database $db, $filename)
