@@ -301,12 +301,12 @@ class Configuration
      *
      * @param string $version
      *
-     * @return string
+     * @return int
      *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      * @throws DomainException                                                If more than one version exists
      */
-    public function getMigratedTimestamp($version)
+    public function getMigratedTimestamp($version): int
     {
         $this->createMigrationCollection();
 
@@ -329,7 +329,7 @@ class Configuration
         // Convert to normalised timestamp
         $ts = new Timestamp($returnVersion['t']);
 
-        return (string) $ts;
+        return $ts->getTimestamp();
     }
 
     /**
@@ -517,7 +517,7 @@ class Configuration
         $this->createMigrationCollection();
 
         $migratedVersions = [];
-        if ($this->migrations) {
+        if (!empty($this->migrations)) {
             foreach ($this->migrations as $migration) {
                 $migratedVersions[] = $migration->getVersion();
             }

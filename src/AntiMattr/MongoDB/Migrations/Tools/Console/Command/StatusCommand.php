@@ -146,7 +146,7 @@ EOT
             }
 
             $executedUnavailableMigrations = $configuration->getUnavailableMigratedVersions();
-            if ($executedUnavailableMigrations) {
+            if (!empty($executedUnavailableMigrations)) {
                 $output->writeln("\n <info>==</info> Previously Executed Unavailable Migration Versions\n");
                 foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
                     $output->writeln(
