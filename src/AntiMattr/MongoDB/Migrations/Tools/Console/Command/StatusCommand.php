@@ -52,8 +52,8 @@ EOT
     }
 
     /**
-     * @param Symfony\Component\Console\Input\InputInterface
-     * @param Symfony\Component\Console\Output\OutputInterface
+     * @param \Symfony\Component\Console\Input\InputInterface
+     * @param \Symfony\Component\Console\Output\OutputInterface
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -146,7 +146,7 @@ EOT
             }
 
             $executedUnavailableMigrations = $configuration->getUnavailableMigratedVersions();
-            if ($executedUnavailableMigrations) {
+            if (!empty($executedUnavailableMigrations)) {
                 $output->writeln("\n <info>==</info> Previously Executed Unavailable Migration Versions\n");
                 foreach ($executedUnavailableMigrations as $executedUnavailableMigration) {
                     $output->writeln(

@@ -81,7 +81,7 @@ class Migration
 
         $time = 0;
         foreach ($migrationsToExecute as $version) {
-            $versionSql = $version->execute($direction);
+            $version->execute($direction);
             $time += $version->getTime();
         }
 

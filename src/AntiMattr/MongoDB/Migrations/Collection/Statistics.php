@@ -42,7 +42,7 @@ class Statistics
     ];
 
     /**
-     * @var Doctrine\MongoDB\Collection
+     * @var \Doctrine\MongoDB\Collection
      */
     private $collection;
 
@@ -57,7 +57,7 @@ class Statistics
     private $after = [];
 
     /**
-     * @param Doctrine\MongoDB\Collection
+     * @param \Doctrine\MongoDB\Collection
      */
     public function setCollection(Collection $collection)
     {
@@ -65,7 +65,7 @@ class Statistics
     }
 
     /**
-     * @return Doctrine\MongoDB\Collection
+     * @return \Doctrine\MongoDB\Collection
      */
     public function getCollection()
     {

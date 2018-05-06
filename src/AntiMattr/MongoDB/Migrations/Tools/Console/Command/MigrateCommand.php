@@ -51,8 +51,8 @@ EOT
     }
 
     /**
-     * @param Symfony\Component\Console\Input\InputInterface
-     * @param Symfony\Component\Console\Output\OutputInterface
+     * @param \Symfony\Component\Console\Input\InputInterface
+     * @param \Symfony\Component\Console\Output\OutputInterface
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
