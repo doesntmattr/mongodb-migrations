@@ -76,22 +76,7 @@ abstract class AbstractCommand extends Command
         OutputInterface $output
     ): Configuration {
         if (!$this->configuration) {
-            if ($this->getApplication()->getHelperSet()->has('dm')) {
-                // Doctrine\MongoDB\Connection
-                $conn = $this->getHelper('dm')->getDocumentManager()->getConnection();
-            } elseif ($input->getOption('db-configuration')) {
-                if (!file_exists($input->getOption('db-configuration'))) {
-                    throw new \InvalidArgumentException('The specified connection file is not a valid file.');
-                }
-
-                $params = include $input->getOption('db-configuration');
-                if (!is_array($params)) {
-                    throw new \InvalidArgumentException('The connection file has to return an array with database configuration parameters.');
-                }
-                $conn = $this->createConnection($params);
-            } else {
-                throw new \InvalidArgumentException('You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.');
-            }
+            $conn = $this->getDatabaseConnection();
 
             $outputWriter = new OutputWriter(function ($message) use ($output) {
                 return $output->writeln($message);
@@ -111,6 +96,44 @@ abstract class AbstractCommand extends Command
         }
 
         return $this->configuration;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return Connection
+     */
+    protected function getDatabaseConnection(InputInterface $input): Connection
+    {
+        // Default to document manager helper set
+        if ($this->getApplication()->getHelperSet()->has('dm')) {
+            return $this->getHelper('dm')
+                ->getDocumentManager()
+                ->getConnection();
+        }
+
+        // PHP array file
+        $dbConfiguration = $input->getOption('db-configuration');
+
+        if (!$dbConfiguration) {
+            throw new \InvalidArgumentException(
+                'You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.'
+            );
+        }
+
+        if (!file_exists($dbConfiguration)) {
+            throw new \InvalidArgumentException('The specified connection file is not a valid file.');
+        }
+
+        $dbConfigArr = include $dbConfiguration;
+
+        if (!is_array($dbConfigArr)) {
+            throw new \InvalidArgumentException(
+                'The connection file has to return an array with database configuration parameters.'
+            );
+        }
+
+        return $this->createConnection($dbConfigArr);
     }
 
     /**
