@@ -76,10 +76,6 @@ abstract class AbstractCommand extends Command
         OutputInterface $output
     ): Configuration {
         if (!$this->configuration) {
-            $outputWriter = new OutputWriter(function ($message) use ($output) {
-                return $output->writeln($message);
-            });
-
             if ($this->getApplication()->getHelperSet()->has('dm')) {
                 // Doctrine\MongoDB\Connection
                 $conn = $this->getHelper('dm')->getDocumentManager()->getConnection();
@@ -96,6 +92,10 @@ abstract class AbstractCommand extends Command
             } else {
                 throw new \InvalidArgumentException('You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.');
             }
+
+            $outputWriter = new OutputWriter(function ($message) use ($output) {
+                return $output->writeln($message);
+            });
 
             if ($input->getOption('configuration')) {
                 $info = pathinfo($input->getOption('configuration'));
