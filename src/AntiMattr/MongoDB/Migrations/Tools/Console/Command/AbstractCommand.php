@@ -85,7 +85,7 @@ abstract class AbstractCommand extends Command
             $migrationsConfigFile = $input->getOption('configuration');
 
             if ($migrationsConfigFile) {
-                $info = pathinfo($$migrationsConfigFile);
+                $info = pathinfo($migrationsConfigFile);
                 $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
                 $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
                 $class = sprintf('%s\%s', $namespace, $class);
