@@ -304,9 +304,9 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFile(): string
+    public function getFile(): ?string
     {
         return $this->file;
     }

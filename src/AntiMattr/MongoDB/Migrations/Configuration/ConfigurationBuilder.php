@@ -141,25 +141,31 @@ class ConfigurationBuilder
     {
         $config = new Configuration($this->connection, $this->outputWriter);
 
-        $migrationsDirectory = $this->getDirectoryRelativeToFile(
-            $this->configFile,
-            $this->configParams['migrations_directory']
-        );
-
-        $scriptsDirectory = $this->getDirectoryRelativeToFile(
-            $this->configFile,
-            $this->configParams['migrations_script_directory']
-        );
-
         $config->setName($this->configParams['name'])
             ->setFile($this->configFile)
             ->setMigrationsDatabaseName($this->configParams['database'])
             ->setMigrationsCollectionName($this->configParams['collection_name'])
             ->setMigrationsNamespace($this->configParams['migrations_namespace'])
-            ->setMigrationsDirectory($migrationsDirectory)
-            ->setMigrationsScriptDirectory($scriptsDirectory);
+        ;
 
-        $config->registerMigrationsFromDirectory($migrationsDirectory);
+        if (!empty($this->configParams['migrations_directory'])) {
+            $migrationsDirectory = $this->getDirectoryRelativeToFile(
+                $this->configFile,
+                $this->configParams['migrations_directory']
+            );
+
+            $config->setMigrationsDirectory($migrationsDirectory)
+                ->registerMigrationsFromDirectory($migrationsDirectory);
+        }
+
+        if (!empty($this->configParams['migrations_script_directory'])) {
+            $scriptsDirectory = $this->getDirectoryRelativeToFile(
+                $this->configFile,
+                $this->configParams['migrations_script_directory']
+            );
+
+            $config->setMigrationsScriptDirectory($scriptsDirectory);
+        }
 
         foreach ($this->configParams['migrations'] as $migration) {
             $config->registerMigration(
