@@ -104,6 +104,11 @@ class Configuration
     private $outputWriter;
 
     /**
+     * @var string
+     */
+    private $file;
+
+    /**
      * @param \Doctrine\MongoDB\Connection               $connection
      * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
      */
@@ -202,6 +207,8 @@ class Configuration
     public function setMigrationsDatabaseName($databaseName)
     {
         $this->migrationsDatabaseName = $databaseName;
+
+        return $this;
     }
 
     /**
@@ -218,6 +225,8 @@ class Configuration
     public function setMigrationsCollectionName($collectionName)
     {
         $this->migrationsCollectionName = $collectionName;
+
+        return $this;
     }
 
     /**
@@ -234,6 +243,8 @@ class Configuration
     public function setMigrationsDirectory($migrationsDirectory)
     {
         $this->migrationsDirectory = $migrationsDirectory;
+
+        return $this;
     }
 
     /**
@@ -252,6 +263,8 @@ class Configuration
     public function setMigrationsNamespace($migrationsNamespace)
     {
         $this->migrationsNamespace = $migrationsNamespace;
+
+        return $this;
     }
 
     /**
@@ -268,6 +281,8 @@ class Configuration
     public function setMigrationsScriptDirectory($scriptsDirectory)
     {
         $this->migrationsScriptDirectory = $scriptsDirectory;
+
+        return $this;
     }
 
     /**
@@ -276,6 +291,24 @@ class Configuration
     public function getMigrationsScriptDirectory()
     {
         return $this->migrationsScriptDirectory;
+    }
+
+    /**
+     * @param string $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile(): string
+    {
+        return $this->file;
     }
 
     /**
@@ -348,6 +381,8 @@ class Configuration
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**

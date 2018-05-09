@@ -12,6 +12,7 @@
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
+use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use Doctrine\MongoDB\Connection;
 use Symfony\Component\Console\Command\Command;
@@ -84,16 +85,11 @@ abstract class AbstractCommand extends Command
 
             $migrationsConfigFile = $input->getOption('configuration');
 
-            if ($migrationsConfigFile) {
-                $info = pathinfo($migrationsConfigFile);
-                $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
-                $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
-                $class = sprintf('%s\%s', $namespace, $class);
-                $this->configuration = new $class($conn, $outputWriter);
-                $this->configuration->load($migrationsConfigFile);
-            } else {
-                $this->configuration = new Configuration($conn, $outputWriter);
-            }
+            $this->configuration = ConfigurationBuilder::create()
+                ->setConnection($conn)
+                ->setOutputWriter($outputWriter)
+                ->setOnDiskConfiguration($migrationsConfigFile)
+                ->build();
         }
 
         return $this->configuration;
