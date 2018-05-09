@@ -82,17 +82,18 @@ abstract class AbstractCommand extends Command
                 return $output->writeln($message);
             });
 
-            if ($input->getOption('configuration')) {
-                $info = pathinfo($input->getOption('configuration'));
+            $migrationsConfigFile = $input->getOption('configuration');
+
+            if ($migrationsConfigFile) {
+                $info = pathinfo($$migrationsConfigFile);
                 $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
                 $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
                 $class = sprintf('%s\%s', $namespace, $class);
-                $configuration = new $class($conn, $outputWriter);
-                $configuration->load($input->getOption('configuration'));
+                $this->configuration = new $class($conn, $outputWriter);
+                $this->configuration->load($migrationsConfigFile);
             } else {
-                $configuration = new Configuration($conn, $outputWriter);
+                $this->configuration = new Configuration($conn, $outputWriter);
             }
-            $this->configuration = $configuration;
         }
 
         return $this->configuration;
