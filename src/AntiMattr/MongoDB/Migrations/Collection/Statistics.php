@@ -118,23 +118,18 @@ class Statistics
         $database = $this->collection->getDatabase();
         $name = $this->collection->getName();
 
-        try {
-            if (!$data = $database->command(['collStats' => $name])) {
-                $message = sprintf(
-                    'Statistics not found for collection %s',
-                    $name
-                );
-                throw new Exception($message);
-            }
-            if (isset($data['errmsg'])) {
-                throw new Exception($data['errmsg']);
-            }
-
-            return $data;
-        } catch (Exception $e) {
-            throw $e;
+        if (!$data = $database->command(['collStats' => $name])) {
+            $message = sprintf(
+                'Statistics not found for collection %s',
+                $name
+            );
+            throw new Exception($message);
         }
 
-        return [];
+        if (isset($data['errmsg'])) {
+            throw new Exception($data['errmsg']);
+        }
+
+        return $data;
     }
 }

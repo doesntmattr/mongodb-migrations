@@ -13,7 +13,7 @@ class OutputWriterTest extends AntiMattrTestCase
     {
         $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
         $output = $this->output;
-        $this->outputWriter = new OutputWriter(function ($message) use ($output) {
+        $this->outputWriter = new OutputWriter(function($message) use ($output) {
             return $output->writeln($message);
         });
     }

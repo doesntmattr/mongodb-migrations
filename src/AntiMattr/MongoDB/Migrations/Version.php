@@ -46,6 +46,11 @@ class Version
     private $connection;
 
     /**
+     * @var \Doctrine\MongoDB\Database
+     */
+    private $db;
+
+    /**
      * @var \AntiMattr\MongoDB\Migrations\AbstractMigration
      */
     protected $migration;

@@ -77,9 +77,9 @@ abstract class AbstractCommand extends Command
         OutputInterface $output
     ): Configuration {
         if (!$this->configuration) {
-            $conn = $this->getDatabaseConnection();
+            $conn = $this->getDatabaseConnection($input);
 
-            $outputWriter = new OutputWriter(function ($message) use ($output) {
+            $outputWriter = new OutputWriter(function($message) use ($output) {
                 return $output->writeln($message);
             });
 

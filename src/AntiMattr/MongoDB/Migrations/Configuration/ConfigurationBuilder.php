@@ -37,6 +37,11 @@ class ConfigurationBuilder
      */
     private $configParams;
 
+    /**
+     * @var string
+     */
+    private $configFile;
+
     private function __construct()
     {
         $this->configParams = [
@@ -93,7 +98,7 @@ class ConfigurationBuilder
 
         if ($this->configFile) {
             if (file_exists($path = getcwd() . '/' . $this->configFile)) {
-                $configFile = $path;
+                $this->configFile = $path;
             }
 
             if (!file_exists($this->configFile)) {
