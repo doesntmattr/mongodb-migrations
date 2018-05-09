@@ -71,8 +71,10 @@ abstract class AbstractCommand extends Command
      *
      * @return \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
-    protected function getMigrationConfiguration(InputInterface $input, OutputInterface $output)
-    {
+    protected function getMigrationConfiguration(
+        InputInterface $input,
+        OutputInterface $output
+    ): Configuration {
         if (!$this->configuration) {
             $outputWriter = new OutputWriter(function ($message) use ($output) {
                 return $output->writeln($message);
