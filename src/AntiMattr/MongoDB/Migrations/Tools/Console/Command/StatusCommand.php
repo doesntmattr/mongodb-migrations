@@ -12,7 +12,6 @@
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Migration;
-use AntiMattr\MongoDB\Migrations\Configuration\AbstractFileConfiguration;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -93,7 +92,7 @@ EOT
             'Name' => $configMap['name'],
             'Database Driver' => $configMap['database_driver'],
             'Database Name' => $configMap['migrations_database_name'],
-            'Configuration Source' => $configuration instanceof AbstractFileConfiguration ? $configuration->getFile() : 'manually configured',
+            'Configuration Source' => $configuration->getFile() ?: 'manually configured',
             'Version Collection Name' => $configMap['migrations_collection_name'],
             'Migrations Namespace' => $configMap['migrations_namespace'],
             'Migrations Directory' => $configMap['migrations_directory'],

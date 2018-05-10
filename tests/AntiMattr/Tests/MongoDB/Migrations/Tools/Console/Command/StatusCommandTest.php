@@ -471,7 +471,7 @@ class StatusCommandStub extends StatusCommand
         $this->configuration = $configuration;
     }
 
-    public function getMigrationConfiguration(InputInterface $input, OutputInterface $output)
+    public function getMigrationConfiguration(InputInterface $input, OutputInterface $output): Configuration
     {
         return $this->configuration;
     }

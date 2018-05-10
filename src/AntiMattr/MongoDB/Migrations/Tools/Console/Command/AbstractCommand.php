@@ -12,6 +12,7 @@
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
+use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use Doctrine\MongoDB\Connection;
 use Symfony\Component\Console\Command\Command;
@@ -71,44 +72,65 @@ abstract class AbstractCommand extends Command
      *
      * @return \AntiMattr\MongoDB\Migrations\Configuration\Configuration
      */
-    protected function getMigrationConfiguration(InputInterface $input, OutputInterface $output)
-    {
+    protected function getMigrationConfiguration(
+        InputInterface $input,
+        OutputInterface $output
+    ): Configuration {
         if (!$this->configuration) {
-            $outputWriter = new OutputWriter(function ($message) use ($output) {
+            $conn = $this->getDatabaseConnection($input);
+
+            $outputWriter = new OutputWriter(function($message) use ($output) {
                 return $output->writeln($message);
             });
 
-            if ($this->getApplication()->getHelperSet()->has('dm')) {
-                // Doctrine\MongoDB\Connection
-                $conn = $this->getHelper('dm')->getDocumentManager()->getConnection();
-            } elseif ($input->getOption('db-configuration')) {
-                if (!file_exists($input->getOption('db-configuration'))) {
-                    throw new \InvalidArgumentException('The specified connection file is not a valid file.');
-                }
+            $migrationsConfigFile = $input->getOption('configuration');
 
-                $params = include $input->getOption('db-configuration');
-                if (!is_array($params)) {
-                    throw new \InvalidArgumentException('The connection file has to return an array with database configuration parameters.');
-                }
-                $conn = $this->createConnection($params);
-            } else {
-                throw new \InvalidArgumentException('You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.');
-            }
-
-            if ($input->getOption('configuration')) {
-                $info = pathinfo($input->getOption('configuration'));
-                $namespace = 'AntiMattr\MongoDB\Migrations\Configuration';
-                $class = 'xml' === $info['extension'] ? 'XmlConfiguration' : 'YamlConfiguration';
-                $class = sprintf('%s\%s', $namespace, $class);
-                $configuration = new $class($conn, $outputWriter);
-                $configuration->load($input->getOption('configuration'));
-            } else {
-                $configuration = new Configuration($conn, $outputWriter);
-            }
-            $this->configuration = $configuration;
+            $this->configuration = ConfigurationBuilder::create()
+                ->setConnection($conn)
+                ->setOutputWriter($outputWriter)
+                ->setOnDiskConfiguration($migrationsConfigFile)
+                ->build();
         }
 
         return $this->configuration;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return Connection
+     */
+    protected function getDatabaseConnection(InputInterface $input): Connection
+    {
+        // Default to document manager helper set
+        if ($this->getApplication()->getHelperSet()->has('dm')) {
+            return $this->getHelper('dm')
+                ->getDocumentManager()
+                ->getConnection();
+        }
+
+        // PHP array file
+        $dbConfiguration = $input->getOption('db-configuration');
+
+        if (!$dbConfiguration) {
+            throw new \InvalidArgumentException(
+                'You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.'
+            );
+        }
+
+        if (!file_exists($dbConfiguration)) {
+            throw new \InvalidArgumentException('The specified connection file is not a valid file.');
+        }
+
+        $dbConfigArr = include $dbConfiguration;
+
+        if (!is_array($dbConfigArr)) {
+            throw new \InvalidArgumentException(
+                'The connection file has to return an array with database configuration parameters.'
+            );
+        }
+
+        return $this->createConnection($dbConfigArr);
     }
 
     /**

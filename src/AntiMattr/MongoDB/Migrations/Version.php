@@ -46,6 +46,11 @@ class Version
     private $connection;
 
     /**
+     * @var \Doctrine\MongoDB\Database
+     */
+    private $db;
+
+    /**
      * @var \AntiMattr\MongoDB\Migrations\AbstractMigration
      */
     protected $migration;
@@ -167,7 +172,7 @@ class Version
     }
 
     /**
-     * Execute this migration version up or down
+     * Execute this migration version up or down.
      *
      * @param string $direction The direction to execute the migration
      * @param bool   $replay    If the migration is being replayed
