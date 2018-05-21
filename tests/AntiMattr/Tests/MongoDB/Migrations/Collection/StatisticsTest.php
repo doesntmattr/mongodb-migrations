@@ -3,16 +3,16 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Collection;
 
 use AntiMattr\MongoDB\Migrations\Collection\Statistics;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class StatisticsTest extends AntiMattrTestCase
+class StatisticsTest extends TestCase
 {
     private $collection;
     private $statistics;
 
     protected function setUp()
     {
-        $this->collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $this->collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->statistics = new Statistics();
     }
 
@@ -30,7 +30,7 @@ class StatisticsTest extends AntiMattrTestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->buildMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('Doctrine\MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')
@@ -51,7 +51,7 @@ class StatisticsTest extends AntiMattrTestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->buildMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('Doctrine\MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')
@@ -77,7 +77,7 @@ class StatisticsTest extends AntiMattrTestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->buildMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('Doctrine\MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')

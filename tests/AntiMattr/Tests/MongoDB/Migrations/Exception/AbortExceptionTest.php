@@ -2,15 +2,15 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class AbortExceptionTest extends AntiMattrTestCase
+class AbortExceptionTest extends TestCase
 {
     private $exception;
 
     protected function setUp()
     {
-        $this->exception = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\AbortException');
+        $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\AbortException');
     }
 
     public function testConstructor()

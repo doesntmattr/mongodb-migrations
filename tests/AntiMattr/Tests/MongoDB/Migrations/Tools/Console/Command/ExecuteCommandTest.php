@@ -3,7 +3,7 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\ExecuteCommand;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
  */
-class ExecuteCommandTest extends AntiMattrTestCase
+class ExecuteCommandTest extends TestCase
 {
     private $command;
     private $output;
@@ -22,9 +22,9 @@ class ExecuteCommandTest extends AntiMattrTestCase
     public function setUp()
     {
         $this->command = new ExecuteCommand();
-        $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
-        $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->config = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->version = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
     }
 
     public function testExecuteDownWithoutInteraction()
@@ -73,7 +73,7 @@ class ExecuteCommandTest extends AntiMattrTestCase
     public function testExecuteUpWithInteraction()
     {
         // Mocks
-        $question = $this->buildMock('Symfony\Component\Console\Helper\QuestionHelper');
+        $question = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
 
         // Variables and Objects
         $application = new Application();

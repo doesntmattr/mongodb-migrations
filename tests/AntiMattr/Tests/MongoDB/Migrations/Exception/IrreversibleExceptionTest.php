@@ -2,15 +2,15 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class IrreversibleExceptionTest extends AntiMattrTestCase
+class IrreversibleExceptionTest extends TestCase
 {
     private $exception;
 
     protected function setUp()
     {
-        $this->exception = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\IrreversibleException');
+        $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\IrreversibleException');
     }
 
     public function testConstructor()

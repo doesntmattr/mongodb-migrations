@@ -5,13 +5,13 @@ namespace AntiMattr\Tests\MongoDB\Migrations\Configuration;
 use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ConfigurationBuilderTest extends AntiMattrTestCase
+class ConfigurationBuilderTest extends TestCase
 {
     public function testBuildingConfiguration()
     {
-        $conn = $this->buildMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('Doctrine\MongoDB\Connection');
         $outputWriter = new OutputWriter();
         $onDiskConfig = '';
 
@@ -28,7 +28,7 @@ class ConfigurationBuilderTest extends AntiMattrTestCase
 
     public function testBuildingWithYamlConfig()
     {
-        $conn = $this->buildMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('Doctrine\MongoDB\Connection');
         $outputWriter = new OutputWriter();
         $onDiskConfig = dirname(__DIR__) . '/Resources/fixtures/config.yml';
 
@@ -52,7 +52,7 @@ class ConfigurationBuilderTest extends AntiMattrTestCase
 
     public function testBuildingWithXmlConfig()
     {
-        $conn = $this->buildMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('Doctrine\MongoDB\Connection');
         $outputWriter = new OutputWriter();
         $onDiskConfig = dirname(__DIR__) . '/Resources/fixtures/config.xml';
 

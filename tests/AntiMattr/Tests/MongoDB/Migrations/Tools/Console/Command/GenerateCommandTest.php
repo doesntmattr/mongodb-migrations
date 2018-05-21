@@ -3,14 +3,14 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\GenerateCommand;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
  */
-class GenerateCommandTest extends AntiMattrTestCase
+class GenerateCommandTest extends TestCase
 {
     private $command;
     private $output;
@@ -19,8 +19,8 @@ class GenerateCommandTest extends AntiMattrTestCase
     protected function setUp()
     {
         $this->command = new GenerateCommandStub();
-        $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
-        $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->config = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
 
         $this->command->setMigrationConfiguration($this->config);
     }

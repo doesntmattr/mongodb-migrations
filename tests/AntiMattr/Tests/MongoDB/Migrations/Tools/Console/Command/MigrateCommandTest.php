@@ -6,14 +6,14 @@ use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Version;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\MigrateCommand;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class MigrateCommandTest extends AntiMattrTestCase
+class MigrateCommandTest extends TestCase
 {
     private $command;
     private $output;
@@ -21,16 +21,16 @@ class MigrateCommandTest extends AntiMattrTestCase
     public function setUp()
     {
         $this->command = new MigrateCommandStub();
-        $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
     }
 
     public function testExecuteWithExectedUnavailableVersionAndInteraction()
     {
         // Mocks
-        $configuration = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $executedVersion = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $question = $this->buildMock('Symfony\Component\Console\Helper\QuestionHelper');
+        $configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $executedVersion = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
+        $migration = $this->createMock('AntiMattr\MongoDB\Migrations\Migration');
+        $question = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
 
         // Variables and Objects
         $numVersion = '000123456789';
@@ -95,9 +95,9 @@ class MigrateCommandTest extends AntiMattrTestCase
     public function testExecute()
     {
         // Mocks
-        $configuration = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $availableVersion = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
-        $migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
+        $configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $availableVersion = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
+        $migration = $this->createMock('AntiMattr\MongoDB\Migrations\Migration');
 
         // Variables and Objects
         $numVersion = '000123456789';
@@ -144,7 +144,7 @@ class MigrateCommandTest extends AntiMattrTestCase
 
     public function testDefaultInteractionWillCancelMigration()
     {
-        $migration = $this->buildMock(Migration::class);
+        $migration = $this->createMock(Migration::class);
         $numVersion = '000123456789';
 
         // We do not expect this to be called
@@ -154,14 +154,14 @@ class MigrateCommandTest extends AntiMattrTestCase
         ;
         $this->command->setMigration($migration);
 
-        $configuration = $this->buildMock(Configuration::class);
+        $configuration = $this->createMock(Configuration::class);
         $configuration->expects($this->once())
             ->method('getAvailableVersions')
             ->willReturn([])
         ;
         $this->command->setMigrationConfiguration($configuration);
 
-        $executedVersion = $this->buildMock(Version::class);
+        $executedVersion = $this->createMock(Version::class);
         $configuration->expects($this->once())
             ->method('getMigratedVersions')
             ->willReturn([$executedVersion])
@@ -180,7 +180,7 @@ class MigrateCommandTest extends AntiMattrTestCase
 
     public function testDefaultSecondInteractionWillCancelMigration()
     {
-        $migration = $this->buildMock(Migration::class);
+        $migration = $this->createMock(Migration::class);
         $numVersion = '000123456789';
 
         // We do not expect this to be called
@@ -190,14 +190,14 @@ class MigrateCommandTest extends AntiMattrTestCase
         ;
         $this->command->setMigration($migration);
 
-        $configuration = $this->buildMock(Configuration::class);
+        $configuration = $this->createMock(Configuration::class);
         $configuration->expects($this->once())
             ->method('getAvailableVersions')
             ->willReturn([])
         ;
         $this->command->setMigrationConfiguration($configuration);
 
-        $executedVersion = $this->buildMock(Version::class);
+        $executedVersion = $this->createMock(Version::class);
         $configuration->expects($this->once())
             ->method('getMigratedVersions')
             ->willReturn([$executedVersion])
