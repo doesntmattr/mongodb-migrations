@@ -3,9 +3,9 @@
 namespace AntiMattr\Tests\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\Migration;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class MigrationTest extends AntiMattrTestCase
+class MigrationTest extends TestCase
 {
     private $configuration;
     private $migration;
@@ -13,8 +13,8 @@ class MigrationTest extends AntiMattrTestCase
 
     protected function setUp()
     {
-        $this->configuration = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->outputWriter = $this->buildMock('AntiMattr\MongoDB\Migrations\OutputWriter');
+        $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->outputWriter = $this->createMock('AntiMattr\MongoDB\Migrations\OutputWriter');
 
         $this->configuration->expects($this->once())
             ->method('getOutputWriter')
@@ -96,7 +96,7 @@ class MigrationTest extends AntiMattrTestCase
             ->method('getMigrations')
             ->will($this->returnValue($expectedMigrations));
 
-        $version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $version = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
 
         $this->configuration->expects($this->once())
             ->method('getMigrationsToExecute')

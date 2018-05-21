@@ -5,13 +5,13 @@ namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\VersionCommand;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
  */
-class VersionCommandTest extends AntiMattrTestCase
+class VersionCommandTest extends TestCase
 {
     private $command;
     private $output;
@@ -22,10 +22,10 @@ class VersionCommandTest extends AntiMattrTestCase
     protected function setUp()
     {
         $this->command = new VersionCommandStub();
-        $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
-        $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\Migration');
-        $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->config = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->migration = $this->createMock('AntiMattr\MongoDB\Migrations\Migration');
+        $this->version = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
 
         $this->command->setMigrationConfiguration($this->config);
         $this->command->setMigration($this->migration);

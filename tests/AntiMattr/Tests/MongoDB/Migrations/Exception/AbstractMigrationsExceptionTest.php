@@ -3,9 +3,9 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
 use AntiMattr\MongoDB\Migrations\Exception\AbstractMigrationsException;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class AbstractMigrationsExceptionTest extends AntiMattrTestCase
+class AbstractMigrationsExceptionTest extends TestCase
 {
     private $exception;
 

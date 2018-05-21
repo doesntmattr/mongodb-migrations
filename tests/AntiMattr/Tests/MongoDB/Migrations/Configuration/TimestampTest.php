@@ -2,10 +2,10 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Configuration;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use AntiMattr\MongoDB\Migrations\Configuration\Timestamp;
 
-class TimestampTest extends AntiMattrTestCase
+class TimestampTest extends TestCase
 {
     /**
      * @dataProvider provideTimestamps

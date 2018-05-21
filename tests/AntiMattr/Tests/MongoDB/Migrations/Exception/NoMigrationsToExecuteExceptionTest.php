@@ -2,15 +2,15 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class NoMigrationsToExecuteExceptionTest extends AntiMattrTestCase
+class NoMigrationsToExecuteExceptionTest extends TestCase
 {
     private $exception;
 
     protected function setUp()
     {
-        $this->exception = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException');
+        $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException');
     }
 
     public function testConstructor()

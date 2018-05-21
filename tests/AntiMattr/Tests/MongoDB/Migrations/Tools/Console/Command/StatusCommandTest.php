@@ -5,7 +5,7 @@ namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\StatusCommand;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Ryan Catlin <ryan.catlin@gmail.com>
  */
-class StatusCommandTest extends AntiMattrTestCase
+class StatusCommandTest extends TestCase
 {
     private $command;
     private $output;
@@ -25,18 +25,18 @@ class StatusCommandTest extends AntiMattrTestCase
     protected function setUp()
     {
         $this->command = new StatusCommandStub();
-        $this->output = $this->buildMock('Symfony\Component\Console\Output\OutputInterface');
-        $this->outputFormatter = $this->buildMock(
+        $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $this->outputFormatter = $this->createMock(
             'Symfony\Component\Console\Formatter\OutputFormatterInterface'
         );
-        $this->config = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->migration = $this->buildMock('AntiMattr\MongoDB\Migrations\AbstractMigration');
-        $this->version = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->config = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->migration = $this->createMock('AntiMattr\MongoDB\Migrations\AbstractMigration');
+        $this->version = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
         $this->version->expects($this->any())
             ->method('getMigration')
             ->will($this->returnValue($this->migration));
 
-        $this->version2 = $this->buildMock('AntiMattr\MongoDB\Migrations\Version');
+        $this->version2 = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
         $this->version2->expects($this->any())
             ->method('getMigration')
             ->will($this->returnValue($this->migration));

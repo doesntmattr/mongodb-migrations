@@ -4,11 +4,11 @@ namespace AntiMattr\Tests\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
 use AntiMattr\MongoDB\Migrations\Version;
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 use Doctrine\MongoDB\Database;
 use MongoDB\BSON\UTCDateTime;
 
-class VersionTest extends AntiMattrTestCase
+class VersionTest extends TestCase
 {
     private $className;
     private $configuration;
@@ -23,12 +23,12 @@ class VersionTest extends AntiMattrTestCase
     protected function setUp()
     {
         $this->className = 'AntiMattr\Tests\MongoDB\Migrations\Version20140908000000';
-        $this->configuration = $this->buildMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->connection = $this->buildMock('Doctrine\MongoDB\Connection');
-        $this->db = $this->buildMock('Doctrine\MongoDB\Database');
-        $this->migration = $this->buildMock('AntiMattr\Tests\MongoDB\Migrations\Version20140908000000');
-        $this->outputWriter = $this->buildMock('AntiMattr\MongoDB\Migrations\OutputWriter');
-        $this->statistics = $this->buildMock('AntiMattr\MongoDB\Migrations\Collection\Statistics');
+        $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
+        $this->connection = $this->createMock('Doctrine\MongoDB\Connection');
+        $this->db = $this->createMock('Doctrine\MongoDB\Database');
+        $this->migration = $this->createMock('AntiMattr\Tests\MongoDB\Migrations\Version20140908000000');
+        $this->outputWriter = $this->createMock('AntiMattr\MongoDB\Migrations\OutputWriter');
+        $this->statistics = $this->createMock('AntiMattr\MongoDB\Migrations\Collection\Statistics');
         $this->versionName = '20140908000000';
 
         $this->configuration->expects($this->once())
@@ -57,7 +57,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testAnalyzeThrowsException()
     {
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
             ->method('setCollection')
             ->with($collection);
@@ -80,7 +80,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testAnalyze()
     {
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
             ->method('setCollection')
             ->with($collection);
@@ -103,7 +103,7 @@ class VersionTest extends AntiMattrTestCase
         $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
             ->method('createMigrationCollection');
 
@@ -128,7 +128,7 @@ class VersionTest extends AntiMattrTestCase
         $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
             ->method('createMigrationCollection');
 
@@ -158,7 +158,7 @@ class VersionTest extends AntiMattrTestCase
         $timestamp = new UTCDateTime();
         $this->version->setTimestamp($timestamp);
 
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
             ->method('createMigrationCollection');
 
@@ -179,7 +179,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testUpdateStatisticsAfterThrowsException()
     {
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
             ->method('setCollection')
             ->with($collection);
@@ -199,7 +199,7 @@ class VersionTest extends AntiMattrTestCase
 
     public function testUpdateStatisticsAfter()
     {
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->statistics->expects($this->once())
             ->method('setCollection')
             ->with($collection);
@@ -262,7 +262,7 @@ class VersionTest extends AntiMattrTestCase
             ->method($direction)
             ->will($this->throwException($expectedException));
 
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
             ->method('createMigrationCollection');
 
@@ -287,7 +287,7 @@ class VersionTest extends AntiMattrTestCase
         $this->migration->expects($this->once())
             ->method('post' . $direction);
 
-        $collection = $this->buildMock('Doctrine\MongoDB\Collection');
+        $collection = $this->createMock('Doctrine\MongoDB\Collection');
         $this->configuration->expects($this->once())
             ->method('createMigrationCollection');
 

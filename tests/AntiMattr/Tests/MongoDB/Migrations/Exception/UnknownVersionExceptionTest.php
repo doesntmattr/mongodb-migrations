@@ -2,15 +2,15 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class UnknownVersionExceptionTest extends AntiMattrTestCase
+class UnknownVersionExceptionTest extends TestCase
 {
     private $exception;
 
     protected function setUp()
     {
-        $this->exception = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException');
+        $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException');
     }
 
     public function testConstructor()

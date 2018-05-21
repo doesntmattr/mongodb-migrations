@@ -2,15 +2,15 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Exception;
 
-use AntiMattr\TestCase\AntiMattrTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SkipExceptionTest extends AntiMattrTestCase
+class SkipExceptionTest extends TestCase
 {
     private $exception;
 
     protected function setUp()
     {
-        $this->exception = $this->buildMock('AntiMattr\MongoDB\Migrations\Exception\SkipException');
+        $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\SkipException');
     }
 
     public function testConstructor()
