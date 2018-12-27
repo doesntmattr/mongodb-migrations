@@ -16,8 +16,7 @@ use AntiMattr\MongoDB\Migrations\Exception\DuplicateVersionException;
 use AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use AntiMattr\MongoDB\Migrations\Version;
-use Doctrine\MongoDB\Connection;
-use Doctrine\MongoDB\Database;
+use MongoDB\Client;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -25,24 +24,19 @@ use Doctrine\MongoDB\Database;
 class Configuration
 {
     /**
-     * @var \Doctrine\MongoDB\Collection
+     * @var \MongoDB\Collection
      */
     private $collection;
 
     /**
-     * @var \Doctrine\MongoDB\Connection
+     * @var \MongoDB\Client
      */
     private $connection;
 
     /**
-     * @var \Doctrine\MongoDB\Database
+     * @var \MongoDB\Database
      */
     private $database;
-
-    /**
-     * @var \Doctrine\MongoDB\Connection
-     */
-    private $migrationsDatabase;
 
     /**
      * The migration database name to track versions in.
@@ -109,10 +103,10 @@ class Configuration
     private $file;
 
     /**
-     * @param \Doctrine\MongoDB\Connection               $connection
+     * @param \MongoDB\Client               $connection
      * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
      */
-    public function __construct(Connection $connection, OutputWriter $outputWriter = null)
+    public function __construct(Client $connection, OutputWriter $outputWriter = null)
     {
         $this->connection = $connection;
         if (null === $outputWriter) {
@@ -156,7 +150,7 @@ class Configuration
     }
 
     /**
-     * @return \Doctrine\MongoDB\Collection
+     * @return \MongoDB\Collection
      */
     public function getCollection()
     {
@@ -170,7 +164,7 @@ class Configuration
     }
 
     /**
-     * @return \Doctrine\MongoDB\Connection
+     * @return \MongoDB\Client
      */
     public function getConnection()
     {
@@ -178,9 +172,9 @@ class Configuration
     }
 
     /**
-     * @return \Doctrine\MongoDB\Database
+     * @return \MongoDB\Database
      */
-    public function getDatabase(): ?Database
+    public function getDatabase(): ?\MongoDB\Database
     {
         if (isset($this->database)) {
             return $this->database;
@@ -560,12 +554,11 @@ class Configuration
 
         $cursor = $this->getCollection()
             ->find(
-                ['v' => ['$in' => $migratedVersions]]
-            )
-            ->sort(['v' => -1])
-            ->limit(1);
+                ['v' => ['$in' => $migratedVersions]],
+                ['sort' => ['v' => -1], 'limit' => 1]
+            );
 
-        if (0 === $cursor->count()) {
+        if (0 === \count($cursor->toArray())) {
             return '0';
         }
 
@@ -598,7 +591,7 @@ class Configuration
 
         if (true !== $this->migrationCollectionCreated) {
             $collection = $this->getCollection();
-            $collection->ensureIndex(['v' => -1], ['name' => 'version', 'unique' => true]);
+            $collection->createIndex(['v' => -1], ['name' => 'version', 'unique' => true]);
             $this->migrationCollectionCreated = true;
         }
 

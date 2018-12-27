@@ -307,7 +307,7 @@ class Version
             $options = ['upsert' => true];
             $collection->update($query, $document, $options);
         } else {
-            $collection->insert($document);
+            $collection->insertOne($document);
         }
     }
 
