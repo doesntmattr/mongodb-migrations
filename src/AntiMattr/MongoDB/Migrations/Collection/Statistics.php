@@ -13,6 +13,7 @@ namespace AntiMattr\MongoDB\Migrations\Collection;
 
 use \MongoDB\Collection;
 use Exception;
+use MongoDB\Database;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -55,6 +56,11 @@ class Statistics
      * @var array
      */
     private $after = [];
+
+    public function setDatabase(Database $database)
+    {
+        $this->database = $database;
+    }
 
     /**
      * @param \MongoDB\Collection
@@ -115,10 +121,9 @@ class Statistics
      */
     protected function getCollectionStats()
     {
-        $database = $this->collection->getDatabase();
-        $name = $this->collection->getName();
+        $name = $this->collection->getCollectionName();
 
-        if (!$data = $database->command(['collStats' => $name])) {
+        if (!$data = $this->database->command(['collStats' => $name])) {
             $message = sprintf(
                 'Statistics not found for collection %s',
                 $name

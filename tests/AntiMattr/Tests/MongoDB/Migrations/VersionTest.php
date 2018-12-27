@@ -63,7 +63,7 @@ class VersionTest extends TestCase
             ->with($collection);
 
         $collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('test_name'));
 
         $expectedException = new \RuntimeException();
@@ -86,7 +86,7 @@ class VersionTest extends TestCase
             ->with($collection);
 
         $collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('test_name'));
 
         $this->statistics->expects($this->once())
@@ -117,7 +117,7 @@ class VersionTest extends TestCase
         ];
 
         $collection->expects($this->once())
-            ->method('insert')
+            ->method('insertOne')
             ->with($insert);
 
         $this->version->markMigrated();
@@ -146,7 +146,7 @@ class VersionTest extends TestCase
         ];
 
         $collection->expects($this->once())
-            ->method('update')
+            ->method('updateOne')
             ->with($query, $update);
 
         $replay = true;
@@ -171,7 +171,7 @@ class VersionTest extends TestCase
         ];
 
         $collection->expects($this->once())
-            ->method('remove')
+            ->method('deleteOne')
             ->with($remove);
 
         $this->version->markNotMigrated();
@@ -209,7 +209,7 @@ class VersionTest extends TestCase
             ->will($this->returnValue($collection));
 
         $collection->expects($this->exactly(2))
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('test_name'));
 
         $this->statistics->expects($this->once())

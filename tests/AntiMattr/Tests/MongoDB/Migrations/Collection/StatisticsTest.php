@@ -27,17 +27,14 @@ class StatisticsTest extends TestCase
      */
     public function testGetCollectionStatsThrowsExceptionWhenDataNotFound()
     {
-        $this->statistics = new StatisticsStub();
-        $this->statistics->setCollection($this->collection);
-
         $database = $this->createMock('MongoDB\Database');
 
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
+        $this->statistics = new StatisticsStub();
+        $this->statistics->setCollection($this->collection);
+        $this->statistics->setDatabase($database);
 
         $this->collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('example'));
 
         $this->statistics->doGetCollectionStats();
@@ -48,17 +45,14 @@ class StatisticsTest extends TestCase
      */
     public function testGetCollectionStatsThrowsExceptionWhenErrmsgFound()
     {
-        $this->statistics = new StatisticsStub();
-        $this->statistics->setCollection($this->collection);
-
         $database = $this->createMock('MongoDB\Database');
 
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
+        $this->statistics = new StatisticsStub();
+        $this->statistics->setCollection($this->collection);
+        $this->statistics->setDatabase($database);
 
         $this->collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('example'));
 
         $data = [
@@ -74,17 +68,14 @@ class StatisticsTest extends TestCase
 
     public function testGetCollectionStats()
     {
-        $this->statistics = new StatisticsStub();
-        $this->statistics->setCollection($this->collection);
-
         $database = $this->createMock('MongoDB\Database');
 
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
+        $this->statistics = new StatisticsStub();
+        $this->statistics->setCollection($this->collection);
+        $this->statistics->setDatabase($database);
 
         $this->collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('example'));
 
         $expectedData = [

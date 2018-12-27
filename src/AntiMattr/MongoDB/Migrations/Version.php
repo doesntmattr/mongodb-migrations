@@ -155,6 +155,7 @@ class Version
     public function analyze(Collection $collection)
     {
         $statistics = $this->createStatistics();
+        $statistics->setDatabase($this->db);
         $statistics->setCollection($collection);
         $name = $collection->getCollectionName();
         $this->statistics[$name] = $statistics;
@@ -305,7 +306,7 @@ class Version
             // If the user asked for a 'replay' of a migration that
             // has not been run, it will be inserted anew
             $options = ['upsert' => true];
-            $collection->update($query, $document, $options);
+            $collection->updateOne($query, $document, $options);
         } else {
             $collection->insertOne($document);
         }
@@ -323,7 +324,7 @@ class Version
         foreach ($this->statistics as $name => $statistic) {
             try {
                 $statistic->updateAfter();
-                $name = $statistic->getCollection()->getName();
+                $name = $statistic->getCollection()->getCollectionName();
                 $this->statistics[$name] = $statistic;
             } catch (\Exception $e) {
                 $message = sprintf('     <info>Warning during %s: %s</info>',
