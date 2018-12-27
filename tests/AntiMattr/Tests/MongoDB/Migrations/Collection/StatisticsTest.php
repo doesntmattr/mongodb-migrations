@@ -12,7 +12,7 @@ class StatisticsTest extends TestCase
 
     protected function setUp()
     {
-        $this->collection = $this->createMock('Doctrine\MongoDB\Collection');
+        $this->collection = $this->createMock('MongoDB\Collection');
         $this->statistics = new Statistics();
     }
 
@@ -30,7 +30,7 @@ class StatisticsTest extends TestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->createMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')
@@ -51,7 +51,7 @@ class StatisticsTest extends TestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->createMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')
@@ -77,7 +77,7 @@ class StatisticsTest extends TestCase
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
 
-        $database = $this->createMock('Doctrine\MongoDB\Database');
+        $database = $this->createMock('MongoDB\Database');
 
         $this->collection->expects($this->once())
             ->method('getDatabase')

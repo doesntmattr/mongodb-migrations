@@ -14,7 +14,6 @@ namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
-use Doctrine\MongoDB\Connection;
 use MongoDB\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -99,7 +98,7 @@ abstract class AbstractCommand extends Command
     /**
      * @param InputInterface $input
      *
-     * @return Connection
+     * @return Client
      */
     protected function getDatabaseConnection(InputInterface $input): Client
     {
@@ -137,7 +136,7 @@ abstract class AbstractCommand extends Command
     /**
      * @param array $params
      *
-     * @return \Doctrine\MongoDB\Connection
+     * @return \MongoDB\Client
      */
     protected function createConnection($params)
     {

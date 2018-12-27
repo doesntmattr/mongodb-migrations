@@ -56,7 +56,7 @@ abstract class AbstractMigration
     abstract public function down(Database $db);
 
     /**
-     * @param \Doctrine\MongoDB\Collection
+     * @param \MongoDB\Collection
      */
     protected function analyze(Collection $collection)
     {
@@ -64,7 +64,7 @@ abstract class AbstractMigration
     }
 
     /**
-     * @param \Doctrine\MongoDB\Database
+     * @param \MongoDB\Database
      * @param string $filename
      */
     protected function executeScript(Database $db, $filename)

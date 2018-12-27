@@ -15,8 +15,8 @@ use AntiMattr\MongoDB\Migrations\Collection\Statistics;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use AntiMattr\MongoDB\Migrations\Exception\AbortException;
-use Doctrine\MongoDB\Collection;
-use Doctrine\MongoDB\Database;
+use \MongoDB\Collection;
+use \MongoDB\Database;
 use Exception;
 use MongoDB\BSON\UTCDateTime;
 
@@ -41,12 +41,12 @@ class Version
     private $configuration;
 
     /**
-     * @var \Doctrine\MongoDB\Connection
+     * @var \MongoDB\Connection
      */
     private $connection;
 
     /**
-     * @var \Doctrine\MongoDB\Database
+     * @var \MongoDB\Database
      */
     private $db;
 
@@ -150,7 +150,7 @@ class Version
     }
 
     /**
-     * @param \Doctrine\MongoDB\Collection
+     * @param \MongoDB\Collection
      */
     public function analyze(Collection $collection)
     {
@@ -249,7 +249,7 @@ class Version
     }
 
     /**
-     * @param \Doctrine\MongoDB\Database
+     * @param \MongoDB\Database
      * @param string $file
      *
      * @return array

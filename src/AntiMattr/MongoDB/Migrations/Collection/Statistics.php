@@ -11,7 +11,7 @@
 
 namespace AntiMattr\MongoDB\Migrations\Collection;
 
-use Doctrine\MongoDB\Collection;
+use \MongoDB\Collection;
 use Exception;
 
 /**
@@ -42,7 +42,7 @@ class Statistics
     ];
 
     /**
-     * @var \Doctrine\MongoDB\Collection
+     * @var \MongoDB\Collection
      */
     private $collection;
 
@@ -57,7 +57,7 @@ class Statistics
     private $after = [];
 
     /**
-     * @param \Doctrine\MongoDB\Collection
+     * @param \MongoDB\Collection
      */
     public function setCollection(Collection $collection)
     {
@@ -65,7 +65,7 @@ class Statistics
     }
 
     /**
-     * @return \Doctrine\MongoDB\Collection
+     * @return \MongoDB\Collection
      */
     public function getCollection()
     {
