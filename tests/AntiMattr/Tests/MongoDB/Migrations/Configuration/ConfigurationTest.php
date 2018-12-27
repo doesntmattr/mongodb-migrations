@@ -65,7 +65,7 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Cursor');
+        $cursor = $this->createMock('MongoDB\Driver\Cursor');
 
         $in = ['v' => ['$in' => ['20140822185742', '20140822185743', '20140822185744']]];
 
@@ -160,7 +160,7 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Cursor');
+        $cursor = $this->createMock('MongoDB\Driver\Cursor');
 
         $collection->expects($this->once())
             ->method('find')
@@ -291,7 +291,7 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Cursor');
+        $cursor = $this->createMock('MongoDB\Driver\Cursor');
 
         $collection->expects($this->once())
             ->method('find')
@@ -321,7 +321,7 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Cursor');
+        $cursor = $this->createMock('MongoDB\Driver\Cursor');
 
         $collection->expects($this->once())
             ->method('find')

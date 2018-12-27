@@ -156,7 +156,7 @@ class Version
     {
         $statistics = $this->createStatistics();
         $statistics->setCollection($collection);
-        $name = $collection->getName();
+        $name = $collection->getCollectionName();
         $this->statistics[$name] = $statistics;
 
         try {
@@ -315,7 +315,7 @@ class Version
     {
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
-        $collection->remove(['v' => $this->version]);
+        $collection->deleteOne(['v' => $this->version]);
     }
 
     protected function updateStatisticsAfter()
