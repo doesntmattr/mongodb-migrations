@@ -341,17 +341,18 @@ class Configuration
             ['v' => $version]
         );
 
-        if (!$cursor->count()) {
+        $result = $cursor->toArray();
+        if (!count($result)) {
             throw new UnknownVersionException($version);
         }
 
-        if ($cursor->count() > 1) {
+        if (count($result) > 1) {
             throw new \DomainException(
                 'Unexpected duplicate version records in the database'
             );
         }
 
-        $returnVersion = $cursor->getNext();
+        $returnVersion = $result[0];
 
         // Convert to normalised timestamp
         $ts = new Timestamp($returnVersion['t']);
