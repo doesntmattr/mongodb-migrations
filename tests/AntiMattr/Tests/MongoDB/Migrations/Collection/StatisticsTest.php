@@ -63,7 +63,10 @@ class StatisticsTest extends TestCase
             ->method('command')
             ->will($this->returnValue($data));
 
-        $this->statistics->doGetCollectionStats();
+        // Can't test it this way as it will return a MongoDB\Driver\Cursor which does not have a errmsg array
+        // @todo what do to do here, remove this test? 
+        //$this->statistics->doGetCollectionStats();
+        $this->markTestIncomplete('This method needs to act on a MongoDB\Driver\Cursor object which has no error method');
     }
 
     public function testGetCollectionStats()
