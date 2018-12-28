@@ -558,12 +558,12 @@ class Configuration
                 ['sort' => ['v' => -1], 'limit' => 1]
             );
 
-        if (0 === \count($cursor->toArray())) {
+        $versions = $cursor->toArray();
+        if (0 === \count($versions)) {
             return '0';
         }
 
-        $version = $cursor->getNext();
-
+        $version = $versions[0];
         return $version['v'];
     }
 

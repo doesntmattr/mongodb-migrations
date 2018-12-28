@@ -20,7 +20,7 @@ class Version20140822185742 extends AbstractMigration
         $testA = $db->selectCollection('test_a');
         $this->analyze($testA);
 
-        $testA->ensureIndex(['actor' => -1]);
+        $testA->createIndex(['actor' => -1]);
     }
 
     public function down(Database $db)
@@ -48,7 +48,7 @@ class Version20140822185742 extends AbstractMigration
             $testDocuments[] = $testDocument;
         }
 
-        $testA->batchInsert($testDocuments);
+        $testA->insertMany($testDocuments);
     }
 
     /**

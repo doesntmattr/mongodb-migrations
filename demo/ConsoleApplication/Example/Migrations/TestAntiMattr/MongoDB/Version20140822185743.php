@@ -49,7 +49,7 @@ class Version20140822185743 extends AbstractMigration
             $testDocuments[] = $testDocument;
         }
 
-        $testA->batchInsert($testDocuments);
+        $testA->insertMany($testDocuments);
     }
 
     /**

@@ -282,9 +282,12 @@ class Version
 
         $result = $db->command(['$eval' => $js, 'nolock' => true]);
 
+        /* Command throws it's own exceptions if something is wrong, this errmsg no longer exists on MongoDB\DriverCursor
+          @todo what to do with this, disabled for now
         if (isset($result['errmsg'])) {
             throw new \Exception($result['errmsg'], isset($result['errno']) ? $result['errno'] : null);
         }
+        */
 
         return $result;
     }
