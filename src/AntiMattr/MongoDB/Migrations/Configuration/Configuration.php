@@ -403,9 +403,7 @@ class Configuration
     {
         $this->createMigrationCollection();
 
-        $cursor = $this->getCollection()->find();
-
-        return $cursor->count();
+        return $this->getCollection()->countDocuments();
     }
 
     /**

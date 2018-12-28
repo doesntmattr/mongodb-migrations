@@ -65,28 +65,19 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Driver\Cursor');
+        $cursor = $this->createMock('AntiMattr\Tests\MongoDB\Migrations\Configuration\CursorStub');
 
         $in = ['v' => ['$in' => ['20140822185742', '20140822185743', '20140822185744']]];
+        $options =  ['sort' => ['v' => -1], 'limit' => 1];
 
         $collection->expects($this->once())
             ->method('find')
-            ->with($in)
+            ->with($in, $options)
             ->willReturn($cursor);
 
         $cursor->expects($this->once())
-            ->method('sort')
-            ->with(['v' => -1])
-            ->willReturn($cursor);
-
-        $cursor->expects($this->once())
-            ->method('limit')
-            ->with(1)
-            ->willReturn($cursor);
-
-        $cursor->expects($this->once())
-            ->method('getNext')
-            ->willReturn(['v' => '20140822185743']);
+            ->method('toArray')
+            ->willReturn([['v' => '20140822185743']]);
 
         $version = $this->configuration->getCurrentVersion();
 
@@ -160,14 +151,8 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Driver\Cursor');
-
         $collection->expects($this->once())
-            ->method('find')
-            ->willReturn($cursor);
-
-        $cursor->expects($this->once())
-            ->method('count')
+            ->method('countDocuments')
             ->willReturn(2);
 
         $this->assertEquals(2, $this->configuration->getNumberOfExecutedMigrations());
@@ -291,15 +276,15 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Driver\Cursor');
+        $cursor = $this->createMock('AntiMattr\Tests\MongoDB\Migrations\Configuration\CursorStub');
 
         $collection->expects($this->once())
             ->method('find')
             ->willReturn($cursor);
 
-        $cursor->expects($this->exactly(2))
-            ->method('count')
-            ->willReturn(2);
+        $cursor->expects($this->once())
+            ->method('toArray')
+            ->willReturn([['v' => '20140822185743'],['v' => '20140822185743']]);
 
         $this->configuration->getMigratedTimestamp('1');
     }
@@ -321,19 +306,15 @@ class ConfigurationTest extends TestCase
             ->with('antimattr_migration_versions_test')
             ->willReturn($collection);
 
-        $cursor = $this->createMock('MongoDB\Driver\Cursor');
+        $cursor = $this->createMock('AntiMattr\Tests\MongoDB\Migrations\Configuration\CursorStub');
 
         $collection->expects($this->once())
             ->method('find')
             ->willReturn($cursor);
 
-        $cursor->expects($this->exactly(2))
-            ->method('count')
-            ->willReturn(1);
-
         $cursor->expects($this->once())
-            ->method('getNext')
-            ->willReturn(['t' => new \DateTime()]);
+            ->method('toArray')
+            ->willReturn([['v' => '20140822185743','t' => new \DateTime()]]);
 
         $this->assertTrue(is_numeric($this->configuration->getMigratedTimestamp('1')));
     }
@@ -345,5 +326,76 @@ class ConfigurationTest extends TestCase
         $this->configuration->setMigrationsDirectory($directory);
         $this->configuration->setMigrationsNamespace('Example\Migrations\TestAntiMattr\MongoDB');
         $this->configuration->setMigrationsCollectionName('antimattr_migration_versions_test');
+    }
+}
+
+/**
+ * A stub implementation for the MongoDB\Driver\Cursor class as that one is final
+ * The MongoDB\Driver\Cursor class encapsulates the results of a MongoDB command or query and may be returned by MongoDB\Driver\Manager::executeCommand() or MongoDB\Driver\Manager::executeQuery(), respectively.
+ * @link https://php.net/manual/en/class.mongodb-driver-cursor.php
+ */
+class CursorStub
+{
+    /**
+     * Create a new Cursor
+     * MongoDB\Driver\Cursor objects are returned as the result of an executed command or query and cannot be constructed directly.
+     * @link https://php.net/manual/en/mongodb-driver-cursor.construct.php
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * Returns the MongoDB\Driver\CursorId associated with this cursor. A cursor ID cursor uniquely identifies the cursor on the server.
+     * @link https://php.net/manual/en/mongodb-driver-cursor.getid.php
+     * @return CursorId for this Cursor
+     * @throws InvalidArgumentException on argument parsing errors.
+     */
+    public function getId()
+    {
+    }
+
+    /**
+     * Returns the MongoDB\Driver\Server associated with this cursor. This is the server that executed the query or command.
+     * @link https://php.net/manual/en/mongodb-driver-cursor.getserver.php
+     * @return Server for this Cursor
+     * @throws InvalidArgumentException on argument parsing errors.
+     */
+    public function getServer()
+    {
+    }
+
+    /**
+     * Checks if a cursor is still alive
+     * @link https://php.net/manual/en/mongodb-driver-cursor.isdead.php
+     * @return boolean
+     * @throws InvalidArgumentException On argument parsing errors
+     */
+    public function isDead()
+    {
+    }
+
+    /**
+     * Sets a type map to use for BSON unserialization
+     *
+     * @link https://php.net/manual/en/mongodb-driver-cursor.settypemap.php
+     *
+     * @param array $typemap
+     * @return void
+     * @throws InvalidArgumentException On argument parsing errors or if a class in the type map cannot
+     * be instantiated or does not implement MongoDB\BSON\Unserializable
+     */
+    public function setTypeMap(array $typemap)
+    {
+    }
+
+    /**
+     * Returns an array of all result documents for this cursor
+     * @link https://php.net/manual/en/mongodb-driver-cursor.toarray.php
+     * @return array
+     * @throws InvalidArgumentException On argument parsing errors
+     */
+    public function toArray()
+    {
     }
 }
