@@ -438,12 +438,12 @@ class StatusCommandTest extends TestCase
             ->with("\n <info>==</info> Available Migration Versions\n")
         ;
 
-        $this->output->expects($this->at(39))
+        $this->output->expects($this->at(40))
             ->method('writeln')
             ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
         ;
 
-        $this->output->expects($this->at(40))
+        $this->output->expects($this->at(41))
             ->method('writeln')
             ->with(
                 sprintf(
