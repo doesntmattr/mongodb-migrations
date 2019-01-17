@@ -438,12 +438,19 @@ class StatusCommandTest extends TestCase
             ->with("\n <info>==</info> Available Migration Versions\n")
         ;
 
-        $this->output->expects($this->at(40))
+        // Symfony 4.2 has different output
+        $consoleVersion = $this->getSymfonyConsoleVersion();
+        $index = 39;
+        if(version_compare($consoleVersion, '4.2.0', 'ge')) {
+            $index = 40;
+        }
+
+        $this->output->expects($this->at($index))
             ->method('writeln')
             ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
         ;
 
-        $this->output->expects($this->at(41))
+        $this->output->expects($this->at(++$index))
             ->method('writeln')
             ->with(
                 sprintf(
@@ -459,6 +466,19 @@ class StatusCommandTest extends TestCase
             $input,
             $this->output
         );
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getSymfonyConsoleVersion()
+    {
+        $versionData = [];
+        exec('composer show | grep symfony/console', $versionData);
+        $versionPart = explode('v', $versionData[0]);
+        $versionPart2 = explode(' ', $versionPart[1]);
+        $consoleVersion = $versionPart2[0];
+        return $consoleVersion;
     }
 }
 
