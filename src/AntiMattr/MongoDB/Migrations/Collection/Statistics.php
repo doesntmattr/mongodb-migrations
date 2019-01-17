@@ -131,14 +131,6 @@ class Statistics
             throw new Exception($message);
         }
 
-        /* new MongoDB\Driver\Cursor does not have an errmsg, it throws exceptions itself */
-        /* Disabled for now @todo what to do with this? */
-        /*
-        if (isset($data['errmsg'])) {
-            throw new Exception($data['errmsg']);
-        }
-        */
-
         return $data;
     }
 }

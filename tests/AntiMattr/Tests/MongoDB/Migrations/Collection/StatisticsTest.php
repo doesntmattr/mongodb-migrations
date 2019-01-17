@@ -40,35 +40,6 @@ class StatisticsTest extends TestCase
         $this->statistics->doGetCollectionStats();
     }
 
-    /**
-     * @expectedException \Exception
-     */
-    public function testGetCollectionStatsThrowsExceptionWhenErrmsgFound()
-    {
-        $database = $this->createMock('MongoDB\Database');
-
-        $this->statistics = new StatisticsStub();
-        $this->statistics->setCollection($this->collection);
-        $this->statistics->setDatabase($database);
-
-        $this->collection->expects($this->once())
-            ->method('getCollectionName')
-            ->will($this->returnValue('example'));
-
-        $data = [
-            'errmsg' => 'foo',
-        ];
-
-        $database->expects($this->once())
-            ->method('command')
-            ->will($this->returnValue($data));
-
-        // Can't test it this way as it will return a MongoDB\Driver\Cursor which does not have a errmsg array
-        // @todo what do to do here, remove this test? 
-        //$this->statistics->doGetCollectionStats();
-        $this->markTestIncomplete('This method needs to act on a MongoDB\Driver\Cursor object which has no error method');
-    }
-
     public function testGetCollectionStats()
     {
         $database = $this->createMock('MongoDB\Database');

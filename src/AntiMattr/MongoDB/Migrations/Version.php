@@ -41,11 +41,6 @@ class Version
     private $configuration;
 
     /**
-     * @var \MongoDB\Connection
-     */
-    private $connection;
-
-    /**
      * @var \MongoDB\Database
      */
     private $db;
@@ -87,7 +82,6 @@ class Version
         $this->configuration = $configuration;
         $this->outputWriter = $configuration->getOutputWriter();
         $this->class = $class;
-        $this->connection = $configuration->getConnection();
         $this->db = $configuration->getDatabase();
         $this->migration = $this->createMigration();
         $this->version = $version;
@@ -280,16 +274,7 @@ class Version
             throw $e;
         }
 
-        $result = $db->command(['$eval' => $js, 'nolock' => true]);
-
-        /* Command throws it's own exceptions if something is wrong, this errmsg no longer exists on MongoDB\DriverCursor
-          @todo what to do with this, disabled for now
-        if (isset($result['errmsg'])) {
-            throw new \Exception($result['errmsg'], isset($result['errno']) ? $result['errno'] : null);
-        }
-        */
-
-        return $result;
+        return $db->command(['$eval' => $js, 'nolock' => true]);
     }
 
     /**
@@ -379,7 +364,7 @@ class Version
 
     public function __toString()
     {
-        return $this->version;
+        return (string) $this->version;
     }
 
     /**
