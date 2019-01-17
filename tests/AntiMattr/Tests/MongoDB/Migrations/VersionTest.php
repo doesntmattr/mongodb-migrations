@@ -12,7 +12,6 @@ class VersionTest extends TestCase
 {
     private $className;
     private $configuration;
-    private $connections;
     private $db;
     private $migration;
     private $version;
@@ -24,7 +23,6 @@ class VersionTest extends TestCase
     {
         $this->className = 'AntiMattr\Tests\MongoDB\Migrations\Version20140908000000';
         $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
-        $this->connection = $this->createMock('\MongoDB\Client');
         $this->db = $this->createMock('\MongoDB\Database');
         $this->migration = $this->createMock('AntiMattr\Tests\MongoDB\Migrations\Version20140908000000');
         $this->outputWriter = $this->createMock('AntiMattr\MongoDB\Migrations\OutputWriter');
@@ -34,9 +32,6 @@ class VersionTest extends TestCase
         $this->configuration->expects($this->once())
             ->method('getOutputWriter')
             ->will($this->returnValue($this->outputWriter));
-        $this->configuration->expects($this->once())
-            ->method('getConnection')
-            ->will($this->returnValue($this->connection));
         $this->configuration->expects($this->once())
             ->method('getDatabase')
             ->will($this->returnValue($this->db));
