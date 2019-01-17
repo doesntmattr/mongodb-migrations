@@ -14,7 +14,7 @@
     },
     "require": {
         "php": "^7.1",
-        "mongodb/mongodb": "^1.0",
+        "mongodb/mongodb": "^1.4",
         "symfony/console": "^2.7|^3.3|^4",
         "symfony/yaml": "^2.7|^3.3|^4"
     },
