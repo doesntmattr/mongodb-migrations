@@ -12,7 +12,7 @@ class StatisticsTest extends TestCase
 
     protected function setUp()
     {
-        $this->collection = $this->createMock('Doctrine\MongoDB\Collection');
+        $this->collection = $this->createMock('MongoDB\Collection');
         $this->statistics = new Statistics();
     }
 
@@ -27,64 +27,29 @@ class StatisticsTest extends TestCase
      */
     public function testGetCollectionStatsThrowsExceptionWhenDataNotFound()
     {
+        $database = $this->createMock('MongoDB\Database');
+
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
-
-        $database = $this->createMock('Doctrine\MongoDB\Database');
-
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
+        $this->statistics->setDatabase($database);
 
         $this->collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('example'));
-
-        $this->statistics->doGetCollectionStats();
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testGetCollectionStatsThrowsExceptionWhenErrmsgFound()
-    {
-        $this->statistics = new StatisticsStub();
-        $this->statistics->setCollection($this->collection);
-
-        $database = $this->createMock('Doctrine\MongoDB\Database');
-
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
-
-        $this->collection->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('example'));
-
-        $data = [
-            'errmsg' => 'foo',
-        ];
-
-        $database->expects($this->once())
-            ->method('command')
-            ->will($this->returnValue($data));
 
         $this->statistics->doGetCollectionStats();
     }
 
     public function testGetCollectionStats()
     {
+        $database = $this->createMock('MongoDB\Database');
+
         $this->statistics = new StatisticsStub();
         $this->statistics->setCollection($this->collection);
-
-        $database = $this->createMock('Doctrine\MongoDB\Database');
-
-        $this->collection->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
+        $this->statistics->setDatabase($database);
 
         $this->collection->expects($this->once())
-            ->method('getName')
+            ->method('getCollectionName')
             ->will($this->returnValue('example'));
 
         $expectedData = [

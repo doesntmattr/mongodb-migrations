@@ -10,9 +10,5 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
         </whitelist>
-        <blacklist>
-            <directory>vendor</directory>
-            <directory>./tests</directory>
-        </blacklist>
     </filter>
 </phpunit>

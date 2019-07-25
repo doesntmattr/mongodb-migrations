@@ -3,7 +3,7 @@
 namespace Example\Migrations\TestAntiMattr\MongoDB;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
-use Doctrine\MongoDB\Database;
+use \MongoDB\Database;
 
 /**
  * Auto-generated Migration: Please modify to your needs!

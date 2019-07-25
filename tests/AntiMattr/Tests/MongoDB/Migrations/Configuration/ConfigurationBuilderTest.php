@@ -11,7 +11,7 @@ class ConfigurationBuilderTest extends TestCase
 {
     public function testBuildingConfiguration()
     {
-        $conn = $this->createMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('MongoDB\Client');
         $outputWriter = new OutputWriter();
         $onDiskConfig = '';
 
@@ -28,7 +28,7 @@ class ConfigurationBuilderTest extends TestCase
 
     public function testBuildingWithYamlConfig()
     {
-        $conn = $this->createMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('MongoDB\Client');
         $outputWriter = new OutputWriter();
         $onDiskConfig = dirname(__DIR__) . '/Resources/fixtures/config.yml';
 
@@ -52,7 +52,7 @@ class ConfigurationBuilderTest extends TestCase
 
     public function testBuildingWithXmlConfig()
     {
-        $conn = $this->createMock('Doctrine\MongoDB\Connection');
+        $conn = $this->createMock('MongoDB\Client');
         $outputWriter = new OutputWriter();
         $onDiskConfig = dirname(__DIR__) . '/Resources/fixtures/config.xml';
 

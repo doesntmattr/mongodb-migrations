@@ -3,7 +3,7 @@
 namespace Example\Migrations\TestAntiMattr\MongoDB;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
-use Doctrine\MongoDB\Database;
+use \MongoDB\Database;
 
 class Version20140822185743 extends AbstractMigration
 {
@@ -49,7 +49,7 @@ class Version20140822185743 extends AbstractMigration
             $testDocuments[] = $testDocument;
         }
 
-        $testA->batchInsert($testDocuments);
+        $testA->insertMany($testDocuments);
     }
 
     /**
