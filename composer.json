@@ -1,5 +1,5 @@
 {
-    "name": "doesntmattr/mongodb-migrations",
+    "name": "deseretdigital/mongodb-migrations",
     "type": "library",
     "description": "Managed Database Migrations for MongoDB",
     "keywords": ["doesntmattr", "antimattr", "database", "doctrine", "migration", "mongodb"],
