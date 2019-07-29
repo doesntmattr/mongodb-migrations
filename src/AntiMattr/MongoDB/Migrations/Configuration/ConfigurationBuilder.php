@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace AntiMattr\MongoDB\Migrations\Configuration;
 
 use AntiMattr\MongoDB\Migrations\OutputWriter;
-use Doctrine\MongoDB\Connection;
+use MongoDB\Client;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigurationBuilder
 {
     /**
-     * @var \Doctrine\MongoDB\Connection
+     * @var \MongoDB\Client
      */
     private $connection;
 
@@ -64,11 +64,11 @@ class ConfigurationBuilder
     }
 
     /**
-     * @param Connection $connection
+     * @param Client $connection
      *
      * @return ConfigurationBuilder
      */
-    public function setConnection(Connection $connection): ConfigurationBuilder
+    public function setConnection(Client $connection): ConfigurationBuilder
     {
         $this->connection = $connection;
 
