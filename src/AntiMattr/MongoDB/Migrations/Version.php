@@ -15,8 +15,8 @@ use AntiMattr\MongoDB\Migrations\Collection\Statistics;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use AntiMattr\MongoDB\Migrations\Exception\AbortException;
-use Doctrine\MongoDB\Collection;
-use Doctrine\MongoDB\Database;
+use \MongoDB\Collection;
+use \MongoDB\Database;
 use Exception;
 use MongoDB\BSON\UTCDateTime;
 
@@ -41,12 +41,7 @@ class Version
     private $configuration;
 
     /**
-     * @var \Doctrine\MongoDB\Connection
-     */
-    private $connection;
-
-    /**
-     * @var \Doctrine\MongoDB\Database
+     * @var \MongoDB\Database
      */
     private $db;
 
@@ -87,7 +82,6 @@ class Version
         $this->configuration = $configuration;
         $this->outputWriter = $configuration->getOutputWriter();
         $this->class = $class;
-        $this->connection = $configuration->getConnection();
         $this->db = $configuration->getDatabase();
         $this->migration = $this->createMigration();
         $this->version = $version;
@@ -150,13 +144,14 @@ class Version
     }
 
     /**
-     * @param \Doctrine\MongoDB\Collection
+     * @param \MongoDB\Collection
      */
     public function analyze(Collection $collection)
     {
         $statistics = $this->createStatistics();
+        $statistics->setDatabase($this->db);
         $statistics->setCollection($collection);
-        $name = $collection->getName();
+        $name = $collection->getCollectionName();
         $this->statistics[$name] = $statistics;
 
         try {
@@ -249,7 +244,7 @@ class Version
     }
 
     /**
-     * @param \Doctrine\MongoDB\Database
+     * @param \MongoDB\Database
      * @param string $file
      *
      * @return array
@@ -279,13 +274,7 @@ class Version
             throw $e;
         }
 
-        $result = $db->command(['$eval' => $js, 'nolock' => true]);
-
-        if (isset($result['errmsg'])) {
-            throw new \Exception($result['errmsg'], isset($result['errno']) ? $result['errno'] : null);
-        }
-
-        return $result;
+        return $db->command(['$eval' => $js, 'nolock' => true]);
     }
 
     /**
@@ -305,9 +294,9 @@ class Version
             // If the user asked for a 'replay' of a migration that
             // has not been run, it will be inserted anew
             $options = ['upsert' => true];
-            $collection->update($query, $document, $options);
+            $collection->updateOne($query, $document, $options);
         } else {
-            $collection->insert($document);
+            $collection->insertOne($document);
         }
     }
 
@@ -315,7 +304,7 @@ class Version
     {
         $this->configuration->createMigrationCollection();
         $collection = $this->configuration->getCollection();
-        $collection->remove(['v' => $this->version]);
+        $collection->deleteOne(['v' => $this->version]);
     }
 
     protected function updateStatisticsAfter()
@@ -323,7 +312,7 @@ class Version
         foreach ($this->statistics as $name => $statistic) {
             try {
                 $statistic->updateAfter();
-                $name = $statistic->getCollection()->getName();
+                $name = $statistic->getCollection()->getCollectionName();
                 $this->statistics[$name] = $statistic;
             } catch (\Exception $e) {
                 $message = sprintf('     <info>Warning during %s: %s</info>',
@@ -375,7 +364,7 @@ class Version
 
     public function __toString()
     {
-        return $this->version;
+        return (string) $this->version;
     }
 
     /**
