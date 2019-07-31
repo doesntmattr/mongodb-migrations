@@ -16,6 +16,7 @@ use AntiMattr\MongoDB\Migrations\Exception\IrreversibleException;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use \MongoDB\Collection;
 use \MongoDB\Database;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -140,6 +141,16 @@ abstract class AbstractMigration
         if (true === $condition) {
             throw new SkipException($message);
         }
+    }
+
+    /**
+     * Return document manager or null
+     *
+     * @return DocumentManager|null
+     */
+    public function getDocumentManager() : ?DocumentManager
+    {
+        return $this->configuration->getDocumentManager();
     }
 
     public function preUp(Database $db)

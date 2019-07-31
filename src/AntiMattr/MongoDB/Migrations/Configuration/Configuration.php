@@ -17,6 +17,7 @@ use AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use AntiMattr\MongoDB\Migrations\Version;
 use MongoDB\Client;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -37,6 +38,11 @@ class Configuration
      * @var \MongoDB\Database
      */
     private $database;
+
+    /**
+     * @var DocumentManager
+     */
+    private $documentManager;
 
     /**
      * The migration database name to track versions in.
@@ -183,6 +189,26 @@ class Configuration
         $this->database = $this->connection->selectDatabase($this->migrationsDatabaseName);
 
         return $this->database;
+    }
+
+    /**
+     * Return document manager
+     *
+     * @return DocumentManager
+     */
+    public function getDocumentManager(): ?DocumentManager
+    {
+        return $this->documentManager;
+    }
+
+    /**
+     * Set document manager
+     *
+     * @param DocumentManager $documentManager
+     */
+    public function setDocumentManager(DocumentManager $documentManager)
+    {
+        $this->documentManager = $documentManager;
     }
 
     /**
