@@ -36,11 +36,6 @@
             ]
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        }
-    },
     "archive": {
         "exclude": ["bin", "demo", "tests", "*phpunit.xml"]
     }
