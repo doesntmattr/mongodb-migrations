@@ -10,6 +10,7 @@ matrix:
     # Test the latest dependencies
     - php: 7.1
     - php: 7.2
+    - php: 7.3
 
     # Test with the lowest dependencies
     - php: 7.2
@@ -20,7 +21,6 @@ before_script:
   - phpenv config-rm xdebug.ini
   - pecl install -f mongodb-stable
   # Until doctrine/mongo switches to mongodb driver
-  - composer config "platform.ext-mongo" "1.6.16"
   - composer self-update
   # To be removed when this issue is resolved: https://github.com/composer/composer/issues/5355
   - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
