@@ -48,7 +48,7 @@ class StatusCommandTest extends TestCase
     {
         $input = new ArgvInput(
             [
-                StatusCommand::NAME,
+                StatusCommand::getDefaultName(),
             ]
         );
 
@@ -223,7 +223,7 @@ class StatusCommandTest extends TestCase
     {
         $input = new ArgvInput(
             [
-                StatusCommand::NAME,
+                StatusCommand::getDefaultName(),
                 '--show-versions',
             ]
         );

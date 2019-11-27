@@ -43,7 +43,7 @@ class GenerateCommandTest extends TestCase
 
         $input = new ArgvInput(
             [
-                GenerateCommand::NAME,
+                GenerateCommand::getDefaultName(),
             ]
         );
 
@@ -87,7 +87,7 @@ class GenerateCommandTest extends TestCase
 
         $input = new ArgvInput(
             [
-                GenerateCommand::NAME,
+                GenerateCommand::getDefaultName(),
             ]
         );
 

@@ -23,12 +23,11 @@ use Symfony\Component\Console\Helper\Table;
  */
 class StatusCommand extends AbstractCommand
 {
-    const NAME = 'mongodb:migrations:status';
+    protected static $defaultName = 'mongodb:migrations:status';
 
     protected function configure()
     {
         $this
-            ->setName($this->getName())
             ->setDescription('View the status of a set of migrations.')
             ->addOption(
                 'show-versions',
@@ -175,15 +174,5 @@ EOT
                 $value
             )
         );
-    }
-
-    /**
-     * getName.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 }

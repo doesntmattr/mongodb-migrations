@@ -40,7 +40,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
             ]
         );
@@ -61,7 +61,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
                 '--add',
             ]
@@ -89,7 +89,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
                 '--add',
             ]
@@ -137,7 +137,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
                 '--delete',
             ]
@@ -188,7 +188,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
                 '--delete',
             ]
@@ -235,7 +235,7 @@ class VersionCommandTest extends TestCase
         $numVersion = '123456789012';
         $input = new ArgvInput(
             [
-                VersionCommand::NAME,
+                VersionCommand::getDefaultName(),
                 $numVersion,
                 '--add',
             ]

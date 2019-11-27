@@ -23,12 +23,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class MigrateCommand extends AbstractCommand
 {
-    const NAME = 'mongodb:migrations:migrate';
+    protected static $defaultName = 'mongodb:migrations:migrate';
 
     protected function configure()
     {
         $this
-            ->setName($this->getName())
             ->setDescription('Execute a migration to a specified version or the latest available version.')
             ->addArgument('version', InputArgument::OPTIONAL, 'The version to migrate to.', null)
             ->setHelp(<<<'EOT'
@@ -123,10 +122,5 @@ EOT
     protected function createMigration(Configuration $configuration)
     {
         return new Migration($configuration);
-    }
-
-    public function getName()
-    {
-        return self::NAME;
     }
 }

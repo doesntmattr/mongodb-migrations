@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GenerateCommand extends AbstractCommand
 {
-    const NAME = 'mongodb:migrations:generate';
+    protected static $defaultName = 'mongodb:migrations:generate';
 
     private static $_template =
             '<?php
@@ -61,7 +61,6 @@ class Version<version> extends AbstractMigration
     protected function configure()
     {
         $this
-                ->setName($this->getName())
                 ->setDescription('Generate a blank migration class.')
                 ->addOption('editor-cmd', null, InputOption::VALUE_OPTIONAL, 'Open file with this command upon creation.')
                 ->setHelp(<<<'EOT'
@@ -101,7 +100,7 @@ EOT
      *
      * @return string $path
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function generateMigration(Configuration $configuration, InputInterface $input, $version, $up = null, $down = null)
     {
@@ -182,13 +181,5 @@ EOT
     protected function getVersionString()
     {
         return date('YmdHis');
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 }
