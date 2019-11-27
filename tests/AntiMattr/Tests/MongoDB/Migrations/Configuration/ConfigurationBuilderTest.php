@@ -2,8 +2,8 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Configuration;
 
-use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
+use AntiMattr\MongoDB\Migrations\Configuration\ConfigurationBuilder;
 use AntiMattr\MongoDB\Migrations\OutputWriter;
 use PHPUnit\Framework\TestCase;
 

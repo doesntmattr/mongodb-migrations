@@ -103,7 +103,6 @@ class Configuration
     private $file;
 
     /**
-     * @param \MongoDB\Client               $connection
      * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
      */
     public function __construct(Client $connection, OutputWriter $outputWriter = null)
@@ -297,9 +296,6 @@ class Configuration
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFile(): ?string
     {
         return $this->file;
@@ -328,8 +324,6 @@ class Configuration
      *
      * @param string $version
      *
-     * @return int
-     *
      * @throws AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException Throws exception if migration version does not exist
      * @throws DomainException                                                If more than one version exists
      */
@@ -347,9 +341,7 @@ class Configuration
         }
 
         if (count($result) > 1) {
-            throw new \DomainException(
-                'Unexpected duplicate version records in the database'
-            );
+            throw new \DomainException('Unexpected duplicate version records in the database');
         }
 
         $returnVersion = $result[0];
@@ -448,9 +440,6 @@ class Configuration
      * Register an array of migrations. Each key of the array is the version and
      * the value is the migration class name.
      *
-     *
-     * @param array $migrations
-     *
      * @return Version[]
      */
     public function registerMigrations(array $migrations)
@@ -524,8 +513,6 @@ class Configuration
     /**
      * Check if a version has been migrated or not yet.
      *
-     * @param \AntiMattr\MongoDB\Migrations\Version $version
-     *
      * @return bool
      */
     public function hasVersionMigrated(Version $version)
@@ -563,6 +550,7 @@ class Configuration
         }
 
         $version = $versions[0];
+
         return $version['v'];
     }
 

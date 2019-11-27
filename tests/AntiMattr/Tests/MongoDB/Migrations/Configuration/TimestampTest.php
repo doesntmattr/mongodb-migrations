@@ -2,8 +2,8 @@
 
 namespace AntiMattr\Tests\MongoDB\Migrations\Configuration;
 
-use PHPUnit\Framework\TestCase;
 use AntiMattr\MongoDB\Migrations\Configuration\Timestamp;
+use PHPUnit\Framework\TestCase;
 
 class TimestampTest extends TestCase
 {

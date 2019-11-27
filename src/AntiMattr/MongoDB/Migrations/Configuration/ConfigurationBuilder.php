@@ -55,19 +55,11 @@ class ConfigurationBuilder
         ];
     }
 
-    /**
-     * @return ConfigurationBuilder
-     */
     public static function create(): ConfigurationBuilder
     {
         return new static();
     }
 
-    /**
-     * @param Client $connection
-     *
-     * @return ConfigurationBuilder
-     */
     public function setConnection(Client $connection): ConfigurationBuilder
     {
         $this->connection = $connection;
@@ -75,11 +67,6 @@ class ConfigurationBuilder
         return $this;
     }
 
-    /**
-     * @param OutputWriter $outputWriter
-     *
-     * @return ConfigurationBuilder
-     */
     public function setOutputWriter(OutputWriter $outputWriter): ConfigurationBuilder
     {
         $this->outputWriter = $outputWriter;
@@ -87,11 +74,6 @@ class ConfigurationBuilder
         return $this;
     }
 
-    /**
-     * @param string|null $configFile
-     *
-     * @return ConfigurationBuilder
-     */
     public function setOnDiskConfiguration(?string $configFile = null): ConfigurationBuilder
     {
         $this->configFile = $configFile;
@@ -120,12 +102,7 @@ class ConfigurationBuilder
                     break;
 
                 default:
-                    throw new \InvalidArgumentException(
-                        sprintf(
-                            'The specified config file should end in .xml or .yml/.yaml. Unrecognized extension [%s]',
-                            $fileExt
-                        )
-                    );
+                    throw new \InvalidArgumentException(sprintf('The specified config file should end in .xml or .yml/.yaml. Unrecognized extension [%s]', $fileExt));
             }
 
             $this->configParams = array_merge($this->configParams, $diskConfig);
@@ -134,9 +111,6 @@ class ConfigurationBuilder
         return $this;
     }
 
-    /**
-     * @return Configuration
-     */
     public function build(): Configuration
     {
         $config = new Configuration($this->connection, $this->outputWriter);
@@ -177,11 +151,6 @@ class ConfigurationBuilder
         return $config;
     }
 
-    /**
-     * @param string $configFile
-     *
-     * @return array
-     */
     private function loadXmlFile(string $configFile): array
     {
         $xml = simplexml_load_file($configFile);
@@ -225,11 +194,6 @@ class ConfigurationBuilder
 
     /**
      * Get the path to the directory relative to the config file.
-     *
-     * @param string      $configFile
-     * @param string|null $directory
-     *
-     * @return string|null
      */
     protected function getDirectoryRelativeToFile(string $configFile, ?string $directory = null): ?string
     {

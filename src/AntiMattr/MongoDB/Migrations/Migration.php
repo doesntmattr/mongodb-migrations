@@ -12,8 +12,8 @@
 namespace AntiMattr\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
-use AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException;
 use AntiMattr\MongoDB\Migrations\Exception\NoMigrationsToExecuteException;
+use AntiMattr\MongoDB\Migrations\Exception\UnknownVersionException;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>

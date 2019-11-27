@@ -11,12 +11,11 @@
 
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
-use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -158,6 +157,8 @@ EOT
                 }
             }
         }
+
+        return 0;
     }
 
     /**

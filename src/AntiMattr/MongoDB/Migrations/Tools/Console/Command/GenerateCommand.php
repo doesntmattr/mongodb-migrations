@@ -90,6 +90,8 @@ EOT
         $path = $this->generateMigration($configuration, $input, $version);
 
         $output->writeln(sprintf('Generated new migration class to "<info>%s</info>"', $path));
+
+        return 0;
     }
 
     /**
@@ -123,12 +125,7 @@ EOT
 
         // Verify Migrations directory exists
         if (!file_exists($dir)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Migrations directory "%s" does not exist.',
-                    $dir
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('Migrations directory "%s" does not exist.', $dir));
         }
 
         $path = $this->buildVersionPath($dir, $version);
@@ -150,8 +147,6 @@ EOT
     }
 
     /**
-     * @param Configuration $configuration
-     *
      * @return string
      */
     protected function getDirectory(Configuration $configuration)
