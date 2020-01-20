@@ -37,7 +37,7 @@ class MigrateCommandTest extends TestCase
         $input = new ArgvInput(
             [
                 'application-name',
-                MigrateCommand::NAME,
+                MigrateCommand::getDefaultName(),
                 $numVersion,
             ]
         );
@@ -103,7 +103,7 @@ class MigrateCommandTest extends TestCase
         $numVersion = '000123456789';
         $input = new ArgvInput(
             [
-                MigrateCommand::NAME,
+                MigrateCommand::getDefaultName(),
                 $numVersion,
             ]
         );
@@ -217,6 +217,8 @@ class MigrateCommandTest extends TestCase
 
 class MigrateCommandStub extends MigrateCommand
 {
+    protected static $defaultName = 'mongodb:migrations:migrate';
+
     protected $migration;
 
     public function setMigration(Migration $migration)

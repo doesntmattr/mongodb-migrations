@@ -38,7 +38,7 @@ class ExecuteCommandTest extends TestCase
         $input = new ArgvInput(
             [
                 'application-name',
-                ExecuteCommand::NAME,
+                ExecuteCommand::getDefaultName(),
                 $numVersion,
                 '--down',
             ]
@@ -89,7 +89,7 @@ class ExecuteCommandTest extends TestCase
         $input = new ArgvInput(
             [
                 'application-name',
-                ExecuteCommand::NAME,
+                ExecuteCommand::getDefaultName(),
                 $numVersion,
             ]
         );
@@ -167,7 +167,7 @@ class ExecuteCommandTest extends TestCase
         $input = new ArgvInput(
             [
                 'application-name',
-                ExecuteCommand::NAME,
+                ExecuteCommand::getDefaultName(),
                 $numVersion,
                 '--up',
                 '--replay',

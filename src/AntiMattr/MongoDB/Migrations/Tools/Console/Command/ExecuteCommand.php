@@ -22,12 +22,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class ExecuteCommand extends AbstractCommand
 {
-    const NAME = 'mongodb:migrations:execute';
+    protected static $defaultName = 'mongodb:migrations:execute';
 
     protected function configure()
     {
         $this
-            ->setName($this->getName())
             ->setDescription('Execute a single migration version up or down manually.')
             ->addArgument('version', InputArgument::REQUIRED, 'The version to execute.', null)
             ->addOption('up', null, InputOption::VALUE_NONE, 'Execute the migration up.')
@@ -84,10 +83,5 @@ EOT
         }
 
         return 0;
-    }
-
-    public function getName()
-    {
-        return self::NAME;
     }
 }
