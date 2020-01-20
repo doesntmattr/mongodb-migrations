@@ -11,8 +11,8 @@
 
 namespace AntiMattr\MongoDB\Migrations\Collection;
 
-use \MongoDB\Collection;
 use Exception;
+use MongoDB\Collection;
 use MongoDB\Database;
 
 /**

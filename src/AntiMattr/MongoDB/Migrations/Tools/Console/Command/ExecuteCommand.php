@@ -11,7 +11,6 @@
 
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
-use AntiMattr\MongoDB\Migrations\Migration;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -83,6 +82,8 @@ EOT
                 $output->writeln('<error>Migration cancelled!</error>');
             }
         }
+
+        return 0;
     }
 
     public function getName()

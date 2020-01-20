@@ -49,9 +49,7 @@ class Timestamp
         );
 
         if (!$this->t || !is_object($this->t)) {
-            throw new \DomainException(
-                'The timestamp to normalise must be one of ' . $supportedClasses . ' but it is not an object'
-            );
+            throw new \DomainException('The timestamp to normalise must be one of ' . $supportedClasses . ' but it is not an object');
         }
 
         switch (get_class($this->t)) {
@@ -72,14 +70,9 @@ class Timestamp
             return $this->t->getTimestamp();
         }
 
-        throw new \DomainException(
-            'The normalised timestamp must be one of ' . $supportedClasses
-        );
+        throw new \DomainException('The normalised timestamp must be one of ' . $supportedClasses);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->getTimestamp();

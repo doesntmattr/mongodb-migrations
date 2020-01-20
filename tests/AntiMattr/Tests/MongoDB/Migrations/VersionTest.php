@@ -4,9 +4,9 @@ namespace AntiMattr\Tests\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
 use AntiMattr\MongoDB\Migrations\Version;
-use PHPUnit\Framework\TestCase;
-use \MongoDB\Database;
 use MongoDB\BSON\UTCDateTime;
+use MongoDB\Database;
+use PHPUnit\Framework\TestCase;
 
 class VersionTest extends TestCase
 {

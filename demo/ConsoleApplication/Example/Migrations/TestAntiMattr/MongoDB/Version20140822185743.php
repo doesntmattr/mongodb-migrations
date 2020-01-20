@@ -3,7 +3,7 @@
 namespace Example\Migrations\TestAntiMattr\MongoDB;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
-use \MongoDB\Database;
+use MongoDB\Database;
 
 class Version20140822185743 extends AbstractMigration
 {

@@ -13,12 +13,12 @@ namespace AntiMattr\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\Collection\Statistics;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
-use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use AntiMattr\MongoDB\Migrations\Exception\AbortException;
-use \MongoDB\Collection;
-use \MongoDB\Database;
+use AntiMattr\MongoDB\Migrations\Exception\SkipException;
 use Exception;
 use MongoDB\BSON\UTCDateTime;
+use MongoDB\Collection;
+use MongoDB\Database;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>
@@ -177,9 +177,7 @@ class Version
     public function execute($direction, $replay = false)
     {
         if ('down' === $direction && $replay) {
-            throw new AbortException(
-                'Cannot run \'down\' and replay it. Use replay with \'up\''
-            );
+            throw new AbortException('Cannot run \'down\' and replay it. Use replay with \'up\'');
         }
 
         try {

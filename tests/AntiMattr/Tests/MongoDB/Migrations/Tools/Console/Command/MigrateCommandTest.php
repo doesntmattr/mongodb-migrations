@@ -4,8 +4,8 @@ namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
 use AntiMattr\MongoDB\Migrations\Migration;
-use AntiMattr\MongoDB\Migrations\Version;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\MigrateCommand;
+use AntiMattr\MongoDB\Migrations\Version;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;

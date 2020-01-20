@@ -14,8 +14,8 @@ namespace AntiMattr\MongoDB\Migrations;
 use AntiMattr\MongoDB\Migrations\Exception\AbortException;
 use AntiMattr\MongoDB\Migrations\Exception\IrreversibleException;
 use AntiMattr\MongoDB\Migrations\Exception\SkipException;
-use \MongoDB\Collection;
-use \MongoDB\Database;
+use MongoDB\Collection;
+use MongoDB\Database;
 
 /**
  * @author Matthew Fitzgerald <matthewfitz@gmail.com>

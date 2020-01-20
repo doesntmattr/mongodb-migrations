@@ -3,7 +3,6 @@
 namespace AntiMattr\Tests\MongoDB\Migrations\Tools\Console\Command;
 
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
-use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Tools\Console\Command\StatusCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -22,6 +21,11 @@ class StatusCommandTest extends TestCase
     private $version;
     private $version2;
 
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Console\Formatter\OutputFormatterInterface
+     */
+    private $outputFormatter;
+
     protected function setUp()
     {
         $this->command = new StatusCommandStub();
@@ -29,17 +33,18 @@ class StatusCommandTest extends TestCase
         $this->outputFormatter = $this->createMock(
             'Symfony\Component\Console\Formatter\OutputFormatterInterface'
         );
+        $this->outputFormatter->method('isDecorated')->willReturn(false);
         $this->config = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
         $this->migration = $this->createMock('AntiMattr\MongoDB\Migrations\AbstractMigration');
         $this->version = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
         $this->version->expects($this->any())
             ->method('getMigration')
-            ->will($this->returnValue($this->migration));
+            ->willReturn($this->migration);
 
         $this->version2 = $this->createMock('AntiMattr\MongoDB\Migrations\Version');
         $this->version2->expects($this->any())
             ->method('getMigration')
-            ->will($this->returnValue($this->migration));
+            ->willReturn($this->migration);
 
         $this->command->setMigrationConfiguration($this->config);
     }
@@ -87,14 +92,12 @@ class StatusCommandTest extends TestCase
                         'num_new_migrations' => $numNewMigrations,
                     ]
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(0))
             ->method('writeln')
             ->with(
                 "\n <info>==</info> Configuration\n"
-            )
-        ;
+            );
         $this->output->expects($this->at(1))
             ->method('writeln')
             ->with(
@@ -103,8 +106,7 @@ class StatusCommandTest extends TestCase
                     'Name',
                     $configName
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(2))
             ->method('writeln')
             ->with(
@@ -113,8 +115,7 @@ class StatusCommandTest extends TestCase
                     'Database Driver',
                     'MongoDB'
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(3))
             ->method('writeln')
             ->with(
@@ -123,8 +124,7 @@ class StatusCommandTest extends TestCase
                     'Database Name',
                     $migrationsDatabaseName
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(4))
             ->method('writeln')
             ->with(
@@ -133,8 +133,7 @@ class StatusCommandTest extends TestCase
                     'Configuration Source',
                     'manually configured'
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(5))
             ->method('writeln')
             ->with(
@@ -143,8 +142,7 @@ class StatusCommandTest extends TestCase
                     'Version Collection Name',
                     $migrationsCollectionName
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(6))
             ->method('writeln')
             ->with(
@@ -153,8 +151,7 @@ class StatusCommandTest extends TestCase
                     'Migrations Namespace',
                     $migrationsNamespace
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(7))
             ->method('writeln')
             ->with(
@@ -163,14 +160,11 @@ class StatusCommandTest extends TestCase
                     'Migrations Directory',
                     $migrationsDirectory
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(8)) // current version formatted
-            ->method('writeln')
-        ;
+        ->method('writeln');
         $this->output->expects($this->at(9)) // latest version formatted
-            ->method('writeln')
-        ;
+        ->method('writeln');
         $this->output->expects($this->at(10))
             ->method('writeln')
             ->with(
@@ -179,8 +173,7 @@ class StatusCommandTest extends TestCase
                     'Executed Migrations',
                     $numExecutedMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(11))
             ->method('writeln')
             ->with(
@@ -189,8 +182,7 @@ class StatusCommandTest extends TestCase
                     'Executed Unavailable Migrations',
                     $numExecutedUnavailableMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(12))
             ->method('writeln')
             ->with(
@@ -199,8 +191,7 @@ class StatusCommandTest extends TestCase
                     'Available Migrations',
                     $numAvailableMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(13))
             ->method('writeln')
             ->with(
@@ -209,8 +200,7 @@ class StatusCommandTest extends TestCase
                     'New Migrations',
                     $numNewMigrations
                 )
-            )
-        ;
+            );
 
         // Run command, run.
         $this->command->run(
@@ -248,72 +238,59 @@ class StatusCommandTest extends TestCase
         // Expectations
         $this->output
             ->method('getFormatter')
-            ->will($this->returnValue($this->outputFormatter));
+            ->willReturn($this->outputFormatter);
 
         $this->version->expects($this->exactly(2))
             ->method('getVersion')
-            ->will($this->returnValue($notMigratedVersion));
+            ->willReturn($notMigratedVersion);
 
         $this->version2->expects($this->exactly(3))
             ->method('getVersion')
-            ->will($this->returnValue($migratedVersion));
+            ->willReturn($migratedVersion);
 
         $this->migration
             ->method('getDescription')
-            ->will($this->returnValue('drop all'));
+            ->willReturn('drop all');
 
         $this->config->expects($this->once())
             ->method('getDetailsMap')
-            ->will(
-                $this->returnValue(
-                    [
-                        'name' => $configName,
-                        'database_driver' => $databaseDriver,
-                        'migrations_database_name' => $migrationsDatabaseName,
-                        'migrations_collection_name' => $migrationsCollectionName,
-                        'migrations_namespace' => $migrationsNamespace,
-                        'migrations_directory' => $migrationsDirectory,
-                        'current_version' => $currentVersion,
-                        'latest_version' => $latestVersion,
-                        'num_executed_migrations' => $numExecutedMigrations,
-                        'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
-                        'num_available_migrations' => $numAvailableMigrations,
-                        'num_new_migrations' => $numNewMigrations,
-                    ]
-                )
-            )
-        ;
+            ->willReturn(
+                [
+                    'name' => $configName,
+                    'database_driver' => $databaseDriver,
+                    'migrations_database_name' => $migrationsDatabaseName,
+                    'migrations_collection_name' => $migrationsCollectionName,
+                    'migrations_namespace' => $migrationsNamespace,
+                    'migrations_directory' => $migrationsDirectory,
+                    'current_version' => $currentVersion,
+                    'latest_version' => $latestVersion,
+                    'num_executed_migrations' => $numExecutedMigrations,
+                    'num_executed_unavailable_migrations' => $numExecutedUnavailableMigrations,
+                    'num_available_migrations' => $numAvailableMigrations,
+                    'num_new_migrations' => $numNewMigrations,
+                ]
+            );
         $this->config->expects($this->once())
             ->method('getUnavailableMigratedVersions')
-            ->will(
-                $this->returnValue(
-                    [$unavailableMigratedVersion]
-                )
-            )
-        ;
+            ->willReturn(
+                [$unavailableMigratedVersion]
+            );
         $this->config->expects($this->once())
             ->method('getMigrations')
-            ->will(
-                $this->returnValue(
-                    [$this->version, $this->version2]
-                )
-            )
-        ;
+            ->willReturn(
+                [$this->version, $this->version2]
+            );
         $this->config->expects($this->once())
             ->method('getMigratedVersions')
-            ->will(
-                $this->returnValue(
-                    [$unavailableMigratedVersion, $migratedVersion]
-                )
-            )
-        ;
+            ->willReturn(
+                [$unavailableMigratedVersion, $migratedVersion]
+            );
 
         $this->output->expects($this->at(0))
             ->method('writeln')
             ->with(
                 "\n <info>==</info> Configuration\n"
-            )
-        ;
+            );
 
         $this->output->expects($this->at(1))
             ->method('writeln')
@@ -323,8 +300,7 @@ class StatusCommandTest extends TestCase
                     'Name',
                     $configName
                 )
-            )
-        ;
+            );
 
         $this->output->expects($this->at(2))
             ->method('writeln')
@@ -334,8 +310,7 @@ class StatusCommandTest extends TestCase
                     'Database Driver',
                     'MongoDB'
                 )
-            )
-        ;
+            );
 
         $this->output->expects($this->at(3))
             ->method('writeln')
@@ -345,8 +320,7 @@ class StatusCommandTest extends TestCase
                     'Database Name',
                     $migrationsDatabaseName
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(4))
             ->method('writeln')
             ->with(
@@ -355,8 +329,7 @@ class StatusCommandTest extends TestCase
                     'Configuration Source',
                     'manually configured'
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(5))
             ->method('writeln')
             ->with(
@@ -365,8 +338,7 @@ class StatusCommandTest extends TestCase
                     'Version Collection Name',
                     $migrationsCollectionName
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(6))
             ->method('writeln')
             ->with(
@@ -375,8 +347,7 @@ class StatusCommandTest extends TestCase
                     'Migrations Namespace',
                     $migrationsNamespace
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(7))
             ->method('writeln')
             ->with(
@@ -385,14 +356,11 @@ class StatusCommandTest extends TestCase
                     'Migrations Directory',
                     $migrationsDirectory
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(8)) // current version formatted
-        ->method('writeln')
-        ;
+        ->method('writeln');
         $this->output->expects($this->at(9)) // latest version formatted
-        ->method('writeln')
-        ;
+        ->method('writeln');
         $this->output->expects($this->at(10))
             ->method('writeln')
             ->with(
@@ -401,8 +369,7 @@ class StatusCommandTest extends TestCase
                     'Executed Migrations',
                     $numExecutedMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(11))
             ->method('writeln')
             ->with(
@@ -411,8 +378,7 @@ class StatusCommandTest extends TestCase
                     'Executed Unavailable Migrations',
                     $numExecutedUnavailableMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(12))
             ->method('writeln')
             ->with(
@@ -421,8 +387,7 @@ class StatusCommandTest extends TestCase
                     'Available Migrations',
                     $numAvailableMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(13))
             ->method('writeln')
             ->with(
@@ -431,24 +396,21 @@ class StatusCommandTest extends TestCase
                     'New Migrations',
                     $numNewMigrations
                 )
-            )
-        ;
+            );
         $this->output->expects($this->at(14))
             ->method('writeln')
-            ->with("\n <info>==</info> Available Migration Versions\n")
-        ;
+            ->with("\n <info>==</info> Available Migration Versions\n");
 
         // Symfony 4.2 has different output
         $consoleVersion = $this->getSymfonyConsoleVersion();
         $index = 39;
-        if(version_compare($consoleVersion, '4.2.0', 'ge')) {
+        if (version_compare($consoleVersion, '4.2.0', 'ge')) {
             $index = 40;
         }
 
         $this->output->expects($this->at($index))
             ->method('writeln')
-            ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n")
-        ;
+            ->with("\n <info>==</info> Previously Executed Unavailable Migration Versions\n");
 
         $this->output->expects($this->at(++$index))
             ->method('writeln')
@@ -458,8 +420,7 @@ class StatusCommandTest extends TestCase
                     \DateTime::createFromFormat('YmdHis', $unavailableMigratedVersion)->format('Y-m-d H:i:s'),
                     $unavailableMigratedVersion
                 )
-            )
-        ;
+            );
 
         // Run command, run.
         $this->command->run(
@@ -478,6 +439,7 @@ class StatusCommandTest extends TestCase
         $versionPart = explode('v', $versionData[0]);
         $versionPart2 = explode(' ', $versionPart[1]);
         $consoleVersion = $versionPart2[0];
+
         return $consoleVersion;
     }
 }

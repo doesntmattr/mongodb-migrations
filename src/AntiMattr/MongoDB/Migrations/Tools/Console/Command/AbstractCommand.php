@@ -43,10 +43,6 @@ abstract class AbstractCommand extends Command
         );
     }
 
-    /**
-     * @param \AntiMattr\MongoDB\Migrations\Configuration\Configuration $configuration
-     * @param \Symfony\Component\Console\Output\OutputInterface         $output
-     */
     protected function outputHeader(Configuration $configuration, OutputInterface $output)
     {
         $name = $configuration->getName();
@@ -66,12 +62,6 @@ abstract class AbstractCommand extends Command
         $this->configuration = $config;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return \AntiMattr\MongoDB\Migrations\Configuration\Configuration
-     */
     protected function getMigrationConfiguration(
         InputInterface $input,
         OutputInterface $output
@@ -79,7 +69,7 @@ abstract class AbstractCommand extends Command
         if (!$this->configuration) {
             $conn = $this->getDatabaseConnection($input);
 
-            $outputWriter = new OutputWriter(function($message) use ($output) {
+            $outputWriter = new OutputWriter(function ($message) use ($output) {
                 return $output->writeln($message);
             });
 
@@ -95,11 +85,6 @@ abstract class AbstractCommand extends Command
         return $this->configuration;
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return Client
-     */
     protected function getDatabaseConnection(InputInterface $input): Client
     {
         // Default to document manager helper set
@@ -113,9 +98,7 @@ abstract class AbstractCommand extends Command
         $dbConfiguration = $input->getOption('db-configuration');
 
         if (!$dbConfiguration) {
-            throw new \InvalidArgumentException(
-                'You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.'
-            );
+            throw new \InvalidArgumentException('You have to specify a --db-configuration file or pass a Database Connection as a dependency to the Migrations.');
         }
 
         if (!file_exists($dbConfiguration)) {
@@ -125,9 +108,7 @@ abstract class AbstractCommand extends Command
         $dbConfigArr = include $dbConfiguration;
 
         if (!is_array($dbConfigArr)) {
-            throw new \InvalidArgumentException(
-                'The connection file has to return an array with database configuration parameters.'
-            );
+            throw new \InvalidArgumentException('The connection file has to return an array with database configuration parameters.');
         }
 
         return $this->createConnection($dbConfigArr);

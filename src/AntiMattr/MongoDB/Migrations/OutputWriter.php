@@ -21,7 +21,7 @@ class OutputWriter
     public function __construct(\Closure $closure = null)
     {
         if (null === $closure) {
-            $closure = function($message) {
+            $closure = function ($message) {
             };
         }
         $this->closure = $closure;

@@ -11,8 +11,8 @@
 
 namespace AntiMattr\MongoDB\Migrations\Tools\Console\Command;
 
-use AntiMattr\MongoDB\Migrations\Migration;
 use AntiMattr\MongoDB\Migrations\Configuration\Configuration;
+use AntiMattr\MongoDB\Migrations\Migration;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -118,6 +118,8 @@ EOT
         }
 
         $migration->migrate($version);
+
+        return 0;
     }
 
     protected function createMigration(Configuration $configuration)
