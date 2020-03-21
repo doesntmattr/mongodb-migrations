@@ -11,9 +11,10 @@ matrix:
     - php: 7.1
     - php: 7.2
     - php: 7.3
+    - php: 7.4
 
     # Test with the lowest dependencies
-    - php: 7.3
+    - php: 7.4
       env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest --prefer-dist"
 
 before_script:
