@@ -1,8 +1,0 @@
-tools:
-    external_code_coverage:
-        timeout: 720
-
-build:
-    environment:
-        php:
-            version: '7.4'
