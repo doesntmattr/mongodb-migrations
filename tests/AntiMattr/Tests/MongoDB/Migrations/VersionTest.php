@@ -19,7 +19,7 @@ class VersionTest extends TestCase
     private $outputWriter;
     private $statistics;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->className = 'AntiMattr\Tests\MongoDB\Migrations\Version20140908000000';
         $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
