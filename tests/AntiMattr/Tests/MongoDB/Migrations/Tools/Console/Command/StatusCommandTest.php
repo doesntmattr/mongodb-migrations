@@ -26,7 +26,7 @@ class StatusCommandTest extends TestCase
      */
     private $outputFormatter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->command = new StatusCommandStub();
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');

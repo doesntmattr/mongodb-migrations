@@ -8,7 +8,7 @@ class IrreversibleExceptionTest extends TestCase
 {
     private $exception;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\IrreversibleException');
     }
