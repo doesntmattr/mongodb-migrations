@@ -8,7 +8,7 @@ class SkipExceptionTest extends TestCase
 {
     private $exception;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exception = $this->createMock('AntiMattr\MongoDB\Migrations\Exception\SkipException');
     }

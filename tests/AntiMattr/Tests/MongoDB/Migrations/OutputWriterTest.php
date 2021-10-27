@@ -9,7 +9,7 @@ class OutputWriterTest extends TestCase
 {
     private $outputWriter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
         $output = $this->output;
