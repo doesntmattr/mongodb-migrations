@@ -10,7 +10,7 @@ class StatisticsTest extends TestCase
     private $collection;
     private $statistics;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->collection = $this->createMock('MongoDB\Collection');
         $this->statistics = new Statistics();

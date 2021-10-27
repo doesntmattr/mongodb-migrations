@@ -23,7 +23,7 @@ class GenerateCommand extends AbstractCommand
 {
     protected static $defaultName = 'mongodb:migrations:generate';
 
-    private static $_template =
+    protected static $_template =
             '<?php
 
 namespace <namespace>;

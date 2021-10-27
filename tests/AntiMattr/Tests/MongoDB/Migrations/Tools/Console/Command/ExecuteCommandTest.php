@@ -19,7 +19,7 @@ class ExecuteCommandTest extends TestCase
     private $config;
     private $version;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->command = new ExecuteCommand();
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');

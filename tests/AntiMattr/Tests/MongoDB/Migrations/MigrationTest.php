@@ -11,7 +11,7 @@ class MigrationTest extends TestCase
     private $migration;
     private $outputWriter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
         $this->outputWriter = $this->createMock('AntiMattr\MongoDB\Migrations\OutputWriter');

@@ -18,7 +18,7 @@ class MigrateCommandTest extends TestCase
     private $command;
     private $output;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->command = new MigrateCommandStub();
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
