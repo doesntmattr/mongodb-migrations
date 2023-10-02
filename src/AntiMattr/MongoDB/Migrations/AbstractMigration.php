@@ -63,6 +63,11 @@ abstract class AbstractMigration
         $this->version->analyze($collection);
     }
 
+    protected function isDryRun(): bool
+    {
+        return $this->configuration->isDryRun();
+    }
+
     /**
      * @param \MongoDB\Database
      * @param string $filename
