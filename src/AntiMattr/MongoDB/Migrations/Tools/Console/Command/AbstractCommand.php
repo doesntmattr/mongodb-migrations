@@ -25,18 +25,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class AbstractCommand extends Command
 {
-    /**
-     * @var \AntiMattr\MongoDB\Migrations\Configuration\Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
-    /**
-     * configure.
-     */
     protected function configure()
     {
         $this->addOption(
             'configuration', null, InputOption::VALUE_OPTIONAL, 'The path to a migrations configuration file.'
+        );
+        $this->addOption(
+            'dry-run', null, InputOption::VALUE_NONE, 'Execute the migration as a dry run.'
         );
         $this->addOption(
             'db-configuration', null, InputOption::VALUE_OPTIONAL, 'The path to a database connection configuration file.'
@@ -75,11 +72,16 @@ abstract class AbstractCommand extends Command
 
             $migrationsConfigFile = $input->getOption('configuration');
 
-            $this->configuration = ConfigurationBuilder::create()
+            $dryRun = $input->getOption('dry-run');
+
+            $configuration = ConfigurationBuilder::create()
                 ->setConnection($conn)
                 ->setOutputWriter($outputWriter)
                 ->setOnDiskConfiguration($migrationsConfigFile)
                 ->build();
+
+            $configuration->setDryRun($dryRun);
+            $this->configuration = $configuration;
         }
 
         return $this->configuration;

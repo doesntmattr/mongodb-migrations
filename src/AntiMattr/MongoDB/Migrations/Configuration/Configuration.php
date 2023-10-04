@@ -41,9 +41,8 @@ class Configuration
     /**
      * The migration database name to track versions in.
      *
-     * @var string
      */
-    private $migrationsDatabaseName;
+    private ?string $migrationsDatabaseName = null;
 
     /**
      * Flag for whether or not the migration collection has been created.
@@ -96,11 +95,8 @@ class Configuration
      * @var \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     private $outputWriter;
-
-    /**
-     * @var string
-     */
-    private $file;
+    private ?string $file = null;
+    private bool $dryRun = false;
 
     /**
      * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
@@ -194,14 +190,21 @@ class Configuration
         return $this->migrations;
     }
 
-    /**
-     * @param string $databaseName
-     */
-    public function setMigrationsDatabaseName($databaseName)
+    public function setMigrationsDatabaseName(string $databaseName)
     {
         $this->migrationsDatabaseName = $databaseName;
 
         return $this;
+    }
+
+    public function setDryRun(bool $dryRun) : void
+    {
+        $this->dryRun = $dryRun;
+    }
+
+    public function isDryRun() : bool
+    {
+        return $this->dryRun;
     }
 
     /**
@@ -286,10 +289,7 @@ class Configuration
         return $this->migrationsScriptDirectory;
     }
 
-    /**
-     * @param string $file
-     */
-    public function setFile($file)
+    public function setFile(string $file)
     {
         $this->file = $file;
 

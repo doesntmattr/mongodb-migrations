@@ -117,7 +117,7 @@ class ConfigurationBuilder
 
         $config->setName($this->configParams['name'])
             ->setFile($this->configFile)
-            ->setMigrationsDatabaseName($this->configParams['database'])
+            ->setMigrationsDatabaseName((string) $this->configParams['database'])
             ->setMigrationsCollectionName($this->configParams['collection_name'])
             ->setMigrationsNamespace($this->configParams['migrations_namespace'])
         ;
