@@ -42,7 +42,7 @@ class Configuration
      * The migration database name to track versions in.
      *
      */
-    private ?string $migrationsDatabaseName=null;
+    private ?string $migrationsDatabaseName = null;
 
     /**
      * Flag for whether or not the migration collection has been created.
@@ -95,8 +95,8 @@ class Configuration
      * @var \AntiMattr\MongoDB\Migrations\OutputWriter
      */
     private $outputWriter;
-    private ?string $file=null;
-    private bool $dryRun=false;
+    private ?string $file = null;
+    private bool $dryRun = false;
 
     /**
      * @param \AntiMattr\MongoDB\Migrations\OutputWriter $outputWriter
