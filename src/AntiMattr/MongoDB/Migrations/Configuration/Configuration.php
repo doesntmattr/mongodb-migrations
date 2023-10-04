@@ -289,7 +289,7 @@ class Configuration
         return $this->migrationsScriptDirectory;
     }
 
-    public function setFile(string $file)
+    public function setFile(?string $file)
     {
         $this->file = $file;
 

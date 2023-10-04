@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class AbstractCommand extends Command
 {
-    private Configuration $configuration;
+    private ?Configuration $configuration = null;
 
     protected function configure()
     {
