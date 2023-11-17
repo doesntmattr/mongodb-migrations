@@ -3,6 +3,7 @@
 namespace AntiMattr\Tests\MongoDB\Migrations;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
+use AntiMattr\MongoDB\Migrations\Exception\AbortException;
 use AntiMattr\MongoDB\Migrations\Version;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Database;
@@ -19,7 +20,7 @@ class VersionTest extends TestCase
     private $outputWriter;
     private $statistics;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->className = 'AntiMattr\Tests\MongoDB\Migrations\Version20140908000000';
         $this->configuration = $this->createMock('AntiMattr\MongoDB\Migrations\Configuration\Configuration');
@@ -226,15 +227,9 @@ class VersionTest extends TestCase
         $this->version->isMigrated();
     }
 
-    /**
-     * @test
-     *
-     * testExecuteDownWithReplayThrowsException
-     *
-     * @expectedException \AntiMattr\MongoDB\Migrations\Exception\AbortException
-     */
     public function testExecuteDownWithReplayThrowsException()
     {
+        $this->expectException(AbortException::class);
         // These methods will not be called
         $this->migration->expects($this->never())->method('down');
         $this->configuration->expects($this->never())
@@ -289,6 +284,33 @@ class VersionTest extends TestCase
         $this->configuration->expects($this->once())
             ->method('getCollection')
             ->will($this->returnValue($collection));
+
+        $this->version->execute($direction);
+    }
+
+    /**
+     * @dataProvider provideDirection
+     */
+    public function testExecuteDryRunDoesntMarkMigrated($direction)
+    {
+        $this->migration->expects($this->once())
+            ->method('pre' . $direction);
+
+        $this->configuration->expects($this->once())
+            ->method('isDryRun')
+            ->will($this->returnValue(true));
+
+        $this->migration->expects($this->once())
+            ->method($direction);
+
+        $this->migration->expects($this->once())
+            ->method('post' . $direction);
+
+        $this->configuration->expects($this->never())
+            ->method('createMigrationCollection');
+
+        $this->configuration->expects($this->never())
+            ->method('getCollection');
 
         $this->version->execute($direction);
     }

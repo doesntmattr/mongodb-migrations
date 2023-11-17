@@ -16,7 +16,7 @@ class GenerateCommandTest extends TestCase
     private $output;
     private $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->command = new GenerateCommandStub();
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');

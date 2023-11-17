@@ -19,7 +19,7 @@ class VersionCommandTest extends TestCase
     private $migration;
     private $version;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->command = new VersionCommandStub();
         $this->output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');

@@ -10,7 +10,7 @@ class ConfigurationTest extends TestCase
     private $configuration;
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = $this->createMock('MongoDB\Client');
         $this->configuration = new Configuration($this->connection);

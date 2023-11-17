@@ -199,10 +199,12 @@ class Version
 
             $this->updateStatisticsAfter();
 
-            if ('up' === $direction) {
-                $this->markMigrated($replay);
-            } else {
-                $this->markNotMigrated();
+            if (!$this->configuration->isDryRun()) {
+                if ('up' === $direction) {
+                    $this->markMigrated($replay);
+                } else {
+                    $this->markNotMigrated();
+                }
             }
 
             $this->summarizeStatistics();

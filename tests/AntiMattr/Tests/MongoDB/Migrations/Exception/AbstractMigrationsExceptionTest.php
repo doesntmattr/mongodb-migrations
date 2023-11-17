@@ -9,7 +9,7 @@ class AbstractMigrationsExceptionTest extends TestCase
 {
     private $exception;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exception = new AbstractMigrationsExceptionStub();
     }
